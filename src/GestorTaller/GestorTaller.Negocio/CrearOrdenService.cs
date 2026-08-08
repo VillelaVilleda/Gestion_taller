@@ -2,7 +2,7 @@ namespace GestorTaller.Negocio;
 
 /// <summary>
 /// Caso de uso: crear una nueva orden de trabajo (estado inicial: Recepcion).
-/// TODO (issue #12): implementar para que CrearOrdenServiceTests pase. Reglas:
+/// Reglas (ver CrearOrdenServiceTests):
 ///   - cliente es obligatorio
 ///   - descripcionProblema es obligatoria (no vacia ni en blanco)
 ///   - costoDiagnostico no puede ser negativo (0 es valido)
@@ -20,6 +20,33 @@ public class CrearOrdenService
 
     public Orden Ejecutar(Cliente cliente, string descripcionProblema, decimal costoDiagnostico)
     {
-        throw new NotImplementedException("Implementar en el issue #12 (TDD: Red -> Green -> Refactor).");
+        if (cliente is null)
+        {
+            throw new ArgumentException("La orden requiere un cliente.", nameof(cliente));
+        }
+
+        if (string.IsNullOrWhiteSpace(descripcionProblema))
+        {
+            throw new ArgumentException("La orden requiere una descripcion del problema.", nameof(descripcionProblema));
+        }
+
+        if (costoDiagnostico < 0)
+        {
+            throw new ArgumentException("El costo de diagnostico no puede ser negativo.", nameof(costoDiagnostico));
+        }
+
+        var orden = new Orden
+        {
+            Id = Guid.NewGuid(),
+            Cliente = cliente,
+            DescripcionProblema = descripcionProblema,
+            CostoDiagnostico = costoDiagnostico,
+            Estado = EstadoOrden.Recepcion,
+            FechaRecepcion = DateTime.Now
+        };
+
+        _ordenRepository.Agregar(orden);
+
+        return orden;
     }
 }
