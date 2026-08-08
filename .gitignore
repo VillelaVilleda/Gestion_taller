@@ -1,0 +1,23 @@
+## .NET / Visual Studio
+bin/
+obj/
+*.user
+.vs/
+*.suo
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## Docker
+docker/*.env
+
+## OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GestorTaller.Datos/GestorTaller.Datos.csproj" />
+  <Project Path="GestorTaller.Negocio/GestorTaller.Negocio.csproj" />
+  <Project Path="GestorTaller.Tests/GestorTaller.Tests.csproj" />
+  <Project Path="GestorTaller/GestorTaller.csproj" />
+</Solution>
