@@ -1,3 +1,6 @@
+using GestorTaller.Datos;
+using GestorTaller.Negocio;
+
 namespace GestorTaller
 {
     internal static class Program
@@ -11,7 +14,9 @@ namespace GestorTaller
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            IOrdenRepository ordenRepository = new OrdenRepositoryEnMemoria();
+            Application.Run(new FormNuevaOrden(ordenRepository));
         }
     }
 }
