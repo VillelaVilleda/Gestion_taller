@@ -7,12 +7,20 @@ namespace GestorTaller
     /// </summary>
     public partial class FormNuevaOrden : Form
     {
+        private readonly IOrdenRepository _ordenRepository;
         private readonly CrearOrdenService _crearOrdenService;
 
         public FormNuevaOrden(IOrdenRepository ordenRepository)
         {
             InitializeComponent();
+            _ordenRepository = ordenRepository;
             _crearOrdenService = new CrearOrdenService(ordenRepository);
+        }
+
+        private void btnVerOrdenes_Click(object? sender, EventArgs e)
+        {
+            using var formListado = new FormListadoOrdenes(_ordenRepository);
+            formListado.ShowDialog(this);
         }
 
         private void btnRegistrar_Click(object? sender, EventArgs e)

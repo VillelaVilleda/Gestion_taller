@@ -12,6 +12,7 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblCosto;
         private System.Windows.Forms.NumericUpDown numCostoDiagnostico;
         private System.Windows.Forms.Button btnRegistrar;
+        private System.Windows.Forms.Button btnVerOrdenes;
         private System.Windows.Forms.Label lblMensaje;
 
         protected override void Dispose(bool disposing)
@@ -37,6 +38,7 @@ namespace GestorTaller
             lblCosto = new Label();
             numCostoDiagnostico = new NumericUpDown();
             btnRegistrar = new Button();
+            btnVerOrdenes = new Button();
             lblMensaje = new Label();
 
             ((System.ComponentModel.ISupportInitialize)numCostoDiagnostico).BeginInit();
@@ -86,6 +88,12 @@ namespace GestorTaller
             btnRegistrar.Text = "Registrar orden";
             btnRegistrar.Click += btnRegistrar_Click;
 
+            // btnVerOrdenes
+            btnVerOrdenes.Location = new Point(190, 295);
+            btnVerOrdenes.Size = new Size(170, 32);
+            btnVerOrdenes.Text = "Ver ordenes registradas";
+            btnVerOrdenes.Click += btnVerOrdenes_Click;
+
             // lblMensaje
             lblMensaje.AutoSize = true;
             lblMensaje.ForeColor = Color.DarkRed;
@@ -104,6 +112,7 @@ namespace GestorTaller
             Controls.Add(lblCosto);
             Controls.Add(numCostoDiagnostico);
             Controls.Add(btnRegistrar);
+            Controls.Add(btnVerOrdenes);
             Controls.Add(lblMensaje);
             Text = "GestorTaller - Nueva orden";
 
