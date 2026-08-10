@@ -56,5 +56,10 @@ namespace GestorTaller
                 lblMensaje.Text = ex.Message;
             }
         }
+
+        private void FormNuevaOrden_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

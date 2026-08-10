@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="142mm" xmlns="http://www.w3.org/2000/svg" height="72mm" version="1.1" viewBox="0 0 537 274" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <polyline fill="none" points="105,48 271,48" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="271,48 258,51 258,45" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="179" y="26" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos capturados en Formulario de </text>
+   <text x="179" y="36" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleado]</text>
+   <polyline fill="none" points="363,45 440,49" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="363,45 377,43 376,49" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="314,70 314,123" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="314,123 311,110 317,110" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="351" y="95" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos válidos]</text>
+   <polyline fill="none" points="271,64 105,64" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="105,64 119,61 119,67" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="201" y="79" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Error: datos incompletos]</text>
+   <polyline fill="none" points="311,155 311,214" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="311,214 308,201 314,201" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="368" y="184" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Usuario y contraseña </text>
+   <text x="368" y="194" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">hasheada generados]</text>
+   <polyline fill="none" points="363,232 471,232 464,59" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="464,59 468,72 462,72" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Diag12.htm#1">
+      <polyline fill="none" points="258,249 77,249 77,86" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="77,86 80,99 74,99" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="139" y="226" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Contraseña temporal </text>
+      <text x="139" y="236" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">mostrada/confirmación]</text>
+   </a>
+   <a target="_parent" xlink:href="Diag4.htm#1">
+      <defs>
+         <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#c8d8f8"/>
+            <stop offset="95%" stop-color="#f2f2ff"/>
+         </linearGradient>
+      </defs>
+      <rect x="15" y="36" fill="url(#Gradient1)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+      <text x="60" y="47" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Administrador</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="440" y="42" fill="url(#Gradient2)" width="82" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="454" x2="454" y1="42" y2="59" stroke="#808000" stroke-width="1"/>
+   <text x="447" y="53" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4</text>
+   <text x="492" y="53" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleados</text>
+   <defs>
+      <linearGradient id="Gradient3" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#c0ffff"/>
+      </linearGradient>
+   </defs>
+   <rect x="271" y="26" rx="5" ry="5" fill="url(#Gradient3)" width="92" height="44" stroke="#8080ff" stroke-width="1"/>
+   <line x1="352" x2="363" y1="70" y2="59" stroke="#8080ff" stroke-width="1"/>
+   <text x="317" y="37" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6.1</text>
+   <line x1="271" x2="363" y1="42" y2="42" stroke="#8080ff" stroke-width="1"/>
+   <text x="317" y="54" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Validar datos de </text>
+   <text x="317" y="64" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">empleado</text>
+   <a target="_parent" xlink:href="Diag11.htm#1">
+      <defs>
+         <linearGradient id="Gradient4" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="259" y="123" rx="4" ry="4" fill="url(#Gradient4)" width="110" height="32" stroke="#8080ff" stroke-width="1"/>
+      <line x1="361" x2="369" y1="155" y2="147" stroke="#8080ff" stroke-width="1"/>
+      <text x="314" y="134" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6.2</text>
+      <line x1="259" x2="369" y1="140" y2="140" stroke="#8080ff" stroke-width="1"/>
+      <text x="314" y="150" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Generar credenciales</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient5" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#c0ffff"/>
+      </linearGradient>
+   </defs>
+   <rect x="258" y="214" rx="5" ry="5" fill="url(#Gradient5)" width="105" height="45" stroke="#8080ff" stroke-width="1"/>
+   <line x1="352" x2="363" y1="259" y2="248" stroke="#8080ff" stroke-width="1"/>
+   <text x="311" y="225" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6.3</text>
+   <line x1="258" x2="363" y1="231" y2="231" stroke="#8080ff" stroke-width="1"/>
+   <text x="311" y="243" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Guardar registro de </text>
+   <text x="311" y="253" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">empleado</text>
+</svg>

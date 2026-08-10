@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="301mm" xmlns="http://www.w3.org/2000/svg" height="206mm" version="1.1" viewBox="0 0 1140 780" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <rect x="82" y="360" rx="11" ry="11" fill="#ffffff" width="152" height="89" stroke="#0000ff" stroke-width="1"/>
+   <text x="160" y="368" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Business Process Model</text>
+   <text x="86" y="383" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Model: Diagrama 0 Logico</text>
+   <text x="86" y="398" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Package: </text>
+   <text x="86" y="412" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Diagram: Diagrama 0 Logico</text>
+   <text x="86" y="427" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Author: alfon</text>
+   <text x="86" y="442" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Version: 1.0</text>
+   <line x1="82" x2="234" y1="434" y2="434" stroke="#0000ff" stroke-width="1"/>
+   <line x1="82" x2="234" y1="419" y2="419" stroke="#0000ff" stroke-width="1"/>
+   <line x1="82" x2="234" y1="404" y2="404" stroke="#0000ff" stroke-width="1"/>
+   <line x1="82" x2="234" y1="390" y2="390" stroke="#0000ff" stroke-width="1"/>
+   <line x1="82" x2="234" y1="375" y2="375" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="105,142 272,142" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="272,142 258,145 258,139" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="168" y="109" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos del cliente, </text>
+   <text x="168" y="119" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Informacion del objeto, </text>
+   <text x="168" y="129" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">descripción del problema]</text>
+   <polyline fill="none" points="322,167 316,195" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="323,181 322,167 315,179" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="354,149 412,163" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="399,164 412,163 400,156" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="909,151 581,151 581,132" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="581,132 584,146 578,146" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="785" y="134" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Diagnóstico y solución </text>
+   <text x="785" y="144" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">propuesta]</text>
+   <polyline fill="none" points="538,129 483,159" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="483,159 494,150 497,155" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="552,132 492,165" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="552,132 542,141 539,136" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="350,256 415,176" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="350,256 356,243 360,247" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="267,271 76,271 76,154" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="76,154 79,168 73,168" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="184" y="260" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Cotización]</text>
+   <polyline fill="none" points="51,154 51,319 313,319 313,287" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="313,287 316,300 310,300" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="118" y="307" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Respuesta del cliente]</text>
+   <polyline fill="none" points="371,258 437,176" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="437,176 431,188 427,184" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="923,180 923,253 734,253" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="734,253 747,250 747,256" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="818" y="248" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Repuestos utilizados]</text>
+   <polyline fill="none" points="632,237 490,176" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="632,237 619,235 621,229" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="629,263 572,275" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="629,263 617,268 616,262" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="629,274 572,283" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="572,283 585,278 586,284" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="629,245 468,176" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="468,176 482,178 479,184" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="463,48 475,159" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="463,48 467,60 461,61" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="454,48 438,159" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="438,159 437,146 443,146" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="409,32 53,32 53,104" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="53,104 50,91 56,91" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="215" y="25" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Comprobante de orden]</text>
+   <polyline fill="none" points="953,130 953,32 489,32" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="489,32 503,29 503,35" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="871" y="54" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Confirmación de entrega y </text>
+   <text x="871" y="64" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">cobro]</text>
+   <polyline fill="none" points="939,609 734,609" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="734,609 747,606 747,612" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="877" y="570" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos de empleado y </text>
+   <text x="877" y="580" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">permisos]</text>
+   <polyline fill="none" points="693,581 689,521" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="689,521 693,534 687,535" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="648,581 649,521" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="648,581 645,567 651,568" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="734,593 810,593 810,577 939,577" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="939,577 926,580 926,574" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="837" y="632" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Confirmación de gestión]</text>
+   <polyline fill="none" points="991,180 991,424 722,424" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="722,424 736,421 736,427" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="917" y="415" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Credenciales de usuario]</text>
+   <polyline fill="none" points="1014,569 1014,440 722,440" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="722,440 736,437 736,443" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="1070" y="516" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Credenciales de usuario]</text>
+   <polyline fill="none" points="670,447 669,504" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="670,447 673,460 667,460" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="632,431 602,431" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="602,431 615,428 615,434" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="677,415 677,309 935,309 935,180" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="935,180 938,193 932,193" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="769" y="334" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Confirmación de acceso]</text>
+   <polyline fill="none" points="677,447 677,495 994,495 994,569" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="994,569 991,556 997,556" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="750" y="478" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Confirmación de acceso]</text>
+   <polyline fill="none" points="994,619 994,683 721,683" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="721,683 735,680 735,686" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="888" y="674" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos de gestión]</text>
+   <polyline fill="none" points="643,720 624,736 430,739 428,232 355,211" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="636,732 643,720 630,726" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="369,211 355,211 367,219" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="641,708 521,710 444,711 452,176" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="628,712 641,708 628,704" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="455,189 452,176 447,189" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="641,698 604,698 501,697 501,286" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="628,702 641,698 628,694" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="505,299 501,286 497,299" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="693,721 696,757 610,755" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="698,734 693,721 690,735" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="623,751 610,755 623,759" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="641,683 559,683 564,436" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="641,683 628,686 628,680" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="715,721 715,757 1010,757 1010,619" stroke="#0080c0" stroke-width="1"/>
+   <polygon fill="#0080c0" points="1010,619 1013,632 1007,632" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="832" y="746" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Confirmacion de gestión]</text>
+   <a target="_parent" xlink:href="Diag11.htm#1">
+      <defs>
+         <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="272" y="117" rx="6" ry="6" fill="url(#Gradient1)" width="82" height="50" stroke="#8080ff" stroke-width="1"/>
+      <line x1="341" x2="354" y1="167" y2="154" stroke="#8080ff" stroke-width="1"/>
+      <defs>
+         <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="305" y="151" fill="url(#Gradient2)" width="16" height="16" stroke="#8080ff" stroke-width="1"/>
+      <line x1="309" x2="317" y1="159" y2="159" stroke="#8080ff" stroke-width="1"/>
+      <line x1="313" x2="313" y1="163" y2="155" stroke="#8080ff" stroke-width="1"/>
+      <text x="313" y="128" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">1</text>
+      <line x1="272" x2="354" y1="134" y2="134" stroke="#8080ff" stroke-width="1"/>
+      <text x="313" y="145" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Registrar orden</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient3" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#c0ffff"/>
+      </linearGradient>
+   </defs>
+   <rect x="538" y="88" rx="5" ry="5" fill="url(#Gradient3)" width="80" height="44" stroke="#8080ff" stroke-width="1"/>
+   <line x1="607" x2="618" y1="132" y2="121" stroke="#8080ff" stroke-width="1"/>
+   <text x="577" y="99" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">2</text>
+   <line x1="538" x2="618" y1="105" y2="105" stroke="#8080ff" stroke-width="1"/>
+   <text x="577" y="116" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Registrar </text>
+   <text x="577" y="126" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">diagnóstico</text>
+   <defs>
+      <linearGradient id="Gradient4" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#c0ffff"/>
+      </linearGradient>
+   </defs>
+   <rect x="267" y="256" rx="4" ry="4" fill="url(#Gradient4)" width="104" height="31" stroke="#8080ff" stroke-width="1"/>
+   <line x1="363" x2="371" y1="287" y2="279" stroke="#8080ff" stroke-width="1"/>
+   <text x="319" y="267" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">3</text>
+   <line x1="267" x2="371" y1="273" y2="273" stroke="#8080ff" stroke-width="1"/>
+   <text x="319" y="283" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Registrar cotización</text>
+   <a target="_parent" xlink:href="Diag14.htm#1">
+      <defs>
+         <linearGradient id="Gradient5" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="629" y="236" rx="6" ry="6" fill="url(#Gradient5)" width="105" height="54" stroke="#8080ff" stroke-width="1"/>
+      <line x1="721" x2="734" y1="290" y2="276" stroke="#8080ff" stroke-width="1"/>
+      <defs>
+         <linearGradient id="Gradient6" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="674" y="274" fill="url(#Gradient6)" width="16" height="16" stroke="#8080ff" stroke-width="1"/>
+      <line x1="678" x2="686" y1="282" y2="282" stroke="#8080ff" stroke-width="1"/>
+      <line x1="682" x2="682" y1="286" y2="278" stroke="#8080ff" stroke-width="1"/>
+      <text x="682" y="247" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4</text>
+      <line x1="629" x2="734" y1="253" y2="253" stroke="#8080ff" stroke-width="1"/>
+      <text x="682" y="264" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Registrar reparación</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient7" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#c0ffff"/>
+      </linearGradient>
+   </defs>
+   <rect x="409" y="16" rx="4" ry="4" fill="url(#Gradient7)" width="80" height="32" stroke="#8080ff" stroke-width="1"/>
+   <line x1="482" x2="489" y1="48" y2="40" stroke="#8080ff" stroke-width="1"/>
+   <text x="449" y="27" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">5</text>
+   <line x1="409" x2="489" y1="33" y2="33" stroke="#8080ff" stroke-width="1"/>
+   <text x="449" y="43" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Finalizar orden</text>
+   <a target="_parent" xlink:href="Diag8.htm#1">
+      <defs>
+         <linearGradient id="Gradient8" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="624" y="581" rx="7" ry="7" fill="url(#Gradient8)" width="110" height="55" stroke="#8080ff" stroke-width="1"/>
+      <line x1="720" x2="734" y1="636" y2="622" stroke="#8080ff" stroke-width="1"/>
+      <defs>
+         <linearGradient id="Gradient9" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="671" y="620" fill="url(#Gradient9)" width="16" height="16" stroke="#8080ff" stroke-width="1"/>
+      <line x1="675" x2="683" y1="628" y2="628" stroke="#8080ff" stroke-width="1"/>
+      <line x1="679" x2="679" y1="632" y2="624" stroke="#8080ff" stroke-width="1"/>
+      <text x="679" y="592" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6</text>
+      <line x1="624" x2="734" y1="598" y2="598" stroke="#8080ff" stroke-width="1"/>
+      <text x="679" y="612" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Gestionar empleados</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient10" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#c0ffff"/>
+      </linearGradient>
+   </defs>
+   <rect x="632" y="415" rx="4" ry="4" fill="url(#Gradient10)" width="90" height="32" stroke="#8080ff" stroke-width="1"/>
+   <line x1="714" x2="722" y1="447" y2="439" stroke="#8080ff" stroke-width="1"/>
+   <text x="677" y="426" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">7</text>
+   <line x1="632" x2="722" y1="432" y2="432" stroke="#8080ff" stroke-width="1"/>
+   <text x="677" y="442" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Registrar acceso</text>
+   <a target="_parent" xlink:href="Diag6.htm#1">
+      <defs>
+         <linearGradient id="Gradient11" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="641" y="677" rx="5" ry="5" fill="url(#Gradient11)" width="80" height="44" stroke="#8080ff" stroke-width="1"/>
+      <line x1="710" x2="721" y1="721" y2="710" stroke="#8080ff" stroke-width="1"/>
+      <text x="681" y="688" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">8</text>
+      <line x1="641" x2="721" y1="694" y2="694" stroke="#8080ff" stroke-width="1"/>
+      <text x="681" y="705" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Administrar </text>
+      <text x="681" y="715" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">catálogos</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient12" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="275" y="195" fill="url(#Gradient12)" width="80" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="289" x2="289" y1="195" y2="212" stroke="#808000" stroke-width="1"/>
+   <text x="282" y="206" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">1</text>
+   <text x="326" y="206" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Clientes</text>
+   <defs>
+      <linearGradient id="Gradient13" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="412" y="159" fill="url(#Gradient13)" width="80" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="426" x2="426" y1="159" y2="176" stroke="#808000" stroke-width="1"/>
+   <text x="419" y="170" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">2</text>
+   <text x="463" y="170" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Órdenes</text>
+   <defs>
+      <linearGradient id="Gradient14" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="530" y="745" fill="url(#Gradient14)" width="80" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="544" x2="544" y1="745" y2="762" stroke="#808000" stroke-width="1"/>
+   <text x="537" y="756" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">3</text>
+   <text x="581" y="756" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Inventario</text>
+   <defs>
+      <linearGradient id="Gradient15" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="638" y="504" fill="url(#Gradient15)" width="81" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="652" x2="652" y1="504" y2="521" stroke="#808000" stroke-width="1"/>
+   <text x="645" y="515" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4</text>
+   <text x="689" y="515" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleados</text>
+   <a target="_parent" xlink:href="Diag7.htm#1">
+      <defs>
+         <linearGradient id="Gradient16" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#f8d66d"/>
+         </linearGradient>
+      </defs>
+      <rect x="522" y="419" fill="url(#Gradient16)" width="80" height="17" stroke="#808000" stroke-width="1"/>
+      <line x1="536" x2="536" y1="419" y2="436" stroke="#808000" stroke-width="1"/>
+      <text x="529" y="430" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">5</text>
+      <text x="573" y="430" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Accesos</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient17" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="492" y="269" fill="url(#Gradient17)" width="80" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="506" x2="506" y1="269" y2="286" stroke="#808000" stroke-width="1"/>
+   <text x="499" y="280" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6</text>
+   <text x="543" y="280" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Repuestos</text>
+   <defs>
+      <linearGradient id="Gradient18" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#c8d8f8"/>
+         <stop offset="95%" stop-color="#f2f2ff"/>
+      </linearGradient>
+   </defs>
+   <rect x="15" y="104" fill="url(#Gradient18)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+   <text x="60" y="115" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Cliente</text>
+   <a target="_parent" xlink:href="Diag5.htm#1">
+      <defs>
+         <linearGradient id="Gradient19" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#c8d8f8"/>
+            <stop offset="95%" stop-color="#f2f2ff"/>
+         </linearGradient>
+      </defs>
+      <rect x="939" y="569" fill="url(#Gradient19)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+      <text x="984" y="580" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Administrador</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient20" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#c8d8f8"/>
+         <stop offset="95%" stop-color="#f2f2ff"/>
+      </linearGradient>
+   </defs>
+   <rect x="909" y="130" fill="url(#Gradient20)" width="89" height="50" stroke="#0080c0" stroke-width="1"/>
+   <text x="953" y="141" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleado</text>
+</svg>
