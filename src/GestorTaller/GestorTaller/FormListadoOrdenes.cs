@@ -40,5 +40,10 @@ namespace GestorTaller
                     orden.FechaRecepcion);
             }
         }
+
+        private void FormListadoOrdenes_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

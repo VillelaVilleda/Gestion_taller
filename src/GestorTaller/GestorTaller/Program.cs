@@ -16,7 +16,7 @@ namespace GestorTaller
             ApplicationConfiguration.Initialize();
 
             IOrdenRepository ordenRepository = new OrdenRepositoryEnMemoria();
-            Application.Run(new FormNuevaOrden(ordenRepository));
+            Application.Run(new FormLogin(ordenRepository));
         }
     }
 }
