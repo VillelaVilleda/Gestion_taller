@@ -3,20 +3,22 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Pantalla de listado de las ordenes registradas (issue #14).
+    /// Seccion de "Ordenes registradas" dentro de la ventana principal (menu lateral).
+    /// Es el mismo contenido que antes vivia en FormListadoOrdenes, movido a un
+    /// UserControl para poder mostrarse dentro del panel de contenido.
     /// </summary>
-    public partial class FormListadoOrdenes : Form
+    public partial class ListadoOrdenesControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
 
-        public FormListadoOrdenes(IOrdenRepository ordenRepository)
+        public ListadoOrdenesControl(IOrdenRepository ordenRepository)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
-            Load += FormListadoOrdenes_Load;
+            Load += ListadoOrdenesControl_Load;
         }
 
-        private void FormListadoOrdenes_Load(object? sender, EventArgs e)
+        private void ListadoOrdenesControl_Load(object? sender, EventArgs e)
         {
             CargarOrdenes();
         }
@@ -39,11 +41,6 @@ namespace GestorTaller
                     orden.Estado,
                     orden.FechaRecepcion);
             }
-        }
-
-        private void FormListadoOrdenes_Load_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

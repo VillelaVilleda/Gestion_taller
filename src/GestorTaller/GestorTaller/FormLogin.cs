@@ -43,9 +43,16 @@ namespace GestorTaller
         {
             Hide();
 
-            var formPrincipal = new FormNuevaOrden(_ordenRepository);
-            formPrincipal.FormClosed += (s, e) => Close();
+            var formPrincipal = new FormPrincipal(_ordenRepository, MostrarLogin);
             formPrincipal.Show();
+        }
+
+        private void MostrarLogin()
+        {
+            txtUsuario.Clear();
+            txtContrasena.Clear();
+            lblMensaje.Text = "";
+            Show();
         }
 
         private void btnSalir_Click(object? sender, EventArgs e)

@@ -1,6 +1,6 @@
 namespace GestorTaller
 {
-    partial class FormListadoOrdenes
+    partial class ListadoOrdenesControl
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -16,7 +16,7 @@ namespace GestorTaller
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
         private void InitializeComponent()
         {
@@ -24,9 +24,9 @@ namespace GestorTaller
             dgvOrdenes = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dgvOrdenes).BeginInit();
             SuspendLayout();
-            // 
+            //
             // lblTitulo
-            // 
+            //
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblTitulo.Location = new Point(20, 15);
@@ -34,9 +34,9 @@ namespace GestorTaller
             lblTitulo.Size = new Size(243, 32);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Ordenes registradas";
-            // 
+            //
             // dgvOrdenes
-            // 
+            //
             dgvOrdenes.AllowUserToAddRows = false;
             dgvOrdenes.AllowUserToDeleteRows = false;
             dgvOrdenes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -49,17 +49,15 @@ namespace GestorTaller
             dgvOrdenes.RowHeadersWidth = 51;
             dgvOrdenes.Size = new Size(640, 380);
             dgvOrdenes.TabIndex = 1;
-            // 
-            // FormListadoOrdenes
-            // 
+            //
+            // ListadoOrdenesControl
+            //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(680, 460);
             Controls.Add(lblTitulo);
             Controls.Add(dgvOrdenes);
-            Name = "FormListadoOrdenes";
-            Text = "GestorTaller - Ordenes registradas";
-            Load += FormListadoOrdenes_Load_1;
+            Name = "ListadoOrdenesControl";
+            Size = new Size(680, 460);
             ((System.ComponentModel.ISupportInitialize)dgvOrdenes).EndInit();
             ResumeLayout(false);
             PerformLayout();

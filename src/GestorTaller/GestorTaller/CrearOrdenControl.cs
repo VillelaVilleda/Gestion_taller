@@ -3,24 +3,20 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Pantalla para registrar una orden de trabajo nueva (issue #13).
+    /// Seccion de "Nueva orden" dentro de la ventana principal (menu lateral).
+    /// Es el mismo contenido que antes vivia en FormNuevaOrden, movido a un
+    /// UserControl para poder mostrarse dentro del panel de contenido.
     /// </summary>
-    public partial class FormNuevaOrden : Form
+    public partial class CrearOrdenControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
         private readonly CrearOrdenService _crearOrdenService;
 
-        public FormNuevaOrden(IOrdenRepository ordenRepository)
+        public CrearOrdenControl(IOrdenRepository ordenRepository)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
             _crearOrdenService = new CrearOrdenService(ordenRepository);
-        }
-
-        private void btnVerOrdenes_Click(object? sender, EventArgs e)
-        {
-            using var formListado = new FormListadoOrdenes(_ordenRepository);
-            formListado.ShowDialog(this);
         }
 
         private void btnRegistrar_Click(object? sender, EventArgs e)
@@ -55,11 +51,6 @@ namespace GestorTaller
             {
                 lblMensaje.Text = ex.Message;
             }
-        }
-
-        private void FormNuevaOrden_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
