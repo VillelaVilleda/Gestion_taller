@@ -11,12 +11,14 @@ namespace GestorTaller
     {
         private readonly IOrdenRepository _ordenRepository;
         private readonly CrearOrdenService _crearOrdenService;
+        private readonly Action _ordenRegistrada;
 
-        public CrearOrdenControl(IOrdenRepository ordenRepository)
+        public CrearOrdenControl(IOrdenRepository ordenRepository, Action ordenRegistrada)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
             _crearOrdenService = new CrearOrdenService(ordenRepository);
+            _ordenRegistrada = ordenRegistrada;
         }
 
         private void btnRegistrar_Click(object? sender, EventArgs e)
@@ -37,20 +39,28 @@ namespace GestorTaller
                     Nombre = txtCliente.Text
                 };
 
-                _crearOrdenService.Ejecutar(cliente, txtDescripcion.Text, numCostoDiagnostico.Value);
+                _crearOrdenService.Ejecutar(cliente, txtObjeto.Text, txtDescripcion.Text, numCostoDiagnostico.Value);
 
                 lblMensaje.ForeColor = Color.DarkGreen;
                 lblMensaje.Text = "Orden registrada correctamente.";
 
                 txtCliente.Clear();
+                txtObjeto.Clear();
                 txtDescripcion.Clear();
                 numCostoDiagnostico.Value = 0;
                 txtCliente.Focus();
+
+                _ordenRegistrada();
             }
             catch (ArgumentException ex)
             {
                 lblMensaje.Text = ex.Message;
             }
+        }
+
+        private void CrearOrdenControl_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

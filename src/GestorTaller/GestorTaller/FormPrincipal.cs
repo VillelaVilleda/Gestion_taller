@@ -59,11 +59,9 @@ namespace GestorTaller
 
         private void btnClientes_Click(object? sender, EventArgs e) => MostrarPlaceholder("Clientes");
 
-        private void btnInventario_Click(object? sender, EventArgs e) => MostrarPlaceholder("Inventario");
-
         private void btnEmpleados_Click(object? sender, EventArgs e) => MostrarPlaceholder("Empleados");
 
-        private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository));
+        private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository, MostrarSeccionOrdenesRegistradas));
 
         private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository));
 
@@ -85,6 +83,11 @@ namespace GestorTaller
             panelContenido.Controls.Clear();
             control.Dock = DockStyle.Fill;
             panelContenido.Controls.Add(control);
+        }
+
+        private void panelContenido_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

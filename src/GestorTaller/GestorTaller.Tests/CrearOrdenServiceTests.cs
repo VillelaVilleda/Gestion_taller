@@ -21,10 +21,11 @@ public class CrearOrdenServiceTests
         var servicio = CrearServicio(out _);
         var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
 
-        var orden = servicio.Ejecutar(cliente, "El vehiculo no enciende", 15m);
+        var orden = servicio.Ejecutar(cliente, "Vehiculo sedan color rojo", "El vehiculo no enciende", 15m);
 
         Assert.Equal(EstadoOrden.Recepcion, orden.Estado);
         Assert.Equal(cliente, orden.Cliente);
+        Assert.Equal("Vehiculo sedan color rojo", orden.DescripcionObjeto);
         Assert.Equal("El vehiculo no enciende", orden.DescripcionProblema);
         Assert.Equal(15m, orden.CostoDiagnostico);
     }
@@ -35,7 +36,7 @@ public class CrearOrdenServiceTests
         var servicio = CrearServicio(out var repositorio);
         var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
 
-        var orden = servicio.Ejecutar(cliente, "El vehiculo no enciende", 15m);
+        var orden = servicio.Ejecutar(cliente, "Vehiculo sedan color rojo", "El vehiculo no enciende", 15m);
 
         var guardada = repositorio.ObtenerPorId(orden.Id);
         Assert.NotNull(guardada);
@@ -47,7 +48,7 @@ public class CrearOrdenServiceTests
         var servicio = CrearServicio(out _);
         var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
 
-        var orden = servicio.Ejecutar(cliente, "Revision general", 0m);
+        var orden = servicio.Ejecutar(cliente, "Vehiculo sedan color rojo", "Revision general", 0m);
 
         Assert.Equal(0m, orden.CostoDiagnostico);
     }
@@ -58,20 +59,33 @@ public class CrearOrdenServiceTests
         var servicio = CrearServicio(out _);
 
         Assert.Throws<ArgumentException>(() =>
-            servicio.Ejecutar(null!, "El vehiculo no enciende", 15m));
+            servicio.Ejecutar(null!, "Vehiculo sedan color rojo", "El vehiculo no enciende", 15m));
     }
 
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
     [InlineData(null)]
-    public void Ejecutar_SinDescripcion_LanzaExcepcion(string? descripcion)
+    public void Ejecutar_SinDescripcionObjeto_LanzaExcepcion(string? descripcionObjeto)
     {
         var servicio = CrearServicio(out _);
         var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
 
         Assert.Throws<ArgumentException>(() =>
-            servicio.Ejecutar(cliente, descripcion!, 15m));
+            servicio.Ejecutar(cliente, descripcionObjeto!, "El vehiculo no enciende", 15m));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData(null)]
+    public void Ejecutar_SinDescripcionProblema_LanzaExcepcion(string? descripcion)
+    {
+        var servicio = CrearServicio(out _);
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+
+        Assert.Throws<ArgumentException>(() =>
+            servicio.Ejecutar(cliente, "Vehiculo sedan color rojo", descripcion!, 15m));
     }
 
     [Fact]
@@ -81,6 +95,6 @@ public class CrearOrdenServiceTests
         var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
 
         Assert.Throws<ArgumentException>(() =>
-            servicio.Ejecutar(cliente, "El vehiculo no enciende", -1m));
+            servicio.Ejecutar(cliente, "Vehiculo sedan color rojo", "El vehiculo no enciende", -1m));
     }
 }

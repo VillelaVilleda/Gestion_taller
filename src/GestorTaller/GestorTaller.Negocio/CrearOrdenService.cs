@@ -4,6 +4,7 @@ namespace GestorTaller.Negocio;
 /// Caso de uso: crear una nueva orden de trabajo (estado inicial: Recepcion).
 /// Reglas (ver CrearOrdenServiceTests):
 ///   - cliente es obligatorio
+///   - descripcionObjeto es obligatoria (no vacia ni en blanco)
 ///   - descripcionProblema es obligatoria (no vacia ni en blanco)
 ///   - costoDiagnostico no puede ser negativo (0 es valido)
 ///   - la orden nueva queda en estado Recepcion
@@ -18,11 +19,16 @@ public class CrearOrdenService
         _ordenRepository = ordenRepository;
     }
 
-    public Orden Ejecutar(Cliente cliente, string descripcionProblema, decimal costoDiagnostico)
+    public Orden Ejecutar(Cliente cliente, string descripcionObjeto, string descripcionProblema, decimal costoDiagnostico)
     {
         if (cliente is null)
         {
             throw new ArgumentException("La orden requiere un cliente.", nameof(cliente));
+        }
+
+        if (string.IsNullOrWhiteSpace(descripcionObjeto))
+        {
+            throw new ArgumentException("La orden requiere una descripcion del objeto.", nameof(descripcionObjeto));
         }
 
         if (string.IsNullOrWhiteSpace(descripcionProblema))
@@ -39,6 +45,7 @@ public class CrearOrdenService
         {
             Id = Guid.NewGuid(),
             Cliente = cliente,
+            DescripcionObjeto = descripcionObjeto,
             DescripcionProblema = descripcionProblema,
             CostoDiagnostico = costoDiagnostico,
             Estado = EstadoOrden.Recepcion,

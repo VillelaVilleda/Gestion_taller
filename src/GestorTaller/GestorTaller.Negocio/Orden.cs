@@ -8,6 +8,7 @@ public class Orden
 {
     public Guid Id { get; set; }
     public Cliente Cliente { get; set; } = null!;
+    public string DescripcionObjeto { get; set; } = string.Empty;
     public string DescripcionProblema { get; set; } = string.Empty;
     public decimal CostoDiagnostico { get; set; }
     public EstadoOrden Estado { get; set; }
