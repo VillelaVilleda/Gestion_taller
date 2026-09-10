@@ -63,10 +63,15 @@ namespace GestorTaller
         private void lnkAyuda_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             MessageBox.Show(
-                "Contacto de servicio tecnico:\nalfonsovillela02@gmail.com.com\nTel. 000-0000",
+                "Contacto de servicio tecnico:\nalfonsovillela02@gmail.com\nTel. +502 0000-0000",
                 "Ayuda",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void FormLogin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
