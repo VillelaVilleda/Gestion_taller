@@ -49,7 +49,8 @@ public class CrearOrdenService
             DescripcionProblema = descripcionProblema,
             CostoDiagnostico = costoDiagnostico,
             Estado = EstadoOrden.Recepcion,
-            FechaRecepcion = DateTime.Now
+            FechaRecepcion = DateTime.Now,
+            HistorialEstados = new List<EstadoOrden> { EstadoOrden.Recepcion }
         };
 
         _ordenRepository.Agregar(orden);

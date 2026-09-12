@@ -13,4 +13,5 @@ public class Orden
     public decimal CostoDiagnostico { get; set; }
     public EstadoOrden Estado { get; set; }
     public DateTime FechaRecepcion { get; set; }
+    public List<EstadoOrden> HistorialEstados { get; set; } = new();
 }
