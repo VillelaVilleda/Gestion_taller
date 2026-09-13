@@ -55,7 +55,12 @@ namespace GestorTaller
 
         private void btnOrdenesRegistradas_Click(object? sender, EventArgs e) => MostrarSeccionOrdenesRegistradas();
 
-        private void btnRepuestos_Click(object? sender, EventArgs e) => MostrarPlaceholder("Repuestos");
+        private void btnRepuestos_Click(object? sender, EventArgs e)
+        {
+            var prueba = new SeguimientoBreadcrumbControl();
+            prueba.Mostrar(new List<EstadoOrden> { EstadoOrden.Recepcion, EstadoOrden.Diagnostico, EstadoOrden.Cotizacion });
+            MostrarControl(prueba);
+        }
 
         private void btnClientes_Click(object? sender, EventArgs e) => MostrarPlaceholder("Clientes");
 
