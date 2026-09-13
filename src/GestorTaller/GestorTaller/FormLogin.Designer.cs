@@ -43,10 +43,10 @@ namespace GestorTaller
             lnkAyuda.AutoSize = true;
             lnkAyuda.Location = new Point(20, 15);
             lnkAyuda.Name = "lnkAyuda";
-            lnkAyuda.Size = new Size(62, 20);
+            lnkAyuda.Size = new Size(58, 20);
             lnkAyuda.TabIndex = 0;
             lnkAyuda.TabStop = true;
-            lnkAyuda.Text = "? Ayuda";
+            lnkAyuda.Text = "Ayuda?";
             lnkAyuda.LinkClicked += lnkAyuda_LinkClicked;
             // 
             // lblLogo

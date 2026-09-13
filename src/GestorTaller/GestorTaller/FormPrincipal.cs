@@ -63,7 +63,9 @@ namespace GestorTaller
 
         private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository, MostrarSeccionOrdenesRegistradas));
 
-        private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository));
+        private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository, AbrirSeguimientoOrden));
+
+        private void AbrirSeguimientoOrden(Guid ordenId) => MostrarControl(new SeguimientoOrdenControl(_ordenRepository, ordenId));
 
         private void MostrarPlaceholder(string seccion)
         {

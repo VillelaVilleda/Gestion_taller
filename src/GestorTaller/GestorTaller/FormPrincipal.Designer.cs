@@ -36,7 +36,9 @@ namespace GestorTaller
             btnCerrarSesion = new Button();
             btnSalir = new Button();
             panelContenido = new Panel();
+            label1 = new Label();
             panelMenu.SuspendLayout();
+            panelContenido.SuspendLayout();
             SuspendLayout();
             // 
             // panelMenu
@@ -57,16 +59,18 @@ namespace GestorTaller
             // 
             // btnCrearOrden
             // 
+            btnCrearOrden.BackColor = Color.Snow;
             btnCrearOrden.Location = new Point(10, 20);
             btnCrearOrden.Name = "btnCrearOrden";
             btnCrearOrden.Size = new Size(180, 40);
             btnCrearOrden.TabIndex = 0;
             btnCrearOrden.Text = "Nueva orden";
+            btnCrearOrden.UseVisualStyleBackColor = false;
             btnCrearOrden.Click += btnCrearOrden_Click;
             // 
             // btnOrdenesRegistradas
             // 
-            btnOrdenesRegistradas.Location = new Point(10, 70);
+            btnOrdenesRegistradas.Location = new Point(10, 91);
             btnOrdenesRegistradas.Name = "btnOrdenesRegistradas";
             btnOrdenesRegistradas.Size = new Size(180, 40);
             btnOrdenesRegistradas.TabIndex = 1;
@@ -75,7 +79,7 @@ namespace GestorTaller
             // 
             // btnRepuestos
             // 
-            btnRepuestos.Location = new Point(10, 130);
+            btnRepuestos.Location = new Point(10, 137);
             btnRepuestos.Name = "btnRepuestos";
             btnRepuestos.Size = new Size(180, 40);
             btnRepuestos.TabIndex = 2;
@@ -84,7 +88,7 @@ namespace GestorTaller
             // 
             // btnClientes
             // 
-            btnClientes.Location = new Point(10, 180);
+            btnClientes.Location = new Point(10, 187);
             btnClientes.Name = "btnClientes";
             btnClientes.Size = new Size(180, 40);
             btnClientes.TabIndex = 3;
@@ -93,7 +97,7 @@ namespace GestorTaller
             // 
             // btnEmpleados
             // 
-            btnEmpleados.Location = new Point(10, 230);
+            btnEmpleados.Location = new Point(10, 237);
             btnEmpleados.Name = "btnEmpleados";
             btnEmpleados.Size = new Size(180, 40);
             btnEmpleados.TabIndex = 4;
@@ -122,12 +126,22 @@ namespace GestorTaller
             // 
             // panelContenido
             // 
+            panelContenido.Controls.Add(label1);
             panelContenido.Dock = DockStyle.Fill;
             panelContenido.Location = new Point(200, 0);
             panelContenido.Name = "panelContenido";
             panelContenido.Size = new Size(700, 600);
             panelContenido.TabIndex = 1;
             panelContenido.Paint += panelContenido_Paint;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(254, 20);
+            label1.Name = "label1";
+            label1.Size = new Size(194, 20);
+            label1.TabIndex = 2;
+            label1.Text = "Sistema de gestion de taller";
             // 
             // FormPrincipal
             // 
@@ -143,9 +157,13 @@ namespace GestorTaller
             FormClosed += FormPrincipal_FormClosed;
             Load += FormPrincipal_Load;
             panelMenu.ResumeLayout(false);
+            panelContenido.ResumeLayout(false);
+            panelContenido.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Label label1;
     }
 }

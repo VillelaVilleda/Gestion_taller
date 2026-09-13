@@ -10,12 +10,25 @@ namespace GestorTaller
     public partial class ListadoOrdenesControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
+        private readonly Action<Guid> _abrirSeguimiento;
 
-        public ListadoOrdenesControl(IOrdenRepository ordenRepository)
+        public ListadoOrdenesControl(IOrdenRepository ordenRepository, Action<Guid> abrirSeguimiento)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _abrirSeguimiento = abrirSeguimiento;
             Load += ListadoOrdenesControl_Load;
+        }
+
+        private void dgvOrdenes_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            var ordenId = (Guid)dgvOrdenes.Rows[e.RowIndex].Tag;
+            _abrirSeguimiento(ordenId);
         }
 
         private void ListadoOrdenesControl_Load(object? sender, EventArgs e)
@@ -35,11 +48,13 @@ namespace GestorTaller
 
             foreach (var orden in _ordenRepository.ObtenerTodas())
             {
-                dgvOrdenes.Rows.Add(
+                var indiceFila = dgvOrdenes.Rows.Add(
                     orden.Cliente.Nombre,
                     orden.DescripcionProblema,
                     orden.Estado,
                     orden.FechaRecepcion);
+
+                dgvOrdenes.Rows[indiceFila].Tag = orden.Id;
             }
         }
     }
