@@ -2,12 +2,6 @@
 
 namespace GestorTaller
 {
-    /// <summary>
-    /// Seccion de seguimiento de una orden: combina la miga de pan
-    /// (SeguimientoBreadcrumbControl) con el formulario del paso que se
-    /// este viendo. Por ahora solo Recepcion tiene formulario real; el
-    /// resto de los pasos se agregan en issues posteriores.
-    /// </summary>
     public partial class SeguimientoOrdenControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
@@ -24,6 +18,11 @@ namespace GestorTaller
 
         private void SeguimientoOrdenControl_Load(object? sender, EventArgs e)
         {
+            ActualizarBreadcrumbYMostrarPasoPendiente();
+        }
+
+        private void ActualizarBreadcrumbYMostrarPasoPendiente()
+        {
             var orden = _ordenRepository.ObtenerPorId(_ordenId);
 
             if (orden is null)
@@ -38,7 +37,14 @@ namespace GestorTaller
             }
 
             breadcrumb.Mostrar(orden.HistorialEstados);
-            MostrarPaso(orden.HistorialEstados[^1]);
+            MostrarPaso(PasoPendienteOActual(orden));
+        }
+
+        private static EstadoOrden PasoPendienteOActual(Orden orden)
+        {
+            var indiceActual = Array.IndexOf(SeguimientoBreadcrumbControl.TodosLosPasos, orden.Estado);
+            var hayPendiente = indiceActual >= 0 && indiceActual < SeguimientoBreadcrumbControl.TodosLosPasos.Length - 1;
+            return hayPendiente ? SeguimientoBreadcrumbControl.TodosLosPasos[indiceActual + 1] : orden.Estado;
         }
 
         private void MostrarPaso(EstadoOrden paso)
@@ -52,6 +58,7 @@ namespace GestorTaller
             Control formulario = paso switch
             {
                 EstadoOrden.Recepcion => CrearFormularioRecepcion(orden),
+                EstadoOrden.Diagnostico => CrearFormularioDiagnostico(orden),
                 _ => new Label
                 {
                     Dock = DockStyle.Fill,
@@ -68,6 +75,14 @@ namespace GestorTaller
         {
             var control = new RecepcionSoloLecturaControl();
             control.Mostrar(orden);
+            return control;
+        }
+
+        private Control CrearFormularioDiagnostico(Orden orden)
+        {
+            var control = new DiagnosticoControl();
+            control.Mostrar(orden);
+            control.DiagnosticoRegistrado += ActualizarBreadcrumbYMostrarPasoPendiente;
             return control;
         }
 
