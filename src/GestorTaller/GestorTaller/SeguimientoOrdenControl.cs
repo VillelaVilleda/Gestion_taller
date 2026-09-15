@@ -59,6 +59,7 @@ namespace GestorTaller
             {
                 EstadoOrden.Recepcion => CrearFormularioRecepcion(orden),
                 EstadoOrden.Diagnostico => CrearFormularioDiagnostico(orden),
+                EstadoOrden.Cotizacion => CrearFormularioCotizacion(orden),
                 _ => new Label
                 {
                     Dock = DockStyle.Fill,
@@ -75,6 +76,14 @@ namespace GestorTaller
         {
             var control = new RecepcionSoloLecturaControl();
             control.Mostrar(orden);
+            return control;
+        }
+
+        private Control CrearFormularioCotizacion(Orden orden)
+        {
+            var control = new CotizacionControl();
+            control.Mostrar(orden);
+            control.CotizacionRegistrada += ActualizarBreadcrumbYMostrarPasoPendiente;
             return control;
         }
 
