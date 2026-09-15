@@ -14,4 +14,6 @@ public class Orden
     public EstadoOrden Estado { get; set; }
     public DateTime FechaRecepcion { get; set; }
     public List<EstadoOrden> HistorialEstados { get; set; } = new();
+    public string EmpleadoDiagnostico { get; set; } = string.Empty;
+    public string DetalleDiagnostico { get; set; } = string.Empty;
 }
