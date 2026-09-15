@@ -16,4 +16,8 @@ public class Orden
     public List<EstadoOrden> HistorialEstados { get; set; } = new();
     public string EmpleadoDiagnostico { get; set; } = string.Empty;
     public string DetalleDiagnostico { get; set; } = string.Empty;
+    public string EmpleadoCotizacion { get; set; } = string.Empty;
+    public decimal MontoCotizado { get; set; }
+    public bool CotizacionAceptada { get; set; }
+
 }
