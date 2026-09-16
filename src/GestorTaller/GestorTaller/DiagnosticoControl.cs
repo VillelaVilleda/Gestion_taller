@@ -3,11 +3,11 @@
 namespace GestorTaller
 {
     /// <summary>
-    /// Formulario del paso Diagnostico dentro del seguimiento. Si la orden
-    /// todavia esta en Recepcion (el diagnostico esta pendiente), permite
-    /// capturarlo y avanza la orden a Diagnostico al guardar. Si la orden ya
-    /// avanzo mas alla (se esta revisando este paso hacia atras), se muestra
-    /// en modo solo lectura con los datos ya guardados.
+    /// Formulario del paso Diagnostico dentro del seguimiento. Mientras la
+    /// orden esta en estado Diagnostico (el paso activo), permite capturarlo
+    /// y avanza la orden a Cotizacion al guardar. Si la orden ya avanzo mas
+    /// alla (se esta revisando este paso hacia atras), se muestra en modo
+    /// solo lectura con los datos ya guardados.
     /// </summary>
     public partial class DiagnosticoControl : UserControl
     {
@@ -27,7 +27,7 @@ namespace GestorTaller
             _orden = orden;
             lblMensaje.Text = "";
 
-            var esPendiente = orden.Estado == EstadoOrden.Recepcion;
+            var esPendiente = orden.Estado == EstadoOrden.Diagnostico;
 
             txtEmpleado.ReadOnly = !esPendiente;
             txtDetalle.ReadOnly = !esPendiente;

@@ -1,16 +1,16 @@
 ﻿namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: registrar la cotizacion de una orden en estado Diagnostico.
-/// Reglas (ver RegistrarCotizacionOrdenServiceTests):
+/// Caso de uso: registrar la cotizacion de una orden en estado Cotizacion
+/// (el paso activo mientras se cotiza). Reglas (ver
+/// RegistrarCotizacionOrdenServiceTests):
 ///   - la orden debe existir
-///   - la orden debe estar en estado Diagnostico
+///   - la orden debe estar en estado Cotizacion
 ///   - el empleado encargado es obligatorio
 ///   - el monto cotizado debe ser mayor a cero
-///   - al confirmar, se guardan empleado, monto y la decision del cliente;
-///     la orden pasa por Cotizacion y de ahi directo a EnReparacion
-///     (si fue aceptada) o a Terminado (si fue rechazada, saltando
-///     EnReparacion)
+///   - al confirmar, se guardan empleado, monto y la decision del cliente,
+///     y la orden avanza directo a EnReparacion (si fue aceptada) o a
+///     Terminado (si fue rechazada, saltando EnReparacion)
 /// </summary>
 public class RegistrarCotizacionOrdenService
 {
@@ -28,9 +28,9 @@ public class RegistrarCotizacionOrdenService
             throw new ArgumentException("Se requiere una orden.", nameof(orden));
         }
 
-        if (orden.Estado != EstadoOrden.Diagnostico)
+        if (orden.Estado != EstadoOrden.Cotizacion)
         {
-            throw new InvalidOperationException("Solo se puede registrar la cotizacion de una orden en estado Diagnostico.");
+            throw new InvalidOperationException("Solo se puede registrar la cotizacion de una orden en estado Cotizacion.");
         }
 
         if (string.IsNullOrWhiteSpace(empleadoCotizacion))
@@ -47,7 +47,6 @@ public class RegistrarCotizacionOrdenService
         orden.MontoCotizado = montoCotizado;
         orden.CotizacionAceptada = aceptada;
 
-        _avanzarEstadoOrdenService.Ejecutar(orden);          // Diagnostico -> Cotizacion
         _avanzarEstadoOrdenService.Ejecutar(orden, aceptada); // Cotizacion -> EnReparacion | Terminado
     }
 }

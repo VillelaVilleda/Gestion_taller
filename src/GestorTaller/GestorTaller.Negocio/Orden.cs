@@ -19,5 +19,6 @@ public class Orden
     public string EmpleadoCotizacion { get; set; } = string.Empty;
     public decimal MontoCotizado { get; set; }
     public bool CotizacionAceptada { get; set; }
-
+    public string EmpleadoReparacion { get; set; } = string.Empty;
+    public string DetalleReparacion { get; set; } = string.Empty;
 }

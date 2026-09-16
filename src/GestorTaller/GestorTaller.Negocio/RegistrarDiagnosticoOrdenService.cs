@@ -1,13 +1,14 @@
 ﻿namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: registrar el diagnostico de una orden en estado Recepcion,
-/// avanzandola a Diagnostico. Reglas (ver RegistrarDiagnosticoOrdenServiceTests):
+/// Caso de uso: registrar el diagnostico de una orden en estado Diagnostico
+/// (el paso activo mientras se diagnostica), avanzandola a Cotizacion.
+/// Reglas (ver RegistrarDiagnosticoOrdenServiceTests):
 ///   - la orden debe existir
-///   - la orden debe estar en estado Recepcion
+///   - la orden debe estar en estado Diagnostico
 ///   - el empleado encargado es obligatorio
 ///   - el detalle del diagnostico es obligatorio
-///   - al confirmar, se guardan el empleado y el detalle, y la orden avanza a Diagnostico
+///   - al confirmar, se guardan el empleado y el detalle, y la orden avanza a Cotizacion
 /// </summary>
 public class RegistrarDiagnosticoOrdenService
 {
@@ -25,9 +26,9 @@ public class RegistrarDiagnosticoOrdenService
             throw new ArgumentException("Se requiere una orden.", nameof(orden));
         }
 
-        if (orden.Estado != EstadoOrden.Recepcion)
+        if (orden.Estado != EstadoOrden.Diagnostico)
         {
-            throw new InvalidOperationException("Solo se puede registrar el diagnostico de una orden en estado Recepcion.");
+            throw new InvalidOperationException("Solo se puede registrar el diagnostico de una orden en estado Diagnostico.");
         }
 
         if (string.IsNullOrWhiteSpace(empleadoDiagnostico))

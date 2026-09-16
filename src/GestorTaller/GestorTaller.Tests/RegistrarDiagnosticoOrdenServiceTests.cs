@@ -1,9 +1,8 @@
-﻿using GestorTaller.Negocio;
+using GestorTaller.Negocio;
 
 namespace GestorTaller.Tests;
 
 // Pruebas del servicio "registrar diagnostico de una orden" (issue #25).
-// Estan en rojo a proposito: RegistrarDiagnosticoOrdenService todavia no existe.
 public class RegistrarDiagnosticoOrdenServiceTests
 {
     private static Orden CrearOrdenEnEstado(EstadoOrden estado)
@@ -27,20 +26,20 @@ public class RegistrarDiagnosticoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_DesdeRecepcionConDatosValidos_AvanzaADiagnostico()
+    public void Ejecutar_DesdeDiagnosticoConDatosValidos_AvanzaACotizacion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Recepcion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
         var servicio = CrearServicio();
 
         servicio.Ejecutar(orden, "Carlos Lopez", "Falla en el alternador");
 
-        Assert.Equal(EstadoOrden.Diagnostico, orden.Estado);
+        Assert.Equal(EstadoOrden.Cotizacion, orden.Estado);
     }
 
     [Fact]
-    public void Ejecutar_DesdeRecepcionConDatosValidos_GuardaEmpleadoYDetalle()
+    public void Ejecutar_DesdeDiagnosticoConDatosValidos_GuardaEmpleadoYDetalle()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Recepcion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
         var servicio = CrearServicio();
 
         servicio.Ejecutar(orden, "Carlos Lopez", "Falla en el alternador");
@@ -50,23 +49,23 @@ public class RegistrarDiagnosticoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_DesdeRecepcionConDatosValidos_AgregaDiagnosticoAlHistorial()
+    public void Ejecutar_DesdeDiagnosticoConDatosValidos_AgregaCotizacionAlHistorial()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Recepcion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
         var servicio = CrearServicio();
 
         servicio.Ejecutar(orden, "Carlos Lopez", "Falla en el alternador");
 
-        Assert.Contains(EstadoOrden.Diagnostico, orden.HistorialEstados);
+        Assert.Contains(EstadoOrden.Cotizacion, orden.HistorialEstados);
     }
 
     [Theory]
-    [InlineData(EstadoOrden.Diagnostico)]
+    [InlineData(EstadoOrden.Recepcion)]
     [InlineData(EstadoOrden.Cotizacion)]
     [InlineData(EstadoOrden.EnReparacion)]
     [InlineData(EstadoOrden.Terminado)]
     [InlineData(EstadoOrden.Entregado)]
-    public void Ejecutar_DesdeEstadoDistintoARecepcion_LanzaExcepcion(EstadoOrden estado)
+    public void Ejecutar_DesdeEstadoDistintoADiagnostico_LanzaExcepcion(EstadoOrden estado)
     {
         var orden = CrearOrdenEnEstado(estado);
         var servicio = CrearServicio();
@@ -80,7 +79,7 @@ public class RegistrarDiagnosticoOrdenServiceTests
     [InlineData(null)]
     public void Ejecutar_SinEmpleado_LanzaExcepcion(string? empleado)
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Recepcion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
         var servicio = CrearServicio();
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado!, "Falla en el alternador"));
@@ -92,7 +91,7 @@ public class RegistrarDiagnosticoOrdenServiceTests
     [InlineData(null)]
     public void Ejecutar_SinDetalle_LanzaExcepcion(string? detalle)
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Recepcion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
         var servicio = CrearServicio();
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Carlos Lopez", detalle!));
