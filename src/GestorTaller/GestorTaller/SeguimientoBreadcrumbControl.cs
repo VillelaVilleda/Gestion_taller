@@ -4,11 +4,11 @@ namespace GestorTaller
 {
     /// <summary>
     /// Miga de pan del seguimiento de una orden: dibuja los 6 pasos del ciclo
-    /// de vida, marca cuales ya se visitaron (segun Orden.HistorialEstados),
-    /// cual es el paso pendiente (el que todavia no se completa) y cual se
-    /// esta viendo actualmente. Atras/Siguiente solo mueven el "cursor" de
-    /// que paso se muestra, incluyendo el pendiente; nunca modifican el
-    /// estado real de la orden.
+    /// de vida, marca cuales ya se visitaron, cual es el paso pendiente
+    /// (el ultimo del historial, porque Orden.Estado representa el paso
+    /// activo ahora mismo, no el ultimo ya completado) y cual se esta
+    /// viendo. Atras/Siguiente solo mueven el cursor de que paso se
+    /// muestra; nunca modifican el estado real de la orden.
     /// </summary>
     public partial class SeguimientoBreadcrumbControl : UserControl
     {
@@ -35,27 +35,8 @@ namespace GestorTaller
         public void Mostrar(IReadOnlyList<EstadoOrden> historial)
         {
             _historial = historial;
-            _indiceVisto = LimiteSuperior();
+            _indiceVisto = _historial.Count - 1;
             Redibujar();
-        }
-
-        private bool HayPasoPendiente() =>
-            _historial.Count > 0 && _historial[^1] != EstadoOrden.Entregado;
-
-        private EstadoOrden? PasoPendiente() =>
-            HayPasoPendiente() ? TodosLosPasos[Array.IndexOf(TodosLosPasos, _historial[^1]) + 1] : null;
-
-        private int LimiteSuperior() =>
-            HayPasoPendiente() ? _historial.Count : _historial.Count - 1;
-
-        private EstadoOrden? PasoEnIndice(int indice)
-        {
-            if (indice < 0 || _historial.Count == 0)
-            {
-                return null;
-            }
-
-            return indice < _historial.Count ? _historial[indice] : PasoPendiente();
         }
 
         private void btnAtras_Click(object? sender, EventArgs e)
@@ -64,25 +45,17 @@ namespace GestorTaller
             {
                 _indiceVisto--;
                 Redibujar();
-                var paso = PasoEnIndice(_indiceVisto);
-                if (paso is not null)
-                {
-                    PasoSeleccionado?.Invoke(paso.Value);
-                }
+                PasoSeleccionado?.Invoke(_historial[_indiceVisto]);
             }
         }
 
         private void btnSiguiente_Click(object? sender, EventArgs e)
         {
-            if (_indiceVisto < LimiteSuperior())
+            if (_indiceVisto < _historial.Count - 1)
             {
                 _indiceVisto++;
                 Redibujar();
-                var paso = PasoEnIndice(_indiceVisto);
-                if (paso is not null)
-                {
-                    PasoSeleccionado?.Invoke(paso.Value);
-                }
+                PasoSeleccionado?.Invoke(_historial[_indiceVisto]);
             }
         }
 
@@ -90,8 +63,8 @@ namespace GestorTaller
         {
             flowPasos.Controls.Clear();
 
-            var pasoPendiente = PasoPendiente();
-            var pasoQueSeVe = PasoEnIndice(_indiceVisto);
+            EstadoOrden? pasoPendiente = _historial.Count > 0 ? _historial[^1] : null;
+            EstadoOrden? pasoQueSeVe = _historial.Count > 0 ? _historial[_indiceVisto] : null;
 
             for (var i = 0; i < TodosLosPasos.Length; i++)
             {
@@ -152,7 +125,7 @@ namespace GestorTaller
             }
 
             btnAtras.Enabled = _indiceVisto > 0;
-            btnSiguiente.Enabled = _indiceVisto < LimiteSuperior();
+            btnSiguiente.Enabled = _indiceVisto < _historial.Count - 1;
         }
 
         private static string NombrePaso(EstadoOrden paso) => paso switch

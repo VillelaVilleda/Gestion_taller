@@ -1,4 +1,4 @@
-﻿using GestorTaller.Negocio;
+using GestorTaller.Negocio;
 
 namespace GestorTaller.Tests;
 
@@ -26,20 +26,21 @@ public class RegistrarCotizacionOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_AceptadaDesdeDiagnostico_AvanzaAEnReparacion()
+    public void Ejecutar_AceptadaDesdeCotizacion_AvanzaAEnReparacion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
         servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
 
         Assert.Equal(EstadoOrden.EnReparacion, orden.Estado);
+        Assert.Contains(EstadoOrden.EnReparacion, orden.HistorialEstados);
     }
 
     [Fact]
-    public void Ejecutar_RechazadaDesdeDiagnostico_AvanzaATerminadoYSaltaReparacion()
+    public void Ejecutar_RechazadaDesdeCotizacion_AvanzaATerminadoYSaltaReparacion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
         servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
@@ -51,7 +52,7 @@ public class RegistrarCotizacionOrdenServiceTests
     [Fact]
     public void Ejecutar_ConDatosValidos_GuardaEmpleadoMontoYAceptacion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
         servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
@@ -61,24 +62,13 @@ public class RegistrarCotizacionOrdenServiceTests
         Assert.True(orden.CotizacionAceptada);
     }
 
-    [Fact]
-    public void Ejecutar_ConDatosValidos_CotizacionQuedaEnElHistorial()
-    {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
-        var servicio = CrearServicio();
-
-        servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
-
-        Assert.Contains(EstadoOrden.Cotizacion, orden.HistorialEstados);
-    }
-
     [Theory]
     [InlineData(EstadoOrden.Recepcion)]
-    [InlineData(EstadoOrden.Cotizacion)]
+    [InlineData(EstadoOrden.Diagnostico)]
     [InlineData(EstadoOrden.EnReparacion)]
     [InlineData(EstadoOrden.Terminado)]
     [InlineData(EstadoOrden.Entregado)]
-    public void Ejecutar_DesdeEstadoDistintoADiagnostico_LanzaExcepcion(EstadoOrden estado)
+    public void Ejecutar_DesdeEstadoDistintoACotizacion_LanzaExcepcion(EstadoOrden estado)
     {
         var orden = CrearOrdenEnEstado(estado);
         var servicio = CrearServicio();
@@ -92,7 +82,7 @@ public class RegistrarCotizacionOrdenServiceTests
     [InlineData(null)]
     public void Ejecutar_SinEmpleado_LanzaExcepcion(string? empleado)
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado!, 350m, aceptada: true));
@@ -101,7 +91,7 @@ public class RegistrarCotizacionOrdenServiceTests
     [Fact]
     public void Ejecutar_ConMontoCero_LanzaExcepcion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Maria Diaz", 0m, aceptada: true));
@@ -110,7 +100,7 @@ public class RegistrarCotizacionOrdenServiceTests
     [Fact]
     public void Ejecutar_ConMontoNegativo_LanzaExcepcion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Maria Diaz", -5m, aceptada: true));

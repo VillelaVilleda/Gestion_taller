@@ -3,11 +3,11 @@
 namespace GestorTaller
 {
     /// <summary>
-    /// Formulario del paso Cotizacion dentro del seguimiento. Si la orden
-    /// todavia esta en Diagnostico (la cotizacion esta pendiente), permite
-    /// capturarla y decidir si el cliente la acepto, lo que avanza la orden
-    /// directo a Reparacion o a Terminado segun la decision. Si la orden ya
-    /// avanzo mas alla, se muestra en modo solo lectura.
+    /// Formulario del paso Cotizacion dentro del seguimiento. Mientras la
+    /// orden esta en estado Cotizacion (el paso activo), permite capturarla
+    /// y decidir si el cliente la acepto, lo que avanza la orden directo a
+    /// Reparacion o a Terminado segun la decision. Si la orden ya avanzo mas
+    /// alla, se muestra en modo solo lectura.
     /// </summary>
     public partial class CotizacionControl : UserControl
     {
@@ -27,7 +27,7 @@ namespace GestorTaller
             _orden = orden;
             lblMensaje.Text = "";
 
-            var esPendiente = orden.Estado == EstadoOrden.Diagnostico;
+            var esPendiente = orden.Estado == EstadoOrden.Cotizacion;
 
             txtEmpleado.ReadOnly = !esPendiente;
             numMontoCotizado.Enabled = esPendiente;

@@ -18,10 +18,21 @@ namespace GestorTaller
 
         private void SeguimientoOrdenControl_Load(object? sender, EventArgs e)
         {
-            ActualizarBreadcrumbYMostrarPasoPendiente();
+            var orden = _ordenRepository.ObtenerPorId(_ordenId);
+
+            // Primera vez que se abre el seguimiento de una orden recien
+            // recibida: la avanzamos a Diagnostico, que pasa a ser su paso
+            // activo (Orden.Estado representa el paso activo, no el ultimo
+            // ya completado).
+            if (orden is not null && orden.Estado == EstadoOrden.Recepcion)
+            {
+                new AvanzarEstadoOrdenService().Ejecutar(orden);
+            }
+
+            ActualizarBreadcrumbYMostrarPasoActual();
         }
 
-        private void ActualizarBreadcrumbYMostrarPasoPendiente()
+        private void ActualizarBreadcrumbYMostrarPasoActual()
         {
             var orden = _ordenRepository.ObtenerPorId(_ordenId);
 
@@ -37,14 +48,7 @@ namespace GestorTaller
             }
 
             breadcrumb.Mostrar(orden.HistorialEstados);
-            MostrarPaso(PasoPendienteOActual(orden));
-        }
-
-        private static EstadoOrden PasoPendienteOActual(Orden orden)
-        {
-            var indiceActual = Array.IndexOf(SeguimientoBreadcrumbControl.TodosLosPasos, orden.Estado);
-            var hayPendiente = indiceActual >= 0 && indiceActual < SeguimientoBreadcrumbControl.TodosLosPasos.Length - 1;
-            return hayPendiente ? SeguimientoBreadcrumbControl.TodosLosPasos[indiceActual + 1] : orden.Estado;
+            MostrarPaso(orden.Estado);
         }
 
         private void MostrarPaso(EstadoOrden paso)
@@ -60,6 +64,7 @@ namespace GestorTaller
                 EstadoOrden.Recepcion => CrearFormularioRecepcion(orden),
                 EstadoOrden.Diagnostico => CrearFormularioDiagnostico(orden),
                 EstadoOrden.Cotizacion => CrearFormularioCotizacion(orden),
+                EstadoOrden.EnReparacion => CrearFormularioReparacion(orden),
                 _ => new Label
                 {
                     Dock = DockStyle.Fill,
@@ -83,7 +88,7 @@ namespace GestorTaller
         {
             var control = new CotizacionControl();
             control.Mostrar(orden);
-            control.CotizacionRegistrada += ActualizarBreadcrumbYMostrarPasoPendiente;
+            control.CotizacionRegistrada += ActualizarBreadcrumbYMostrarPasoActual;
             return control;
         }
 
@@ -91,7 +96,15 @@ namespace GestorTaller
         {
             var control = new DiagnosticoControl();
             control.Mostrar(orden);
-            control.DiagnosticoRegistrado += ActualizarBreadcrumbYMostrarPasoPendiente;
+            control.DiagnosticoRegistrado += ActualizarBreadcrumbYMostrarPasoActual;
+            return control;
+        }
+
+        private Control CrearFormularioReparacion(Orden orden)
+        {
+            var control = new ReparacionControl();
+            control.Mostrar(orden);
+            control.ReparacionRegistrada += ActualizarBreadcrumbYMostrarPasoActual;
             return control;
         }
 
