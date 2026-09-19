@@ -66,7 +66,7 @@ namespace GestorTaller
                 EstadoOrden.Cotizacion => CrearFormularioCotizacion(orden),
                 EstadoOrden.EnReparacion => CrearFormularioReparacion(orden),
                 EstadoOrden.Terminado => CrearFormularioTerminado(orden),
-                EstadoOrden.Entregado => CrearFormularioTerminado(orden),
+                EstadoOrden.Entregado => CrearFormularioEntregaResumen(orden),
                 _ => new Label
                 {
                     Dock = DockStyle.Fill,
@@ -115,6 +115,13 @@ namespace GestorTaller
             var control = new TerminadoControl();
             control.Mostrar(orden);
             control.EntregaRegistrada += ActualizarBreadcrumbYMostrarPasoActual;
+            return control;
+        }
+
+        private static Control CrearFormularioEntregaResumen(Orden orden)
+        {
+            var control = new EntregaResumenControl();
+            control.Mostrar(orden);
             return control;
         }
 
