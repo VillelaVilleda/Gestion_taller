@@ -21,4 +21,7 @@ public class Orden
     public bool CotizacionAceptada { get; set; }
     public string EmpleadoReparacion { get; set; } = string.Empty;
     public string DetalleReparacion { get; set; } = string.Empty;
+    public string EmpleadoEntrega { get; set; } = string.Empty;
+    public decimal MontoPagado { get; set; }
+    public DateTime? FechaEntrega { get; set; }
 }
