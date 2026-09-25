@@ -21,6 +21,9 @@ public class GestorTallerDbContext : DbContext
             entidad.ToTable("cliente");
             entidad.HasKey(c => c.Id);
             entidad.Property(c => c.Nombre).HasColumnName("nombre").HasMaxLength(150).IsRequired();
+            entidad.Property(c => c.Telefono).HasColumnName("telefono").HasMaxLength(20);
+            entidad.Property(c => c.Correo).HasColumnName("correo").HasMaxLength(150);
+            entidad.Property(c => c.Direccion).HasColumnName("direccion").HasMaxLength(300);
         });
 
         modelBuilder.Entity<Usuario>(entidad =>
