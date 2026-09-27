@@ -6,7 +6,7 @@ namespace GestorTaller.Datos;
 public class GestorTallerDbContext : DbContext
 {
     public DbSet<Cliente> Clientes => Set<Cliente>();
-    public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<Empleado> Empleados => Set<Empleado>();
     public DbSet<Orden> Ordenes => Set<Orden>();
 
     public GestorTallerDbContext(DbContextOptions<GestorTallerDbContext> options)
@@ -26,13 +26,15 @@ public class GestorTallerDbContext : DbContext
             entidad.Property(c => c.Direccion).HasColumnName("direccion").HasMaxLength(300);
         });
 
-        modelBuilder.Entity<Usuario>(entidad =>
+        modelBuilder.Entity<Empleado>(entidad =>
         {
-            entidad.ToTable("usuario");
-            entidad.HasKey(u => u.Id);
-            entidad.Property(u => u.NombreUsuario).HasColumnName("nombre_usuario").HasMaxLength(50).IsRequired();
-            entidad.Property(u => u.Contrasena).HasColumnName("contrasena").HasMaxLength(255).IsRequired();
-            entidad.Property(u => u.Rol).HasColumnName("rol").HasConversion<string>().HasMaxLength(20).IsRequired();
+            entidad.ToTable("empleado");
+            entidad.HasKey(e => e.Id);
+            entidad.Property(e => e.Nombre).HasColumnName("nombre").HasMaxLength(150).IsRequired();
+            entidad.Property(e => e.NombreUsuario).HasColumnName("nombre_usuario").HasMaxLength(50).IsRequired();
+            entidad.HasIndex(e => e.NombreUsuario).IsUnique();
+            entidad.Property(e => e.PasswordUsuario).HasColumnName("password_usuario").HasMaxLength(255).IsRequired();
+            entidad.Property(e => e.EsAdministrador).HasColumnName("es_administrador").IsRequired();
         });
 
         modelBuilder.Entity<Orden>(entidad =>

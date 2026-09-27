@@ -5,25 +5,25 @@ namespace GestorTaller.Tests;
 public class IniciarSesionServiceTests
 {
     [Fact]
-    public void Autenticar_ConDatosDeAdmin_DevuelveUsuarioAdministrador()
+    public void Autenticar_ConDatosDeAdmin_DevuelveEmpleadoAdministrador()
     {
         var servicio = new IniciarSesionService();
 
-        var usuario = servicio.Autenticar("admin", "admin123");
+        var empleado = servicio.Autenticar("admin", "admin123");
 
-        Assert.NotNull(usuario);
-        Assert.Equal(RolUsuario.Administrador, usuario!.Rol);
+        Assert.NotNull(empleado);
+        Assert.True(empleado!.EsAdministrador);
     }
 
     [Fact]
-    public void Autenticar_ConDatosDeUsuarioComun_DevuelveUsuarioComun()
+    public void Autenticar_ConDatosDeEmpleadoComun_DevuelveEmpleadoSinAdministrador()
     {
         var servicio = new IniciarSesionService();
 
-        var usuario = servicio.Autenticar("usuario", "usuario123");
+        var empleado = servicio.Autenticar("usuario", "usuario123");
 
-        Assert.NotNull(usuario);
-        Assert.Equal(RolUsuario.Usuario, usuario!.Rol);
+        Assert.NotNull(empleado);
+        Assert.False(empleado!.EsAdministrador);
     }
 
     [Fact]
@@ -31,9 +31,9 @@ public class IniciarSesionServiceTests
     {
         var servicio = new IniciarSesionService();
 
-        var usuario = servicio.Autenticar("admin", "contrasena-incorrecta");
+        var empleado = servicio.Autenticar("admin", "contrasena-incorrecta");
 
-        Assert.Null(usuario);
+        Assert.Null(empleado);
     }
 
     [Fact]
@@ -41,8 +41,8 @@ public class IniciarSesionServiceTests
     {
         var servicio = new IniciarSesionService();
 
-        var usuario = servicio.Autenticar("no-existe", "loquesea");
+        var empleado = servicio.Autenticar("no-existe", "loquesea");
 
-        Assert.Null(usuario);
+        Assert.Null(empleado);
     }
 }
