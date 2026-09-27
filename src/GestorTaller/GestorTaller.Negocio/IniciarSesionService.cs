@@ -3,7 +3,8 @@ namespace GestorTaller.Negocio;
 /// <summary>
 /// Caso de uso: validar el inicio de sesion de un empleado.
 /// Todavia no hay base de datos conectada aqui (eso es la issue #48), asi
-/// que se valida contra una lista fija de empleados de prueba.
+/// que se valida contra una lista fija de empleados de prueba, con sus
+/// contrasenas ya hasheadas con PasswordHasher.
 /// </summary>
 public class IniciarSesionService
 {
@@ -14,7 +15,7 @@ public class IniciarSesionService
             Id = Guid.NewGuid(),
             Nombre = "Administrador",
             NombreUsuario = "admin",
-            PasswordUsuario = "admin123",
+            PasswordUsuario = PasswordHasher.Hash("admin123"),
             EsAdministrador = true
         },
         new Empleado
@@ -22,18 +23,24 @@ public class IniciarSesionService
             Id = Guid.NewGuid(),
             Nombre = "Empleado de prueba",
             NombreUsuario = "usuario",
-            PasswordUsuario = "usuario123",
+            PasswordUsuario = PasswordHasher.Hash("usuario123"),
             EsAdministrador = false
         }
     };
 
     /// <summary>
-    /// Devuelve el empleado si nombreUsuario y password coinciden con alguno
-    /// de los empleados de prueba, o null si no coinciden con ninguno.
+    /// Devuelve el empleado si nombreUsuario existe y password coincide con
+    /// su hash, o null si no coincide con ninguno.
     /// </summary>
     public Empleado? Autenticar(string nombreUsuario, string password)
     {
-        return _empleadosDePrueba.FirstOrDefault(e =>
-            e.NombreUsuario == nombreUsuario && e.PasswordUsuario == password);
+        var empleado = _empleadosDePrueba.FirstOrDefault(e => e.NombreUsuario == nombreUsuario);
+
+        if (empleado is null || !PasswordHasher.Verificar(password, empleado.PasswordUsuario))
+        {
+            return null;
+        }
+
+        return empleado;
     }
 }
