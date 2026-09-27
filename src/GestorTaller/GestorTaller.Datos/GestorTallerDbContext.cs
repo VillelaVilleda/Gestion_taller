@@ -8,6 +8,7 @@ public class GestorTallerDbContext : DbContext
     public DbSet<Cliente> Clientes => Set<Cliente>();
     public DbSet<Empleado> Empleados => Set<Empleado>();
     public DbSet<Orden> Ordenes => Set<Orden>();
+    public DbSet<Repuesto> Repuestos => Set<Repuesto>();
 
     public GestorTallerDbContext(DbContextOptions<GestorTallerDbContext> options)
         : base(options)
@@ -64,6 +65,14 @@ public class GestorTallerDbContext : DbContext
             entidad.Property(o => o.FechaEntrega).HasColumnName("fecha_entrega");
 
             entidad.Ignore(o => o.HistorialEstados);
+        });
+
+        modelBuilder.Entity<Repuesto>(entidad =>
+        {
+            entidad.ToTable("repuesto");
+            entidad.HasKey(r => r.Id);
+            entidad.Property(r => r.Nombre).HasColumnName("nombre").IsRequired();
+            entidad.Property(r => r.Existencia).HasColumnName("existencia").IsRequired();
         });
 
         modelBuilder.Entity<HistorialEstadoOrden>(entidad =>
