@@ -3,19 +3,19 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Pantalla de inicio de sesion (issue: login con usuarios de prueba).
-    /// Valida contra IniciarSesionService, que por ahora usa una lista fija
-    /// de usuarios (sin base de datos).
+    /// Pantalla de inicio de sesion. Valida contra IniciarSesionService,
+    /// que consulta los empleados reales a traves de IEmpleadoRepository.
     /// </summary>
     public partial class FormLogin : Form
     {
         private readonly IOrdenRepository _ordenRepository;
-        private readonly IniciarSesionService _iniciarSesionService = new();
+        private readonly IniciarSesionService _iniciarSesionService;
 
-        public FormLogin(IOrdenRepository ordenRepository)
+        public FormLogin(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _iniciarSesionService = new IniciarSesionService(empleadoRepository);
         }
 
         private void btnEntrar_Click(object? sender, EventArgs e)

@@ -1,22 +1,25 @@
 using GestorTaller.Datos;
 using GestorTaller.Negocio;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestorTaller
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            IOrdenRepository ordenRepository = new OrdenRepositoryEnMemoria();
-            Application.Run(new FormLogin(ordenRepository));
+            var opciones = new DbContextOptionsBuilder<GestorTallerDbContext>()
+                .UseNpgsql(ConexionBaseDeDatos.ObtenerCadenaDeConexion())
+                .Options;
+            var dbContext = new GestorTallerDbContext(opciones);
+
+            IOrdenRepository ordenRepository = new OrdenRepositoryEfCore(dbContext);
+            IEmpleadoRepository empleadoRepository = new EmpleadoRepositoryEfCore(dbContext);
+
+            Application.Run(new FormLogin(ordenRepository, empleadoRepository));
         }
     }
 }

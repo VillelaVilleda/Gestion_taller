@@ -1,32 +1,17 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: validar el inicio de sesion de un empleado.
-/// Todavia no hay base de datos conectada aqui (eso es la issue #48), asi
-/// que se valida contra una lista fija de empleados de prueba, con sus
-/// contrasenas ya hasheadas con PasswordHasher.
+/// Caso de uso: validar el inicio de sesion de un empleado contra la base
+/// de datos real, usando PasswordHasher para verificar la contrasena.
 /// </summary>
 public class IniciarSesionService
 {
-    private readonly List<Empleado> _empleadosDePrueba = new()
+    private readonly IEmpleadoRepository _empleadoRepository;
+
+    public IniciarSesionService(IEmpleadoRepository empleadoRepository)
     {
-        new Empleado
-        {
-            Id = Guid.NewGuid(),
-            Nombre = "Administrador",
-            NombreUsuario = "admin",
-            PasswordUsuario = PasswordHasher.Hash("admin123"),
-            EsAdministrador = true
-        },
-        new Empleado
-        {
-            Id = Guid.NewGuid(),
-            Nombre = "Empleado de prueba",
-            NombreUsuario = "usuario",
-            PasswordUsuario = PasswordHasher.Hash("usuario123"),
-            EsAdministrador = false
-        }
-    };
+        _empleadoRepository = empleadoRepository;
+    }
 
     /// <summary>
     /// Devuelve el empleado si nombreUsuario existe y password coincide con
@@ -34,7 +19,7 @@ public class IniciarSesionService
     /// </summary>
     public Empleado? Autenticar(string nombreUsuario, string password)
     {
-        var empleado = _empleadosDePrueba.FirstOrDefault(e => e.NombreUsuario == nombreUsuario);
+        var empleado = _empleadoRepository.ObtenerPorNombreUsuario(nombreUsuario);
 
         if (empleado is null || !PasswordHasher.Verificar(password, empleado.PasswordUsuario))
         {
