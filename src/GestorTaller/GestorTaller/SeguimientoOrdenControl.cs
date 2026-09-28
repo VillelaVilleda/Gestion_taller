@@ -20,13 +20,22 @@ namespace GestorTaller
         {
             var orden = _ordenRepository.ObtenerPorId(_ordenId);
 
-            // Primera vez que se abre el seguimiento de una orden recien
-            // recibida: la avanzamos a Diagnostico, que pasa a ser su paso
-            // activo (Orden.Estado representa el paso activo, no el ultimo
-            // ya completado).
             if (orden is not null && orden.Estado == EstadoOrden.Recepcion)
             {
                 new AvanzarEstadoOrdenService().Ejecutar(orden);
+                _ordenRepository.Actualizar(orden);
+            }
+
+            ActualizarBreadcrumbYMostrarPasoActual();
+        }
+
+        private void GuardarYActualizar()
+        {
+            var orden = _ordenRepository.ObtenerPorId(_ordenId);
+
+            if (orden is not null)
+            {
+                _ordenRepository.Actualizar(orden);
             }
 
             ActualizarBreadcrumbYMostrarPasoActual();
@@ -90,7 +99,7 @@ namespace GestorTaller
         {
             var control = new CotizacionControl();
             control.Mostrar(orden);
-            control.CotizacionRegistrada += ActualizarBreadcrumbYMostrarPasoActual;
+            control.CotizacionRegistrada += GuardarYActualizar;
             return control;
         }
 
@@ -98,7 +107,7 @@ namespace GestorTaller
         {
             var control = new DiagnosticoControl();
             control.Mostrar(orden);
-            control.DiagnosticoRegistrado += ActualizarBreadcrumbYMostrarPasoActual;
+            control.DiagnosticoRegistrado += GuardarYActualizar;
             return control;
         }
 
@@ -106,7 +115,7 @@ namespace GestorTaller
         {
             var control = new ReparacionControl();
             control.Mostrar(orden);
-            control.ReparacionRegistrada += ActualizarBreadcrumbYMostrarPasoActual;
+            control.ReparacionRegistrada += GuardarYActualizar;
             return control;
         }
 
@@ -114,7 +123,7 @@ namespace GestorTaller
         {
             var control = new TerminadoControl();
             control.Mostrar(orden);
-            control.EntregaRegistrada += ActualizarBreadcrumbYMostrarPasoActual;
+            control.EntregaRegistrada += GuardarYActualizar;
             return control;
         }
 

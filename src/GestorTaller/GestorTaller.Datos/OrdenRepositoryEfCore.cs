@@ -73,4 +73,26 @@ public class OrdenRepositoryEfCore : IOrdenRepository
             .Select(h => h.Estado)
             .ToList();
     }
+
+    public void Actualizar(Orden orden)
+    {
+        _dbContext.Ordenes.Update(orden);
+        SincronizarHistorial(orden);
+        _dbContext.SaveChanges();
+    }
+
+    private void SincronizarHistorial(Orden orden)
+    {
+        var cantidadGuardada = _dbContext.Set<HistorialEstadoOrden>().Count(h => h.OrdenId == orden.Id);
+
+        for (var posicion = cantidadGuardada; posicion < orden.HistorialEstados.Count; posicion++)
+        {
+            _dbContext.Set<HistorialEstadoOrden>().Add(new HistorialEstadoOrden
+            {
+                OrdenId = orden.Id,
+                Estado = orden.HistorialEstados[posicion],
+                OrdenPosicion = posicion
+            });
+        }
+    }
 }

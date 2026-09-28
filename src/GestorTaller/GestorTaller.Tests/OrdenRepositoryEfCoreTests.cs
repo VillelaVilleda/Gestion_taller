@@ -130,4 +130,50 @@ public class OrdenRepositoryEfCoreTests
         Assert.Contains(todas, o => o.HistorialEstados.Count == 1);
         Assert.Contains(todas, o => o.HistorialEstados.Count == 2);
     }
+
+    [Fact]
+    public void Actualizar_GuardaLosCambiosDeLaOrden()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        dbContext.Clientes.Add(cliente);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+
+        orden.Estado = EstadoOrden.Diagnostico;
+        orden.HistorialEstados.Add(EstadoOrden.Diagnostico);
+        repositorio.Actualizar(orden);
+
+        var encontrada = repositorio.ObtenerPorId(orden.Id);
+        Assert.Equal(EstadoOrden.Diagnostico, encontrada!.Estado);
+    }
+
+    [Fact]
+    public void Actualizar_AgregaSoloLasEntradasNuevasDelHistorial()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        dbContext.Clientes.Add(cliente);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+
+        orden.Estado = EstadoOrden.Diagnostico;
+        orden.HistorialEstados.Add(EstadoOrden.Diagnostico);
+        repositorio.Actualizar(orden);
+
+        orden.Estado = EstadoOrden.Cotizacion;
+        orden.HistorialEstados.Add(EstadoOrden.Cotizacion);
+        repositorio.Actualizar(orden);
+
+        var encontrada = repositorio.ObtenerPorId(orden.Id);
+        Assert.Equal(
+            new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico, EstadoOrden.Cotizacion },
+            encontrada!.HistorialEstados);
+    }
 }

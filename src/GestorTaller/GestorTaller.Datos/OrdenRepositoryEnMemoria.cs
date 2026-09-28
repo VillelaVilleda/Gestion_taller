@@ -16,6 +16,12 @@ public class OrdenRepositoryEnMemoria : IOrdenRepository
         _ordenes.Add(orden);
     }
 
+    public void Actualizar(Orden orden)
+    {
+        // No hace falta nada: la lista en memoria guarda la misma referencia
+        // que el llamador ya modifico.
+    }
+
     public Orden? ObtenerPorId(Guid id)
     {
         return _ordenes.FirstOrDefault(o => o.Id == id);
