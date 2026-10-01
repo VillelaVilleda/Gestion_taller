@@ -10,6 +10,7 @@ namespace GestorTaller
     {
         private readonly IOrdenRepository _ordenRepository;
         private readonly IClienteRepository _clienteRepository;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IniciarSesionService _iniciarSesionService;
 
         public FormLogin(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository)
@@ -17,6 +18,7 @@ namespace GestorTaller
             InitializeComponent();
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
+            _empleadoRepository = empleadoRepository;
             _iniciarSesionService = new IniciarSesionService(empleadoRepository);
         }
 
@@ -45,7 +47,7 @@ namespace GestorTaller
         {
             Hide();
 
-            var formPrincipal = new FormPrincipal(_ordenRepository, _clienteRepository, MostrarLogin);
+            var formPrincipal = new FormPrincipal(_ordenRepository, _clienteRepository, _empleadoRepository, MostrarLogin);
             formPrincipal.Show();
         }
 
