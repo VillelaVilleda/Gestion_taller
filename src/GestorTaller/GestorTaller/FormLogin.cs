@@ -9,12 +9,14 @@ namespace GestorTaller
     public partial class FormLogin : Form
     {
         private readonly IOrdenRepository _ordenRepository;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IniciarSesionService _iniciarSesionService;
 
         public FormLogin(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _empleadoRepository = empleadoRepository;
             _iniciarSesionService = new IniciarSesionService(empleadoRepository);
         }
 
@@ -43,7 +45,7 @@ namespace GestorTaller
         {
             Hide();
 
-            var formPrincipal = new FormPrincipal(_ordenRepository, MostrarLogin);
+            var formPrincipal = new FormPrincipal(_ordenRepository, _empleadoRepository, MostrarLogin);
             formPrincipal.Show();
         }
 

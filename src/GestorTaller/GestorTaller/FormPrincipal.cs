@@ -13,13 +13,15 @@ namespace GestorTaller
     public partial class FormPrincipal : Form
     {
         private readonly IOrdenRepository _ordenRepository;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private readonly Action _cerrarSesion;
         private bool _cerrandoSesion;
 
-        public FormPrincipal(IOrdenRepository ordenRepository, Action cerrarSesion)
+        public FormPrincipal(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, Action cerrarSesion)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _empleadoRepository = empleadoRepository;
             _cerrarSesion = cerrarSesion;
         }
 
@@ -59,13 +61,15 @@ namespace GestorTaller
 
         private void btnClientes_Click(object? sender, EventArgs e) => MostrarPlaceholder("Clientes");
 
-        private void btnEmpleados_Click(object? sender, EventArgs e) => MostrarPlaceholder("Empleados");
+        private void btnEmpleados_Click(object? sender, EventArgs e) => MostrarSeccionEmpleados();
 
         private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository, MostrarSeccionOrdenesRegistradas));
 
         private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository, AbrirSeguimientoOrden));
 
         private void AbrirSeguimientoOrden(Guid ordenId) => MostrarControl(new SeguimientoOrdenControl(_ordenRepository, ordenId));
+
+        private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository));
 
         private void MostrarPlaceholder(string seccion)
         {
