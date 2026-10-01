@@ -15,15 +15,17 @@ namespace GestorTaller
         private readonly IOrdenRepository _ordenRepository;
         private readonly IClienteRepository _clienteRepository;
         private readonly IEmpleadoRepository _empleadoRepository;
+        private readonly IRepuestoRepository _repuestoRepository;
         private readonly Action _cerrarSesion;
         private bool _cerrandoSesion;
 
-        public FormPrincipal(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository, Action cerrarSesion)
+        public FormPrincipal(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Action cerrarSesion)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;
+            _repuestoRepository = repuestoRepository;
             _cerrarSesion = cerrarSesion;
         }
 
@@ -59,7 +61,7 @@ namespace GestorTaller
 
         private void btnOrdenesRegistradas_Click(object? sender, EventArgs e) => MostrarSeccionOrdenesRegistradas();
 
-        private void btnRepuestos_Click(object? sender, EventArgs e) => MostrarPlaceholder("Repuestos");
+        private void btnRepuestos_Click(object? sender, EventArgs e) => MostrarSeccionRepuestos();
 
         private void btnClientes_Click(object? sender, EventArgs e) => MostrarSeccionClientes();
 
@@ -74,6 +76,8 @@ namespace GestorTaller
         private void MostrarSeccionClientes() => MostrarControl(new ClientesControl(_clienteRepository));
 
         private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository));
+
+        private void MostrarSeccionRepuestos() => MostrarControl(new RepuestosControl(_repuestoRepository));
 
         private void MostrarPlaceholder(string seccion)
         {

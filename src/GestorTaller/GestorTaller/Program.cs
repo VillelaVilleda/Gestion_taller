@@ -19,8 +19,9 @@ namespace GestorTaller
             IOrdenRepository ordenRepository = new OrdenRepositoryEfCore(dbContext);
             IClienteRepository clienteRepository = new ClienteRepositoryEfCore(dbContext);
             IEmpleadoRepository empleadoRepository = new EmpleadoRepositoryEfCore(dbContext);
+            IRepuestoRepository repuestoRepository = new RepuestoRepositoryEfCore(dbContext);
 
-            Application.Run(new FormLogin(ordenRepository, clienteRepository, empleadoRepository));
+            Application.Run(new FormLogin(ordenRepository, clienteRepository, empleadoRepository, repuestoRepository));
         }
     }
 }
