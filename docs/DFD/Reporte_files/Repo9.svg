@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="134mm" xmlns="http://www.w3.org/2000/svg" height="71mm" version="1.1" viewBox="0 0 509 271" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <rect x="225" y="167" rx="11" ry="11" fill="#ffffff" width="269" height="89" stroke="#0000ff" stroke-width="1"/>
+   <text x="361" y="175" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Business Process Model</text>
+   <text x="229" y="190" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Model: Diagrama 0 Fisico</text>
+   <text x="229" y="204" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Package: Procesar reparación y descuento de inventario</text>
+   <text x="229" y="219" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Diagram: Diagrama 1</text>
+   <text x="229" y="234" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Author: José Alfonso Villela Villeda</text>
+   <text x="494" y="234" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="end">Date: 03/10/2026 </text>
+   <text x="229" y="249" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Version: 1.1</text>
+   <line x1="225" x2="494" y1="241" y2="241" stroke="#0000ff" stroke-width="1"/>
+   <line x1="225" x2="494" y1="226" y2="226" stroke="#0000ff" stroke-width="1"/>
+   <line x1="225" x2="494" y1="211" y2="211" stroke="#0000ff" stroke-width="1"/>
+   <line x1="225" x2="494" y1="196" y2="196" stroke="#0000ff" stroke-width="1"/>
+   <line x1="225" x2="494" y1="182" y2="182" stroke="#0000ff" stroke-width="1"/>
+   <a target="_parent" xlink:href="Repo38.htm#3">
+      <polyline fill="none" points="58,99 58,34 327,34" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="327,34 314,37 314,31" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="180" y="26" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Repuestos capturados en Formulario de Reparación]</text>
+   </a>
+   <polyline fill="none" points="407,59 407,90" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="407,59 410,73 404,73" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Repo37.htm#3">
+      <polyline fill="none" points="375,59 375,127" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="375,127 372,114 378,114" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="319" y="89" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Repuesto disponible]</text>
+   </a>
+   <a target="_parent" xlink:href="Repo35.htm#11">
+      <polyline fill="none" points="327,52 74,52 74,99" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="74,99 71,86 77,86" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="144" y="66" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Error: stock insuficiente]</text>
+   </a>
+   <polyline fill="none" points="411,127 412,106" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="412,106 414,120 408,120" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Repo36.htm#3">
+      <polyline fill="none" points="320,140 270,140 270,138 214,138" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="214,138 228,135 228,141" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="269" y="130" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Repuesto asignado]</text>
+   </a>
+   <polyline fill="none" points="149,155 148,184" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="148,184 145,170 151,170" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <polyline fill="none" points="195,155 197,184" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="195,155 199,168 193,168" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Repo35.htm#9">
+      <defs>
+         <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#c8d8f8"/>
+            <stop offset="95%" stop-color="#f2f2ff"/>
+         </linearGradient>
+      </defs>
+      <rect x="15" y="99" fill="url(#Gradient1)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+      <text x="60" y="110" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleado</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="132" y="184" fill="url(#Gradient2)" width="80" height="16" stroke="#808000" stroke-width="1"/>
+   <line x1="146" x2="146" y1="184" y2="200" stroke="#808000" stroke-width="1"/>
+   <text x="139" y="195" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">2</text>
+   <text x="183" y="195" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Órdenes</text>
+   <defs>
+      <linearGradient id="Gradient3" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="401" y="90" fill="url(#Gradient3)" width="80" height="16" stroke="#808000" stroke-width="1"/>
+   <line x1="415" x2="415" y1="90" y2="106" stroke="#808000" stroke-width="1"/>
+   <text x="408" y="101" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">5</text>
+   <text x="452" y="101" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Repuestos</text>
+   <a target="_parent" xlink:href="Repo38.htm#1">
+      <defs>
+         <linearGradient id="Gradient4" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="327" y="15" rx="5" ry="5" fill="url(#Gradient4)" width="99" height="44" stroke="#8080ff" stroke-width="1"/>
+      <line x1="415" x2="426" y1="59" y2="48" stroke="#8080ff" stroke-width="1"/>
+      <text x="376" y="26" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4.1</text>
+      <line x1="327" x2="426" y1="32" y2="32" stroke="#8080ff" stroke-width="1"/>
+      <text x="376" y="43" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Validar existencia de </text>
+      <text x="376" y="53" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">repuesto</text>
+   </a>
+   <a target="_parent" xlink:href="Repo37.htm#1">
+      <defs>
+         <linearGradient id="Gradient5" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="322" y="127" rx="4" ry="4" fill="url(#Gradient5)" width="106" height="32" stroke="#8080ff" stroke-width="1"/>
+      <line x1="420" x2="428" y1="159" y2="151" stroke="#8080ff" stroke-width="1"/>
+      <text x="375" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4.2</text>
+      <line x1="322" x2="428" y1="144" y2="144" stroke="#8080ff" stroke-width="1"/>
+      <text x="375" y="154" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Descontar inventario</text>
+   </a>
+   <a target="_parent" xlink:href="Repo36.htm#1">
+      <defs>
+         <linearGradient id="Gradient6" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="127" y="123" rx="4" ry="4" fill="url(#Gradient6)" width="87" height="32" stroke="#8080ff" stroke-width="1"/>
+      <line x1="206" x2="214" y1="155" y2="147" stroke="#8080ff" stroke-width="1"/>
+      <text x="170" y="134" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4.3</text>
+      <line x1="127" x2="214" y1="140" y2="140" stroke="#8080ff" stroke-width="1"/>
+      <text x="170" y="150" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Actualizar orden</text>
+   </a>
+</svg>

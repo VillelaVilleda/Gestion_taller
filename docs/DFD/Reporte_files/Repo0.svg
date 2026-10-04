@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="102mm" xmlns="http://www.w3.org/2000/svg" height="81mm" version="1.1" viewBox="0 0 388 307" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <rect x="68" y="16" rx="11" ry="11" fill="#ffffff" width="256" height="88" stroke="#0000ff" stroke-width="1"/>
+   <text x="198" y="24" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Project</text>
+   <text x="72" y="38" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Model: Gestor_Taller</text>
+   <text x="72" y="53" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Package: </text>
+   <text x="72" y="68" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Diagram: DFD</text>
+   <text x="72" y="83" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Author: José Alfonso Villela Villeda</text>
+   <text x="72" y="98" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Version: 1.1</text>
+   <line x1="68" x2="324" y1="90" y2="90" stroke="#0000ff" stroke-width="1"/>
+   <line x1="68" x2="324" y1="75" y2="75" stroke="#0000ff" stroke-width="1"/>
+   <line x1="68" x2="324" y1="60" y2="60" stroke="#0000ff" stroke-width="1"/>
+   <line x1="68" x2="324" y1="45" y2="45" stroke="#0000ff" stroke-width="1"/>
+   <line x1="68" x2="324" y1="30" y2="30" stroke="#0000ff" stroke-width="1"/>
+   <image x="58" y="144" width="32" height="32" xlink:href="Repo0_svg_Files/svg_bitmap1.png"/>
+   <text x="73" y="187" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Contexto Logico</text>
+   <image x="306" y="156" width="32" height="32" xlink:href="Repo0_svg_Files/svg_bitmap1.png"/>
+   <text x="322" y="199" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Contexto Fisico</text>
+   <image x="57" y="229" width="32" height="32" xlink:href="Repo0_svg_Files/svg_bitmap1.png"/>
+   <text x="73" y="272" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Diagrama 0 Logico</text>
+   <image x="300" y="231" width="32" height="32" xlink:href="Repo0_svg_Files/svg_bitmap1.png"/>
+   <text x="316" y="274" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Diagrama 0 Fisico</text>
+   <image x="186" y="245" width="32" height="32" xlink:href="Repo0_svg_Files/svg_bitmap2.png"/>
+   <text x="201" y="288" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Reporte</text>
+</svg>
