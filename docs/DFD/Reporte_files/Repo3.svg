@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="147mm" xmlns="http://www.w3.org/2000/svg" height="74mm" version="1.1" viewBox="0 0 556 282" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <rect x="15" y="122" rx="11" ry="11" fill="#ffffff" width="256" height="89" stroke="#0000ff" stroke-width="1"/>
+   <text x="145" y="130" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Business Process Model</text>
+   <text x="19" y="145" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Model: Diagrama 0 Logico</text>
+   <text x="19" y="160" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Package: Gestionar empleados</text>
+   <text x="19" y="175" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Diagram: Diagrama 6</text>
+   <text x="19" y="190" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Author: José Alfonso Villela Villeda</text>
+   <text x="19" y="204" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Version: 1.1</text>
+   <line x1="15" x2="271" y1="196" y2="196" stroke="#0000ff" stroke-width="1"/>
+   <line x1="15" x2="271" y1="182" y2="182" stroke="#0000ff" stroke-width="1"/>
+   <line x1="15" x2="271" y1="167" y2="167" stroke="#0000ff" stroke-width="1"/>
+   <line x1="15" x2="271" y1="152" y2="152" stroke="#0000ff" stroke-width="1"/>
+   <line x1="15" x2="271" y1="137" y2="137" stroke="#0000ff" stroke-width="1"/>
+   <a target="_parent" xlink:href="Repo11.htm#3">
+      <polyline fill="none" points="198,57 198,41 344,41" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="344,41 331,44 331,38" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="270" y="30" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos de empleado, permisos]</text>
+   </a>
+   <polyline fill="none" points="436,24 474,25 475,45" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="436,24 450,22 450,28" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Repo9.htm#3">
+      <polyline fill="none" points="390,59 390,121" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="390,121 387,108 393,108" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="349" y="85" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos válidos]</text>
+   </a>
+   <a target="_parent" xlink:href="Repo10.htm#3">
+      <polyline fill="none" points="389,153 389,222" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="389,222 386,209 392,209" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="448" y="178" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Usuario, Contraseña </text>
+      <text x="448" y="188" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">generados]</text>
+   </a>
+   <polyline fill="none" points="442,244 502,245 497,62" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="497,62 500,75 494,75" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Repo8.htm#11">
+      <polyline fill="none" points="347,223 234,223 234,107" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="234,107 237,120 231,120" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="277" y="212" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Confirmación de gestión]</text>
+   </a>
+   <a target="_parent" xlink:href="Repo5.htm#6">
+      <defs>
+         <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#c8d8f8"/>
+            <stop offset="95%" stop-color="#f2f2ff"/>
+         </linearGradient>
+      </defs>
+      <rect x="157" y="57" fill="url(#Gradient1)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+      <text x="202" y="68" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Administrador</text>
+   </a>
+   <defs>
+      <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#ffffff"/>
+         <stop offset="95%" stop-color="#f8d66d"/>
+      </linearGradient>
+   </defs>
+   <rect x="459" y="45" fill="url(#Gradient2)" width="82" height="17" stroke="#808000" stroke-width="1"/>
+   <line x1="473" x2="473" y1="45" y2="62" stroke="#808000" stroke-width="1"/>
+   <text x="466" y="56" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">4</text>
+   <text x="511" y="56" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleados</text>
+   <a target="_parent" xlink:href="Repo11.htm#1">
+      <defs>
+         <linearGradient id="Gradient3" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="344" y="15" rx="5" ry="5" fill="url(#Gradient3)" width="92" height="44" stroke="#8080ff" stroke-width="1"/>
+      <line x1="425" x2="436" y1="59" y2="48" stroke="#8080ff" stroke-width="1"/>
+      <text x="390" y="26" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6.1</text>
+      <line x1="344" x2="436" y1="32" y2="32" stroke="#8080ff" stroke-width="1"/>
+      <text x="390" y="43" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Validar datos de </text>
+      <text x="390" y="53" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">empleado</text>
+   </a>
+   <a target="_parent" xlink:href="Repo9.htm#1">
+      <defs>
+         <linearGradient id="Gradient4" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="335" y="121" rx="4" ry="4" fill="url(#Gradient4)" width="111" height="32" stroke="#8080ff" stroke-width="1"/>
+      <line x1="438" x2="446" y1="153" y2="145" stroke="#8080ff" stroke-width="1"/>
+      <text x="390" y="132" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6.2</text>
+      <line x1="335" x2="446" y1="138" y2="138" stroke="#8080ff" stroke-width="1"/>
+      <text x="390" y="148" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Generar credenciales</text>
+   </a>
+   <a target="_parent" xlink:href="Repo10.htm#1">
+      <defs>
+         <linearGradient id="Gradient5" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="336" y="222" rx="5" ry="5" fill="url(#Gradient5)" width="106" height="45" stroke="#8080ff" stroke-width="1"/>
+      <line x1="431" x2="442" y1="267" y2="256" stroke="#8080ff" stroke-width="1"/>
+      <text x="389" y="233" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">6.3</text>
+      <line x1="336" x2="442" y1="239" y2="239" stroke="#8080ff" stroke-width="1"/>
+      <text x="389" y="251" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Guardar registro de </text>
+      <text x="389" y="261" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">empleado</text>
+   </a>
+</svg>
