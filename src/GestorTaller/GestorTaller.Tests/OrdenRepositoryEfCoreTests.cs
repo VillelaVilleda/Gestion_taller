@@ -176,4 +176,111 @@ public class OrdenRepositoryEfCoreTests
             new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico, EstadoOrden.Cotizacion },
             encontrada!.HistorialEstados);
     }
+
+    private static DbContextOptions<GestorTallerDbContext> CrearOpcionesEnMemoria()
+    {
+        return new DbContextOptionsBuilder<GestorTallerDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+    }
+
+    [Fact]
+    public void Actualizar_GuardaLosRepuestosAsignados()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro de aceite", Existencia = 10 };
+        dbContext.Clientes.Add(cliente);
+        dbContext.Repuestos.Add(repuesto);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 2 });
+        repositorio.Actualizar(orden);
+
+        Assert.Single(dbContext.Set<OrdenRepuesto>());
+    }
+
+    [Fact]
+    public void ObtenerPorId_IncluyeLosRepuestosAsignadosConSuNombre()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+        Guid ordenId;
+
+        using (var escritura = new GestorTallerDbContext(opciones))
+        {
+            var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+            var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro de aceite", Existencia = 10 };
+            escritura.Clientes.Add(cliente);
+            escritura.Repuestos.Add(repuesto);
+            escritura.SaveChanges();
+
+            var repositorio = new OrdenRepositoryEfCore(escritura);
+            var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+            repositorio.Agregar(orden);
+            orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 3 });
+            repositorio.Actualizar(orden);
+            ordenId = orden.Id;
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        var encontrada = new OrdenRepositoryEfCore(lectura).ObtenerPorId(ordenId);
+
+        var asignado = Assert.Single(encontrada!.Repuestos);
+        Assert.Equal("Filtro de aceite", asignado.Repuesto.Nombre);
+        Assert.Equal(3, asignado.Cantidad);
+    }
+
+    [Fact]
+    public void Actualizar_ActualizaLaCantidadDeUnRepuestoYaAsignado()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 20 };
+        dbContext.Clientes.Add(cliente);
+        dbContext.Repuestos.Add(repuesto);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 2 });
+        repositorio.Actualizar(orden);
+
+        orden.Repuestos[0].Cantidad = 5;
+        repositorio.Actualizar(orden);
+
+        Assert.Equal(5, dbContext.Set<OrdenRepuesto>().Single().Cantidad);
+    }
+
+    [Fact]
+    public void Actualizar_GuardaLaExistenciaModificadaDelRepuestoAsignado()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+        Guid repuestoId;
+
+        using (var escritura = new GestorTallerDbContext(opciones))
+        {
+            var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+            var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 10 };
+            escritura.Clientes.Add(cliente);
+            escritura.Repuestos.Add(repuesto);
+            escritura.SaveChanges();
+
+            var repositorio = new OrdenRepositoryEfCore(escritura);
+            var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+            repositorio.Agregar(orden);
+
+            repuesto.Existencia = 8;
+            orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 2 });
+            repositorio.Actualizar(orden);
+            repuestoId = repuesto.Id;
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        Assert.Equal(8, lectura.Repuestos.Find(repuestoId)!.Existencia);
+    }
 }

@@ -24,4 +24,5 @@ public class Orden
     public string EmpleadoEntrega { get; set; } = string.Empty;
     public decimal MontoPagado { get; set; }
     public DateTime? FechaEntrega { get; set; }
+    public List<OrdenRepuesto> Repuestos { get; set; } = new();
 }

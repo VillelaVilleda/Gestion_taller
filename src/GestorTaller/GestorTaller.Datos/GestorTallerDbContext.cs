@@ -9,6 +9,7 @@ public class GestorTallerDbContext : DbContext
     public DbSet<Empleado> Empleados => Set<Empleado>();
     public DbSet<Orden> Ordenes => Set<Orden>();
     public DbSet<Repuesto> Repuestos => Set<Repuesto>();
+    public DbSet<OrdenRepuesto> OrdenRepuestos => Set<OrdenRepuesto>();
 
     public GestorTallerDbContext(DbContextOptions<GestorTallerDbContext> options)
         : base(options)
@@ -83,6 +84,18 @@ public class GestorTallerDbContext : DbContext
             entidad.Property(h => h.Estado).HasColumnName("estado").HasConversion<string>().HasMaxLength(20).IsRequired();
             entidad.Property(h => h.OrdenPosicion).HasColumnName("orden_posicion");
             entidad.HasOne<Orden>().WithMany().HasForeignKey(h => h.OrdenId);
+        });
+
+        modelBuilder.Entity<OrdenRepuesto>(entidad =>
+        {
+            entidad.ToTable("orden_repuesto", tabla =>
+                tabla.HasCheckConstraint("ck_orden_repuesto_cantidad", "cantidad > 0"));
+            entidad.HasKey(r => new { r.OrdenId, r.RepuestoId });
+            entidad.Property(r => r.OrdenId).HasColumnName("orden_id");
+            entidad.Property(r => r.RepuestoId).HasColumnName("repuesto_id");
+            entidad.Property(r => r.Cantidad).HasColumnName("cantidad").IsRequired();
+            entidad.HasOne<Orden>().WithMany(o => o.Repuestos).HasForeignKey(r => r.OrdenId);
+            entidad.HasOne(r => r.Repuesto).WithMany().HasForeignKey(r => r.RepuestoId).OnDelete(DeleteBehavior.Restrict);
         });
     }
 }
