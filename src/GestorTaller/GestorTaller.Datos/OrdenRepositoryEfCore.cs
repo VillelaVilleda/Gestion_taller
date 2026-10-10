@@ -21,7 +21,10 @@ public class OrdenRepositoryEfCore : IOrdenRepository
 
     public Orden? ObtenerPorId(Guid id)
     {
-        var orden = _dbContext.Ordenes.Include(o => o.Cliente).FirstOrDefault(o => o.Id == id);
+        var orden = _dbContext.Ordenes
+            .Include(o => o.Cliente)
+            .Include(o => o.Repuestos).ThenInclude(r => r.Repuesto)
+            .FirstOrDefault(o => o.Id == id);
 
         if (orden is null)
         {
@@ -34,7 +37,10 @@ public class OrdenRepositoryEfCore : IOrdenRepository
 
     public IReadOnlyList<Orden> ObtenerTodas()
     {
-        var ordenes = _dbContext.Ordenes.Include(o => o.Cliente).ToList();
+        var ordenes = _dbContext.Ordenes
+            .Include(o => o.Cliente)
+            .Include(o => o.Repuestos).ThenInclude(r => r.Repuesto)
+            .ToList();
 
         var historialesPorOrden = _dbContext.Set<HistorialEstadoOrden>()
             .OrderBy(h => h.OrdenPosicion)
@@ -78,7 +84,22 @@ public class OrdenRepositoryEfCore : IOrdenRepository
     {
         _dbContext.Ordenes.Update(orden);
         SincronizarHistorial(orden);
+        SincronizarRepuestos(orden);
         _dbContext.SaveChanges();
+    }
+
+    // Update() marca como "modificados" los hijos que ya traen llave, incluso los nuevos
+    // (la llave de OrdenRepuesto la ponemos nosotros), asi que distinguimos cuales son nuevos.
+    private void SincronizarRepuestos(Orden orden)
+    {
+        foreach (var asignado in orden.Repuestos)
+        {
+            var yaGuardado = _dbContext.Set<OrdenRepuesto>()
+                .AsNoTracking()
+                .Any(r => r.OrdenId == orden.Id && r.RepuestoId == asignado.RepuestoId);
+
+            _dbContext.Entry(asignado).State = yaGuardado ? EntityState.Modified : EntityState.Added;
+        }
     }
 
     private void SincronizarHistorial(Orden orden)
