@@ -283,4 +283,85 @@ public class OrdenRepositoryEfCoreTests
         using var lectura = new GestorTallerDbContext(opciones);
         Assert.Equal(8, lectura.Repuestos.Find(repuestoId)!.Existencia);
     }
+
+    // Issue #81: volver a consultar una orden ya rastreada no debe pisar el
+    // historial en memoria con el guardado (que aun no tiene los estados nuevos).
+    [Fact]
+    public void ObtenerPorId_NoPierdeEstadosAgregadosSinGuardar()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        dbContext.Clientes.Add(cliente);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+
+        orden.Estado = EstadoOrden.Diagnostico;
+        orden.HistorialEstados.Add(EstadoOrden.Diagnostico);
+
+        var encontrada = repositorio.ObtenerPorId(orden.Id);
+
+        Assert.Equal(
+            new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico },
+            encontrada!.HistorialEstados);
+    }
+
+    [Fact]
+    public void ObtenerPorId_LuegoActualizar_GuardaElEstadoNuevoEnElHistorial()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+        Guid ordenId;
+
+        using (var escritura = new GestorTallerDbContext(opciones))
+        {
+            var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+            escritura.Clientes.Add(cliente);
+            escritura.SaveChanges();
+
+            var repositorio = new OrdenRepositoryEfCore(escritura);
+            var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+            repositorio.Agregar(orden);
+            ordenId = orden.Id;
+
+            // Lo mismo que hace el seguimiento: el paso modifica la orden y despues
+            // se vuelve a consultar antes de guardar.
+            orden.Estado = EstadoOrden.Diagnostico;
+            orden.HistorialEstados.Add(EstadoOrden.Diagnostico);
+
+            var consultada = repositorio.ObtenerPorId(ordenId);
+            repositorio.Actualizar(consultada!);
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        var encontrada = new OrdenRepositoryEfCore(lectura).ObtenerPorId(ordenId);
+
+        Assert.Equal(EstadoOrden.Diagnostico, encontrada!.Estado);
+        Assert.Equal(
+            new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico },
+            encontrada.HistorialEstados);
+    }
+
+    [Fact]
+    public void ObtenerTodas_NoPierdeEstadosAgregadosSinGuardar()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        dbContext.Clientes.Add(cliente);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+
+        orden.Estado = EstadoOrden.Diagnostico;
+        orden.HistorialEstados.Add(EstadoOrden.Diagnostico);
+
+        var todas = repositorio.ObtenerTodas();
+
+        Assert.Equal(
+            new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico },
+            todas.Single().HistorialEstados);
+    }
 }

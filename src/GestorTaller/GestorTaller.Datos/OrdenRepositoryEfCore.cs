@@ -31,8 +31,16 @@ public class OrdenRepositoryEfCore : IOrdenRepository
             return null;
         }
 
-        orden.HistorialEstados = CargarHistorial(id);
+        orden.HistorialEstados = ElegirHistorial(orden, CargarHistorial(id));
         return orden;
+    }
+
+    // Si la orden ya esta rastreada por el contexto (misma instancia que se modifico en
+    // memoria), su historial puede tener estados nuevos que aun no se guardan. En ese caso
+    // el historial guardado, mas corto, no debe pisarlos (issue #81).
+    private static List<EstadoOrden> ElegirHistorial(Orden orden, List<EstadoOrden> guardado)
+    {
+        return orden.HistorialEstados.Count >= guardado.Count ? orden.HistorialEstados : guardado;
     }
 
     public IReadOnlyList<Orden> ObtenerTodas()
@@ -50,9 +58,11 @@ public class OrdenRepositoryEfCore : IOrdenRepository
 
         foreach (var orden in ordenes)
         {
-            orden.HistorialEstados = historialesPorOrden.TryGetValue(orden.Id, out var historial)
+            var guardado = historialesPorOrden.TryGetValue(orden.Id, out var historial)
                 ? historial
                 : new List<EstadoOrden>();
+
+            orden.HistorialEstados = ElegirHistorial(orden, guardado);
         }
 
         return ordenes;
