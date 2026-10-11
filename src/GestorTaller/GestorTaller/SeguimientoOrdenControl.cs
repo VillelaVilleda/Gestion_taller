@@ -5,12 +5,14 @@ namespace GestorTaller
     public partial class SeguimientoOrdenControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
+        private readonly IRepuestoRepository _repuestoRepository;
         private readonly Guid _ordenId;
 
-        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, Guid ordenId)
+        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IRepuestoRepository repuestoRepository, Guid ordenId)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _repuestoRepository = repuestoRepository;
             _ordenId = ordenId;
             breadcrumb.PasoSeleccionado += MostrarPaso;
             Load += SeguimientoOrdenControl_Load;
@@ -113,7 +115,7 @@ namespace GestorTaller
 
         private Control CrearFormularioReparacion(Orden orden)
         {
-            var control = new ReparacionControl();
+            var control = new ReparacionControl(_ordenRepository, _repuestoRepository);
             control.Mostrar(orden);
             control.ReparacionRegistrada += GuardarYActualizar;
             return control;
