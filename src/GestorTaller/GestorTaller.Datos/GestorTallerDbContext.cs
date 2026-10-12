@@ -1,5 +1,6 @@
 ﻿using GestorTaller.Negocio;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestorTaller.Datos;
 
@@ -18,6 +19,17 @@ public class GestorTallerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // PostgreSQL (timestamp with time zone) solo acepta fechas en UTC, pero el resto de la
+        // aplicacion trabaja con la hora local (DateTime.Now). Se guarda en UTC y al leer se
+        // convierte de vuelta a hora local.
+        var fechaAUtc = new ValueConverter<DateTime, DateTime>(
+            v => v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc).ToLocalTime());
+
+        var fechaNulaAUtc = new ValueConverter<DateTime?, DateTime?>(
+            v => v.HasValue ? v.Value.ToUniversalTime() : v,
+            v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc).ToLocalTime() : v);
+
         modelBuilder.Entity<Cliente>(entidad =>
         {
             entidad.ToTable("cliente");
@@ -49,7 +61,7 @@ public class GestorTallerDbContext : DbContext
             entidad.Property(o => o.DescripcionProblema).HasColumnName("descripcion_problema").HasMaxLength(300).IsRequired();
             entidad.Property(o => o.CostoDiagnostico).HasColumnName("costo_diagnostico").HasColumnType("numeric(10,2)");
             entidad.Property(o => o.Estado).HasColumnName("estado").HasConversion<string>().HasMaxLength(20).IsRequired();
-            entidad.Property(o => o.FechaRecepcion).HasColumnName("fecha_recepcion");
+            entidad.Property(o => o.FechaRecepcion).HasColumnName("fecha_recepcion").HasConversion(fechaAUtc);
 
             entidad.Property(o => o.EmpleadoDiagnostico).HasColumnName("empleado_diagnostico").HasMaxLength(150);
             entidad.Property(o => o.DetalleDiagnostico).HasColumnName("detalle_diagnostico").HasMaxLength(500);
@@ -63,7 +75,7 @@ public class GestorTallerDbContext : DbContext
 
             entidad.Property(o => o.EmpleadoEntrega).HasColumnName("empleado_entrega").HasMaxLength(150);
             entidad.Property(o => o.MontoPagado).HasColumnName("monto_pagado").HasColumnType("numeric(10,2)");
-            entidad.Property(o => o.FechaEntrega).HasColumnName("fecha_entrega");
+            entidad.Property(o => o.FechaEntrega).HasColumnName("fecha_entrega").HasConversion(fechaNulaAUtc);
 
             entidad.Ignore(o => o.HistorialEstados);
         });
