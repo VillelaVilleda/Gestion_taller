@@ -25,20 +25,14 @@ namespace GestorTaller
 
         private void CargarEmpleados()
         {
-            dgvEmpleados.Columns.Clear();
-            dgvEmpleados.Columns.Add("Nombre", "Nombre");
-            dgvEmpleados.Columns.Add("NombreUsuario", "Usuario");
-            dgvEmpleados.Columns.Add("EsAdministrador", "Administrador");
-
-            dgvEmpleados.Rows.Clear();
-
-            foreach (var empleado in _empleadoRepository.ObtenerTodos())
+            var columnas = new List<ColumnaTabla<Empleado>>
             {
-                dgvEmpleados.Rows.Add(
-                    empleado.Nombre,
-                    empleado.NombreUsuario,
-                    empleado.EsAdministrador ? "Si" : "No");
-            }
+                new("Nombre", e => e.Nombre),
+                new("Usuario", e => e.NombreUsuario),
+                new("Administrador", e => e.EsAdministrador, e => e.EsAdministrador ? "Si" : "No")
+            };
+
+            tablaEmpleados.Cargar(columnas, _empleadoRepository.ObtenerTodos(), ordenInicial: columnas[0]);
         }
     }
 }
