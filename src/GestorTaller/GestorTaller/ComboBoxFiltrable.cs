@@ -52,6 +52,14 @@ namespace GestorTaller
 
         private void Rellenar(IEnumerable<object> elementos)
         {
+            // Cambiar la lista con el desplegable abierto hace que WinForms pida el elemento 0
+            // de una lista que acaba de vaciarse (ArgumentOutOfRangeException), asi que
+            // primero se cierra.
+            if (IsHandleCreated && DroppedDown)
+            {
+                DroppedDown = false;
+            }
+
             BeginUpdate();
             Items.Clear();
             Items.AddRange(elementos.ToArray());
@@ -85,8 +93,18 @@ namespace GestorTaller
                 Text = texto;
                 SelectionStart = posicion;
                 SelectionLength = 0;
-                DroppedDown = filtrados.Count > 0;
+
+                if (filtrados.Count > 0)
+                {
+                    DroppedDown = true;
+                }
+
                 Cursor.Current = Cursors.Default;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Red de seguridad: si WinForms falla justo mientras se reconstruye la lista,
+                // no se rompe la aplicacion; la siguiente tecla vuelve a filtrar.
             }
             finally
             {
