@@ -40,6 +40,19 @@ namespace GestorTaller
             {
                 AgregarDato("Empleado", orden.EmpleadoReparacion);
                 AgregarDato("Detalle", orden.DetalleReparacion);
+
+                AgregarTitulo("Repuestos utilizados");
+                if (orden.Repuestos.Count == 0)
+                {
+                    AgregarDato("", "Sin repuestos.");
+                }
+                else
+                {
+                    foreach (var asignado in orden.Repuestos)
+                    {
+                        AgregarDato(asignado.Repuesto?.Nombre ?? "(sin nombre)", $"x {asignado.Cantidad}");
+                    }
+                }
             }
             else
             {
