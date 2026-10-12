@@ -60,6 +60,7 @@ namespace GestorTaller
                 return;
             }
 
+            lblEncabezado.Text = $"Cliente: {orden.Cliente.Nombre}  |  {orden.DescripcionObjeto}";
             breadcrumb.Mostrar(orden.HistorialEstados);
             MostrarPaso(orden.Estado);
         }

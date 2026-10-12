@@ -33,6 +33,13 @@ namespace GestorTaller
             dgvRepuestosAsignados.Columns.Add("Repuesto", "Repuesto");
             dgvRepuestosAsignados.Columns.Add("Cantidad", "Cantidad");
             cmbRepuesto.SelectedIndexChanged += (_, _) => ActualizarDisponible();
+            Load += (_, _) => BeginInvoke(() =>
+            {
+                if (!IsDisposed && cmbEmpleado.Enabled)
+                {
+                    cmbEmpleado.Focus();
+                }
+            });
         }
 
         public void Mostrar(Orden orden)
