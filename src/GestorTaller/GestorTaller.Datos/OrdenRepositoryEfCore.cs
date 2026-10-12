@@ -102,6 +102,17 @@ public class OrdenRepositoryEfCore : IOrdenRepository
     // (la llave de OrdenRepuesto la ponemos nosotros), asi que distinguimos cuales son nuevos.
     private void SincronizarRepuestos(Orden orden)
     {
+        // Lo que ya no esta en la orden (repuesto quitado) se borra de la base de datos.
+        var idsActuales = orden.Repuestos.Select(r => r.RepuestoId).ToList();
+        var quitados = _dbContext.Set<OrdenRepuesto>()
+            .Where(r => r.OrdenId == orden.Id && !idsActuales.Contains(r.RepuestoId))
+            .ToList();
+
+        foreach (var quitado in quitados)
+        {
+            _dbContext.Entry(quitado).State = EntityState.Deleted;
+        }
+
         foreach (var asignado in orden.Repuestos)
         {
             var yaGuardado = _dbContext.Set<OrdenRepuesto>()

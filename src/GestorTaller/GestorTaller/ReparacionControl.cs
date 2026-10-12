@@ -14,6 +14,7 @@ namespace GestorTaller
     {
         private readonly RegistrarReparacionOrdenService _registrarReparacionOrdenService;
         private readonly AsignarRepuestoOrdenService _asignarRepuestoOrdenService = new();
+        private readonly QuitarRepuestoOrdenService _quitarRepuestoOrdenService = new();
         private readonly IOrdenRepository _ordenRepository;
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly IEmpleadoRepository _empleadoRepository;
@@ -49,6 +50,7 @@ namespace GestorTaller
             cmbRepuesto.Enabled = esPendiente;
             numCantidad.Enabled = esPendiente;
             btnAgregarRepuesto.Visible = esPendiente;
+            btnQuitarRepuesto.Visible = esPendiente;
             lblDisponible.Visible = esPendiente;
 
             cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoReparacion);
@@ -94,7 +96,49 @@ namespace GestorTaller
 
             foreach (var asignado in _orden.Repuestos)
             {
-                dgvRepuestosAsignados.Rows.Add(asignado.Repuesto?.Nombre ?? "(sin nombre)", asignado.Cantidad);
+                var indice = dgvRepuestosAsignados.Rows.Add(asignado.Repuesto?.Nombre ?? "(sin nombre)", asignado.Cantidad);
+                dgvRepuestosAsignados.Rows[indice].Tag = asignado.RepuestoId;
+            }
+
+            dgvRepuestosAsignados.ClearSelection();
+        }
+
+        private void btnQuitarRepuesto_Click(object? sender, EventArgs e)
+        {
+            lblMensaje.ForeColor = Color.DarkRed;
+
+            if (dgvRepuestosAsignados.SelectedRows.Count == 0
+                || dgvRepuestosAsignados.SelectedRows[0].Tag is not Guid repuestoId)
+            {
+                lblMensaje.Text = "Selecciona en la tabla el repuesto que quieres quitar.";
+                return;
+            }
+
+            var asignado = _orden.Repuestos.FirstOrDefault(r => r.RepuestoId == repuestoId);
+
+            if (asignado?.Repuesto is null)
+            {
+                lblMensaje.Text = "No se encontro el repuesto seleccionado.";
+                return;
+            }
+
+            try
+            {
+                var nombre = asignado.Repuesto.Nombre;
+                var cantidad = asignado.Cantidad;
+
+                _quitarRepuestoOrdenService.Ejecutar(_orden, asignado.Repuesto, cantidad);
+                _ordenRepository.Actualizar(_orden);
+
+                lblMensaje.ForeColor = Color.DarkGreen;
+                lblMensaje.Text = $"Se quito {nombre} (x {cantidad}) y se devolvio al inventario.";
+
+                CargarRepuestos();
+                MostrarAsignados();
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+            {
+                lblMensaje.Text = ex.Message;
             }
         }
 
