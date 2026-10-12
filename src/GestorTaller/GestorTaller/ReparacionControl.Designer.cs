@@ -16,6 +16,7 @@ namespace GestorTaller
         private System.Windows.Forms.Button btnAgregarRepuesto;
         private System.Windows.Forms.Label lblDisponible;
         private System.Windows.Forms.DataGridView dgvRepuestosAsignados;
+        private System.Windows.Forms.Button btnQuitarRepuesto;
         private System.Windows.Forms.Button btnGuardarReparacion;
         private System.Windows.Forms.Label lblMensaje;
 
@@ -42,6 +43,7 @@ namespace GestorTaller
             btnAgregarRepuesto = new Button();
             lblDisponible = new Label();
             dgvRepuestosAsignados = new DataGridView();
+            btnQuitarRepuesto = new Button();
             btnGuardarReparacion = new Button();
             lblMensaje = new Label();
             ((System.ComponentModel.ISupportInitialize)numCantidad).BeginInit();
@@ -165,10 +167,19 @@ namespace GestorTaller
             //
             // btnGuardarReparacion
             //
-            btnGuardarReparacion.Location = new Point(20, 475);
+            btnQuitarRepuesto.Location = new Point(20, 466);
+            btnQuitarRepuesto.Name = "btnQuitarRepuesto";
+            btnQuitarRepuesto.Size = new Size(340, 28);
+            btnQuitarRepuesto.TabIndex = 12;
+            btnQuitarRepuesto.Text = "Quitar repuesto seleccionado";
+            btnQuitarRepuesto.Click += btnQuitarRepuesto_Click;
+            //
+            // btnGuardarReparacion
+            //
+            btnGuardarReparacion.Location = new Point(20, 505);
             btnGuardarReparacion.Name = "btnGuardarReparacion";
             btnGuardarReparacion.Size = new Size(180, 32);
-            btnGuardarReparacion.TabIndex = 12;
+            btnGuardarReparacion.TabIndex = 13;
             btnGuardarReparacion.Text = "Guardar reparacion";
             btnGuardarReparacion.Click += btnGuardarReparacion_Click;
             //
@@ -176,11 +187,11 @@ namespace GestorTaller
             //
             lblMensaje.AutoSize = true;
             lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 520);
+            lblMensaje.Location = new Point(20, 550);
             lblMensaje.MaximumSize = new Size(340, 0);
             lblMensaje.Name = "lblMensaje";
             lblMensaje.Size = new Size(0, 20);
-            lblMensaje.TabIndex = 13;
+            lblMensaje.TabIndex = 14;
             //
             // ReparacionControl
             //
@@ -199,10 +210,11 @@ namespace GestorTaller
             Controls.Add(btnAgregarRepuesto);
             Controls.Add(lblDisponible);
             Controls.Add(dgvRepuestosAsignados);
+            Controls.Add(btnQuitarRepuesto);
             Controls.Add(btnGuardarReparacion);
             Controls.Add(lblMensaje);
             Name = "ReparacionControl";
-            Size = new Size(400, 560);
+            Size = new Size(400, 600);
             ((System.ComponentModel.ISupportInitialize)numCantidad).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvRepuestosAsignados).EndInit();
             ResumeLayout(false);

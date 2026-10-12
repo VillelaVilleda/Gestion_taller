@@ -284,6 +284,64 @@ public class OrdenRepositoryEfCoreTests
         Assert.Equal(8, lectura.Repuestos.Find(repuestoId)!.Existencia);
     }
 
+    [Fact]
+    public void Actualizar_EliminaElRepuestoQuitadoDeLaOrden()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+        Guid ordenId;
+        Guid repuestoId;
+
+        using (var escritura = new GestorTallerDbContext(opciones))
+        {
+            var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+            var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 10 };
+            escritura.Clientes.Add(cliente);
+            escritura.Repuestos.Add(repuesto);
+            escritura.SaveChanges();
+
+            var repositorio = new OrdenRepositoryEfCore(escritura);
+            var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+            repositorio.Agregar(orden);
+            orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 2 });
+            repositorio.Actualizar(orden);
+
+            orden.Repuestos.Clear();
+            repuesto.Existencia = 10;
+            repositorio.Actualizar(orden);
+            ordenId = orden.Id;
+            repuestoId = repuesto.Id;
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        Assert.Empty(lectura.Set<OrdenRepuesto>().Where(r => r.OrdenId == ordenId));
+        Assert.Equal(10, lectura.Repuestos.Find(repuestoId)!.Existencia);
+    }
+
+    [Fact]
+    public void Actualizar_AlQuitarUnRepuesto_ConservaLosDemasAsignados()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var bujia = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 10 };
+        var filtro = new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro", Existencia = 10 };
+        dbContext.Clientes.Add(cliente);
+        dbContext.Repuestos.AddRange(bujia, filtro);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = bujia.Id, Repuesto = bujia, Cantidad = 1 });
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = filtro.Id, Repuesto = filtro, Cantidad = 2 });
+        repositorio.Actualizar(orden);
+
+        orden.Repuestos.RemoveAll(r => r.RepuestoId == bujia.Id);
+        repositorio.Actualizar(orden);
+
+        var restante = Assert.Single(dbContext.Set<OrdenRepuesto>());
+        Assert.Equal(filtro.Id, restante.RepuestoId);
+    }
+
     // Issue #81: volver a consultar una orden ya rastreada no debe pisar el
     // historial en memoria con el guardado (que aun no tiene los estados nuevos).
     [Fact]
