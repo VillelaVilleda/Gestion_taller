@@ -22,6 +22,13 @@ namespace GestorTaller
             InitializeComponent();
             _empleadoRepository = empleadoRepository;
             _registrarEntregaOrdenService = new RegistrarEntregaOrdenService(new AvanzarEstadoOrdenService());
+            Load += (_, _) => BeginInvoke(() =>
+            {
+                if (!IsDisposed && cmbEmpleado.Enabled)
+                {
+                    cmbEmpleado.Focus();
+                }
+            });
         }
 
         public void Mostrar(Orden orden)
