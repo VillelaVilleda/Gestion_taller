@@ -12,13 +12,15 @@ namespace GestorTaller
     public partial class CotizacionControl : UserControl
     {
         private readonly RegistrarCotizacionOrdenService _registrarCotizacionOrdenService;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private Orden _orden = null!;
 
         public event Action? CotizacionRegistrada;
 
-        public CotizacionControl()
+        public CotizacionControl(IEmpleadoRepository empleadoRepository)
         {
             InitializeComponent();
+            _empleadoRepository = empleadoRepository;
             _registrarCotizacionOrdenService = new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService());
         }
 
@@ -29,13 +31,14 @@ namespace GestorTaller
 
             var esPendiente = orden.Estado == EstadoOrden.Cotizacion;
 
-            txtEmpleado.ReadOnly = !esPendiente;
+            CargarEmpleados();
+            cmbEmpleado.Enabled = esPendiente;
             numMontoCotizado.Enabled = esPendiente;
             rbAceptada.Enabled = esPendiente;
             rbRechazada.Enabled = esPendiente;
             btnGuardarCotizacion.Visible = esPendiente;
 
-            txtEmpleado.Text = orden.EmpleadoCotizacion;
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoCotizacion);
             numMontoCotizado.Value = orden.MontoCotizado;
 
             if (esPendiente || orden.CotizacionAceptada)
@@ -48,13 +51,21 @@ namespace GestorTaller
             }
         }
 
+        private void CargarEmpleados()
+        {
+            var empleados = _empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList();
+            cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
+        }
+
+        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
+
         private void btnGuardarCotizacion_Click(object? sender, EventArgs e)
         {
             lblMensaje.ForeColor = Color.DarkRed;
 
             try
             {
-                _registrarCotizacionOrdenService.Ejecutar(_orden, txtEmpleado.Text, numMontoCotizado.Value, rbAceptada.Checked);
+                _registrarCotizacionOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), numMontoCotizado.Value, rbAceptada.Checked);
                 CotizacionRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

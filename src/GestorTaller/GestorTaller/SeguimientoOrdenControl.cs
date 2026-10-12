@@ -5,13 +5,15 @@ namespace GestorTaller
     public partial class SeguimientoOrdenControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly Guid _ordenId;
 
-        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IRepuestoRepository repuestoRepository, Guid ordenId)
+        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Guid ordenId)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
             _ordenId = ordenId;
             breadcrumb.PasoSeleccionado += MostrarPaso;
@@ -99,7 +101,7 @@ namespace GestorTaller
 
         private Control CrearFormularioCotizacion(Orden orden)
         {
-            var control = new CotizacionControl();
+            var control = new CotizacionControl(_empleadoRepository);
             control.Mostrar(orden);
             control.CotizacionRegistrada += GuardarYActualizar;
             return control;
@@ -107,7 +109,7 @@ namespace GestorTaller
 
         private Control CrearFormularioDiagnostico(Orden orden)
         {
-            var control = new DiagnosticoControl();
+            var control = new DiagnosticoControl(_empleadoRepository);
             control.Mostrar(orden);
             control.DiagnosticoRegistrado += GuardarYActualizar;
             return control;
@@ -115,7 +117,7 @@ namespace GestorTaller
 
         private Control CrearFormularioReparacion(Orden orden)
         {
-            var control = new ReparacionControl(_ordenRepository, _repuestoRepository);
+            var control = new ReparacionControl(_ordenRepository, _empleadoRepository, _repuestoRepository);
             control.Mostrar(orden);
             control.ReparacionRegistrada += GuardarYActualizar;
             return control;
@@ -123,7 +125,7 @@ namespace GestorTaller
 
         private Control CrearFormularioTerminado(Orden orden)
         {
-            var control = new TerminadoControl();
+            var control = new TerminadoControl(_empleadoRepository);
             control.Mostrar(orden);
             control.EntregaRegistrada += GuardarYActualizar;
             return control;

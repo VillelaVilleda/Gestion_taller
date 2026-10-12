@@ -12,13 +12,15 @@ namespace GestorTaller
     public partial class DiagnosticoControl : UserControl
     {
         private readonly RegistrarDiagnosticoOrdenService _registrarDiagnosticoOrdenService;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private Orden _orden = null!;
 
         public event Action? DiagnosticoRegistrado;
 
-        public DiagnosticoControl()
+        public DiagnosticoControl(IEmpleadoRepository empleadoRepository)
         {
             InitializeComponent();
+            _empleadoRepository = empleadoRepository;
             _registrarDiagnosticoOrdenService = new RegistrarDiagnosticoOrdenService(new AvanzarEstadoOrdenService());
         }
 
@@ -29,13 +31,22 @@ namespace GestorTaller
 
             var esPendiente = orden.Estado == EstadoOrden.Diagnostico;
 
-            txtEmpleado.ReadOnly = !esPendiente;
+            CargarEmpleados();
+            cmbEmpleado.Enabled = esPendiente;
             txtDetalle.ReadOnly = !esPendiente;
             btnGuardarDiagnostico.Visible = esPendiente;
 
-            txtEmpleado.Text = orden.EmpleadoDiagnostico;
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoDiagnostico);
             txtDetalle.Text = orden.DetalleDiagnostico;
         }
+
+        private void CargarEmpleados()
+        {
+            var empleados = _empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList();
+            cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
+        }
+
+        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
 
         private void btnGuardarDiagnostico_Click(object? sender, EventArgs e)
         {
@@ -43,7 +54,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarDiagnosticoOrdenService.Ejecutar(_orden, txtEmpleado.Text, txtDetalle.Text);
+                _registrarDiagnosticoOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), txtDetalle.Text);
                 DiagnosticoRegistrado?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

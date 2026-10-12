@@ -12,13 +12,15 @@ namespace GestorTaller
     public partial class TerminadoControl : UserControl
     {
         private readonly RegistrarEntregaOrdenService _registrarEntregaOrdenService;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private Orden _orden = null!;
 
         public event Action? EntregaRegistrada;
 
-        public TerminadoControl()
+        public TerminadoControl(IEmpleadoRepository empleadoRepository)
         {
             InitializeComponent();
+            _empleadoRepository = empleadoRepository;
             _registrarEntregaOrdenService = new RegistrarEntregaOrdenService(new AvanzarEstadoOrdenService());
         }
 
@@ -29,10 +31,11 @@ namespace GestorTaller
 
             var esPendiente = orden.Estado == EstadoOrden.Terminado;
 
-            txtEmpleado.ReadOnly = !esPendiente;
+            CargarEmpleados();
+            cmbEmpleado.Enabled = esPendiente;
             btnConfirmarPago.Visible = esPendiente;
 
-            txtEmpleado.Text = orden.EmpleadoEntrega;
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoEntrega);
 
             var totalAPagar = esPendiente ? CalcularMontoTotal(orden) : orden.MontoPagado;
             lblTotalAPagar.Text = $"Q {totalAPagar:N2}";
@@ -41,6 +44,14 @@ namespace GestorTaller
                 ? $"Entregado el {orden.FechaEntrega:dd/MM/yyyy HH:mm}"
                 : "";
         }
+
+        private void CargarEmpleados()
+        {
+            var empleados = _empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList();
+            cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
+        }
+
+        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
 
         private static decimal CalcularMontoTotal(Orden orden)
         {
@@ -60,7 +71,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarEntregaOrdenService.Ejecutar(_orden, txtEmpleado.Text, CalcularMontoTotal(_orden));
+                _registrarEntregaOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), CalcularMontoTotal(_orden));
                 EntregaRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

@@ -6,7 +6,7 @@
 
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblEmpleado;
-        private System.Windows.Forms.TextBox txtEmpleado;
+        private GestorTaller.ComboBoxFiltrable cmbEmpleado;
         private System.Windows.Forms.Label lblDetalle;
         private System.Windows.Forms.TextBox txtDetalle;
         private System.Windows.Forms.Button btnGuardarDiagnostico;
@@ -25,7 +25,7 @@
         {
             lblTitulo = new Label();
             lblEmpleado = new Label();
-            txtEmpleado = new TextBox();
+            cmbEmpleado = new ComboBoxFiltrable();
             lblDetalle = new Label();
             txtDetalle = new TextBox();
             btnGuardarDiagnostico = new Button();
@@ -51,13 +51,13 @@
             lblEmpleado.TabIndex = 1;
             lblEmpleado.Text = "Empleado encargado";
             //
-            // txtEmpleado
+            // cmbEmpleado
             //
-            txtEmpleado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtEmpleado.Location = new Point(20, 75);
-            txtEmpleado.Name = "txtEmpleado";
-            txtEmpleado.Size = new Size(340, 27);
-            txtEmpleado.TabIndex = 2;
+            cmbEmpleado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cmbEmpleado.Location = new Point(20, 75);
+            cmbEmpleado.Name = "cmbEmpleado";
+            cmbEmpleado.Size = new Size(340, 27);
+            cmbEmpleado.TabIndex = 2;
             //
             // lblDetalle
             //
@@ -102,7 +102,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(lblTitulo);
             Controls.Add(lblEmpleado);
-            Controls.Add(txtEmpleado);
+            Controls.Add(cmbEmpleado);
             Controls.Add(lblDetalle);
             Controls.Add(txtDetalle);
             Controls.Add(btnGuardarDiagnostico);
