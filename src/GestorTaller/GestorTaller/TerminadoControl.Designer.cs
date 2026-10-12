@@ -7,7 +7,7 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblSubtitulo;
         private System.Windows.Forms.Label lblEmpleado;
-        private System.Windows.Forms.TextBox txtEmpleado;
+        private GestorTaller.ComboBoxFiltrable cmbEmpleado;
         private System.Windows.Forms.Label lblMonto;
         private System.Windows.Forms.Label lblTotalAPagar;
         private System.Windows.Forms.Label lblFechaEntrega;
@@ -28,7 +28,7 @@ namespace GestorTaller
             lblTitulo = new Label();
             lblSubtitulo = new Label();
             lblEmpleado = new Label();
-            txtEmpleado = new TextBox();
+            cmbEmpleado = new ComboBoxFiltrable();
             lblMonto = new Label();
             lblTotalAPagar = new Label();
             lblFechaEntrega = new Label();
@@ -65,13 +65,13 @@ namespace GestorTaller
             lblEmpleado.TabIndex = 2;
             lblEmpleado.Text = "Empleado encargado";
             //
-            // txtEmpleado
+            // cmbEmpleado
             //
-            txtEmpleado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtEmpleado.Location = new Point(20, 100);
-            txtEmpleado.Name = "txtEmpleado";
-            txtEmpleado.Size = new Size(340, 27);
-            txtEmpleado.TabIndex = 3;
+            cmbEmpleado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cmbEmpleado.Location = new Point(20, 100);
+            cmbEmpleado.Name = "cmbEmpleado";
+            cmbEmpleado.Size = new Size(340, 27);
+            cmbEmpleado.TabIndex = 3;
             //
             // lblMonto
             //
@@ -127,7 +127,7 @@ namespace GestorTaller
             Controls.Add(lblTitulo);
             Controls.Add(lblSubtitulo);
             Controls.Add(lblEmpleado);
-            Controls.Add(txtEmpleado);
+            Controls.Add(cmbEmpleado);
             Controls.Add(lblMonto);
             Controls.Add(lblTotalAPagar);
             Controls.Add(lblFechaEntrega);

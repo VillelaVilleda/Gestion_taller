@@ -16,14 +16,16 @@ namespace GestorTaller
         private readonly AsignarRepuestoOrdenService _asignarRepuestoOrdenService = new();
         private readonly IOrdenRepository _ordenRepository;
         private readonly IRepuestoRepository _repuestoRepository;
+        private readonly IEmpleadoRepository _empleadoRepository;
         private Orden _orden = null!;
 
         public event Action? ReparacionRegistrada;
 
-        public ReparacionControl(IOrdenRepository ordenRepository, IRepuestoRepository repuestoRepository)
+        public ReparacionControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
+            _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
             _registrarReparacionOrdenService = new RegistrarReparacionOrdenService(new AvanzarEstadoOrdenService());
 
@@ -39,7 +41,8 @@ namespace GestorTaller
 
             var esPendiente = orden.Estado == EstadoOrden.EnReparacion;
 
-            txtEmpleado.ReadOnly = !esPendiente;
+            CargarEmpleados();
+            cmbEmpleado.Enabled = esPendiente;
             txtDetalle.ReadOnly = !esPendiente;
             btnGuardarReparacion.Visible = esPendiente;
 
@@ -48,7 +51,7 @@ namespace GestorTaller
             btnAgregarRepuesto.Visible = esPendiente;
             lblDisponible.Visible = esPendiente;
 
-            txtEmpleado.Text = orden.EmpleadoReparacion;
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoReparacion);
             txtDetalle.Text = orden.DetalleReparacion;
 
             if (esPendiente)
@@ -58,6 +61,14 @@ namespace GestorTaller
 
             MostrarAsignados();
         }
+
+        private void CargarEmpleados()
+        {
+            var empleados = _empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList();
+            cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
+        }
+
+        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
 
         private void CargarRepuestos()
         {
@@ -121,7 +132,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarReparacionOrdenService.Ejecutar(_orden, txtEmpleado.Text, txtDetalle.Text);
+                _registrarReparacionOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), txtDetalle.Text);
                 ReparacionRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
