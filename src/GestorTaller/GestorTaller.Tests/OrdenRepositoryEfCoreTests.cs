@@ -235,6 +235,42 @@ public class OrdenRepositoryEfCoreTests
     }
 
     [Fact]
+    public void ObtenerPorId_ConservaElPrecioDelRepuestoYElPrecioUnitarioAsignado()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+        Guid ordenId;
+
+        using (var escritura = new GestorTallerDbContext(opciones))
+        {
+            var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+            var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 10, Precio = 30m };
+            escritura.Clientes.Add(cliente);
+            escritura.Repuestos.Add(repuesto);
+            escritura.SaveChanges();
+
+            var repositorio = new OrdenRepositoryEfCore(escritura);
+            var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+            repositorio.Agregar(orden);
+            orden.Repuestos.Add(new OrdenRepuesto
+            {
+                OrdenId = orden.Id,
+                RepuestoId = repuesto.Id,
+                Repuesto = repuesto,
+                Cantidad = 2,
+                PrecioUnitario = 28.75m
+            });
+            repositorio.Actualizar(orden);
+            ordenId = orden.Id;
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        var asignado = Assert.Single(new OrdenRepositoryEfCore(lectura).ObtenerPorId(ordenId)!.Repuestos);
+
+        Assert.Equal(28.75m, asignado.PrecioUnitario);
+        Assert.Equal(30m, asignado.Repuesto.Precio);
+    }
+
+    [Fact]
     public void Actualizar_ActualizaLaCantidadDeUnRepuestoYaAsignado()
     {
         using var dbContext = CrearDbContextEnMemoria();

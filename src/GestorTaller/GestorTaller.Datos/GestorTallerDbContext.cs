@@ -82,10 +82,12 @@ public class GestorTallerDbContext : DbContext
 
         modelBuilder.Entity<Repuesto>(entidad =>
         {
-            entidad.ToTable("repuesto");
+            entidad.ToTable("repuesto", tabla =>
+                tabla.HasCheckConstraint("ck_repuesto_precio", "precio >= 0"));
             entidad.HasKey(r => r.Id);
             entidad.Property(r => r.Nombre).HasColumnName("nombre").IsRequired();
             entidad.Property(r => r.Existencia).HasColumnName("existencia").IsRequired();
+            entidad.Property(r => r.Precio).HasColumnName("precio").HasPrecision(10, 2).IsRequired();
         });
 
         modelBuilder.Entity<HistorialEstadoOrden>(entidad =>
@@ -101,11 +103,15 @@ public class GestorTallerDbContext : DbContext
         modelBuilder.Entity<OrdenRepuesto>(entidad =>
         {
             entidad.ToTable("orden_repuesto", tabla =>
-                tabla.HasCheckConstraint("ck_orden_repuesto_cantidad", "cantidad > 0"));
+            {
+                tabla.HasCheckConstraint("ck_orden_repuesto_cantidad", "cantidad > 0");
+                tabla.HasCheckConstraint("ck_orden_repuesto_precio_unitario", "precio_unitario >= 0");
+            });
             entidad.HasKey(r => new { r.OrdenId, r.RepuestoId });
             entidad.Property(r => r.OrdenId).HasColumnName("orden_id");
             entidad.Property(r => r.RepuestoId).HasColumnName("repuesto_id");
             entidad.Property(r => r.Cantidad).HasColumnName("cantidad").IsRequired();
+            entidad.Property(r => r.PrecioUnitario).HasColumnName("precio_unitario").HasPrecision(10, 2).IsRequired();
             entidad.HasOne<Orden>().WithMany(o => o.Repuestos).HasForeignKey(r => r.OrdenId);
             entidad.HasOne(r => r.Repuesto).WithMany().HasForeignKey(r => r.RepuestoId).OnDelete(DeleteBehavior.Restrict);
         });
