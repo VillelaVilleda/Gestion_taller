@@ -20,9 +20,33 @@ public class AsignarRepuestoOrdenServiceTests
         };
     }
 
-    private static Repuesto CrearRepuesto(int existencia)
+    private static Repuesto CrearRepuesto(int existencia, decimal precio = 0m)
     {
-        return new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro de aceite", Existencia = existencia };
+        return new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro de aceite", Existencia = existencia, Precio = precio };
+    }
+
+    [Fact]
+    public void Ejecutar_GuardaElPrecioDelRepuestoEnLaAsignacion()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var repuesto = CrearRepuesto(10, 25.50m);
+
+        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
+
+        Assert.Equal(25.50m, Assert.Single(orden.Repuestos).PrecioUnitario);
+    }
+
+    [Fact]
+    public void Ejecutar_SiCambiaElPrecioDespues_ElPrecioYaAsignadoNoCambia()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var repuesto = CrearRepuesto(10, 25.50m);
+        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
+
+        repuesto.Precio = 40m;
+        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 1);
+
+        Assert.Equal(25.50m, Assert.Single(orden.Repuestos).PrecioUnitario);
     }
 
     [Fact]

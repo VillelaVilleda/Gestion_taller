@@ -25,13 +25,14 @@ INSERT INTO empleado ("Id", nombre, nombre_usuario, password_usuario, es_adminis
 ON CONFLICT ("Id") DO NOTHING;
 
 -- ===================== REPUESTOS =====================
-INSERT INTO repuesto ("Id", nombre, existencia) VALUES
-    ('e1111111-1111-1111-1111-111111111111', 'Filtro de aceite', 20),
-    ('e2222222-2222-2222-2222-222222222222', 'Pastillas de freno', 15),
-    ('e3333333-3333-3333-3333-333333333333', 'Bujia', 40),
-    ('e4444444-4444-4444-4444-444444444444', 'Correa de distribucion', 5),
-    ('e5555555-5555-5555-5555-555555555555', 'Bateria 12v', 8)
-ON CONFLICT ("Id") DO NOTHING;
+-- precio en quetzales (columna agregada en la issue #88).
+INSERT INTO repuesto ("Id", nombre, existencia, precio) VALUES
+    ('e1111111-1111-1111-1111-111111111111', 'Filtro de aceite', 20, 45.00),
+    ('e2222222-2222-2222-2222-222222222222', 'Pastillas de freno', 15, 180.00),
+    ('e3333333-3333-3333-3333-333333333333', 'Bujia', 40, 25.00),
+    ('e4444444-4444-4444-4444-444444444444', 'Correa de distribucion', 5, 320.00),
+    ('e5555555-5555-5555-5555-555555555555', 'Bateria 12v', 8, 650.00)
+ON CONFLICT ("Id") DO UPDATE SET precio = EXCLUDED.precio;
 
 -- ===================== ORDENES =====================
 -- Una orden por cada estado (y una extra para el caso de cotizacion rechazada).

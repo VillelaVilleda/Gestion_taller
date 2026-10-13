@@ -227,6 +227,11 @@ namespace GestorTaller.Datos.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("cantidad");
 
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("precio_unitario");
+
                     b.HasKey("OrdenId", "RepuestoId");
 
                     b.HasIndex("RepuestoId");
@@ -234,6 +239,8 @@ namespace GestorTaller.Datos.Migrations
                     b.ToTable("orden_repuesto", null, t =>
                         {
                             t.HasCheckConstraint("ck_orden_repuesto_cantidad", "cantidad > 0");
+
+                            t.HasCheckConstraint("ck_orden_repuesto_precio_unitario", "precio_unitario >= 0");
                         });
                 });
 
@@ -252,9 +259,17 @@ namespace GestorTaller.Datos.Migrations
                         .HasColumnType("text")
                         .HasColumnName("nombre");
 
+                    b.Property<decimal>("Precio")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("precio");
+
                     b.HasKey("Id");
 
-                    b.ToTable("repuesto", (string)null);
+                    b.ToTable("repuesto", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_repuesto_precio", "precio >= 0");
+                        });
                 });
 
             modelBuilder.Entity("GestorTaller.Negocio.HistorialEstadoOrden", b =>
