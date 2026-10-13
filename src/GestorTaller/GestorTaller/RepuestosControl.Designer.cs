@@ -5,7 +5,7 @@ namespace GestorTaller
         private System.ComponentModel.IContainer components = null;
 
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.DataGridView dgvRepuestos;
+        private GestorTaller.TablaListadoControl tablaRepuestos;
 
         protected override void Dispose(bool disposing)
         {
@@ -21,8 +21,7 @@ namespace GestorTaller
         private void InitializeComponent()
         {
             lblTitulo = new Label();
-            dgvRepuestos = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dgvRepuestos).BeginInit();
+            tablaRepuestos = new TablaListadoControl();
             SuspendLayout();
             //
             // lblTitulo
@@ -35,30 +34,22 @@ namespace GestorTaller
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Repuestos";
             //
-            // dgvRepuestos
+            // tablaRepuestos
             //
-            dgvRepuestos.AllowUserToAddRows = false;
-            dgvRepuestos.AllowUserToDeleteRows = false;
-            dgvRepuestos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvRepuestos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRepuestos.ColumnHeadersHeight = 29;
-            dgvRepuestos.Location = new Point(20, 55);
-            dgvRepuestos.Name = "dgvRepuestos";
-            dgvRepuestos.ReadOnly = true;
-            dgvRepuestos.RowHeadersVisible = false;
-            dgvRepuestos.RowHeadersWidth = 51;
-            dgvRepuestos.Size = new Size(640, 380);
-            dgvRepuestos.TabIndex = 1;
+            tablaRepuestos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tablaRepuestos.Location = new Point(0, 55);
+            tablaRepuestos.Name = "tablaRepuestos";
+            tablaRepuestos.Size = new Size(680, 405);
+            tablaRepuestos.TabIndex = 1;
             //
             // RepuestosControl
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(lblTitulo);
-            Controls.Add(dgvRepuestos);
+            Controls.Add(tablaRepuestos);
             Name = "RepuestosControl";
             Size = new Size(680, 460);
-            ((System.ComponentModel.ISupportInitialize)dgvRepuestos).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

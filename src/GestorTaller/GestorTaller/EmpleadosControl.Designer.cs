@@ -5,7 +5,7 @@ namespace GestorTaller
         private System.ComponentModel.IContainer components = null;
 
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.DataGridView dgvEmpleados;
+        private GestorTaller.TablaListadoControl tablaEmpleados;
 
         protected override void Dispose(bool disposing)
         {
@@ -21,8 +21,7 @@ namespace GestorTaller
         private void InitializeComponent()
         {
             lblTitulo = new Label();
-            dgvEmpleados = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dgvEmpleados).BeginInit();
+            tablaEmpleados = new TablaListadoControl();
             SuspendLayout();
             //
             // lblTitulo
@@ -35,30 +34,22 @@ namespace GestorTaller
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Empleados";
             //
-            // dgvEmpleados
+            // tablaEmpleados
             //
-            dgvEmpleados.AllowUserToAddRows = false;
-            dgvEmpleados.AllowUserToDeleteRows = false;
-            dgvEmpleados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvEmpleados.ColumnHeadersHeight = 29;
-            dgvEmpleados.Location = new Point(20, 55);
-            dgvEmpleados.Name = "dgvEmpleados";
-            dgvEmpleados.ReadOnly = true;
-            dgvEmpleados.RowHeadersVisible = false;
-            dgvEmpleados.RowHeadersWidth = 51;
-            dgvEmpleados.Size = new Size(640, 380);
-            dgvEmpleados.TabIndex = 1;
+            tablaEmpleados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tablaEmpleados.Location = new Point(0, 55);
+            tablaEmpleados.Name = "tablaEmpleados";
+            tablaEmpleados.Size = new Size(680, 405);
+            tablaEmpleados.TabIndex = 1;
             //
             // EmpleadosControl
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(lblTitulo);
-            Controls.Add(dgvEmpleados);
+            Controls.Add(tablaEmpleados);
             Name = "EmpleadosControl";
             Size = new Size(680, 460);
-            ((System.ComponentModel.ISupportInitialize)dgvEmpleados).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

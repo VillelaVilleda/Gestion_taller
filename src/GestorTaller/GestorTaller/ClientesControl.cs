@@ -25,22 +25,15 @@ namespace GestorTaller
 
         private void CargarClientes()
         {
-            dgvClientes.Columns.Clear();
-            dgvClientes.Columns.Add("Nombre", "Nombre");
-            dgvClientes.Columns.Add("Telefono", "Telefono");
-            dgvClientes.Columns.Add("Correo", "Correo");
-            dgvClientes.Columns.Add("Direccion", "Direccion");
-
-            dgvClientes.Rows.Clear();
-
-            foreach (var cliente in _clienteRepository.ObtenerTodos())
+            var columnas = new List<ColumnaTabla<Cliente>>
             {
-                dgvClientes.Rows.Add(
-                    cliente.Nombre,
-                    cliente.Telefono,
-                    cliente.Correo,
-                    cliente.Direccion);
-            }
+                new("Nombre", c => c.Nombre),
+                new("Telefono", c => c.Telefono),
+                new("Correo", c => c.Correo),
+                new("Direccion", c => c.Direccion)
+            };
+
+            tablaClientes.Cargar(columnas, _clienteRepository.ObtenerTodos(), ordenInicial: columnas[0]);
         }
     }
 }

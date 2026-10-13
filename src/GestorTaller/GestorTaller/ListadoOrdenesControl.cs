@@ -4,13 +4,14 @@ namespace GestorTaller
 {
     /// <summary>
     /// Seccion de "Ordenes registradas" dentro de la ventana principal (menu lateral).
-    /// Es el mismo contenido que antes vivia en FormListadoOrdenes, movido a un
-    /// UserControl para poder mostrarse dentro del panel de contenido.
+    /// Usa la tabla generica; el boton Ver de cada fila abre el seguimiento de la orden.
     /// </summary>
     public partial class ListadoOrdenesControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
         private readonly Action<Guid> _abrirSeguimiento;
+
+        private record FilaOrden(int Codigo, Orden Orden);
 
         public ListadoOrdenesControl(IOrdenRepository ordenRepository, Action<Guid> abrirSeguimiento)
         {
@@ -20,17 +21,6 @@ namespace GestorTaller
             Load += ListadoOrdenesControl_Load;
         }
 
-        private void dgvOrdenes_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0)
-            {
-                return;
-            }
-
-            var ordenId = (Guid)dgvOrdenes.Rows[e.RowIndex].Tag;
-            _abrirSeguimiento(ordenId);
-        }
-
         private void ListadoOrdenesControl_Load(object? sender, EventArgs e)
         {
             CargarOrdenes();
@@ -38,33 +28,28 @@ namespace GestorTaller
 
         private void CargarOrdenes()
         {
-            dgvOrdenes.Columns.Clear();
-            dgvOrdenes.Columns.Add("Codigo", "Codigo");
-            dgvOrdenes.Columns.Add("Cliente", "Cliente");
-            dgvOrdenes.Columns.Add("Estado", "Estado");
-            dgvOrdenes.Columns.Add("Fecha", "Fecha de modificacion");
+            // El codigo se calcula una sola vez sobre todas las ordenes (por fecha de
+            // recepcion), asi no cambia al buscar u ordenar la tabla.
+            var filas = _ordenRepository.ObtenerTodas()
+                .OrderBy(o => o.FechaRecepcion)
+                .Select((orden, indice) => new FilaOrden(indice + 1, orden))
+                .ToList();
 
-            dgvOrdenes.Rows.Clear();
-
-            // El codigo es solo la posicion de la orden en la lista (1, 2, 3...).
-            // Como OrdenRepositoryEnMemoria se reinicia vacio en cada ejecucion
-            // de la app, este contador tambien arranca de nuevo cada vez.
-            var codigo = 1;
-            foreach (var orden in _ordenRepository.ObtenerTodas())
+            var columnas = new List<ColumnaTabla<FilaOrden>>
             {
-                var indiceFila = dgvOrdenes.Rows.Add(
-                    codigo,
-                    orden.Cliente.Nombre,
-                    orden.Estado,
-                    orden.FechaRecepcion);
+                new("Codigo", f => f.Codigo),
+                new("Cliente", f => f.Orden.Cliente.Nombre),
+                new("Objeto", f => f.Orden.DescripcionObjeto),
+                new("Estado", f => f.Orden.Estado),
+                new("Fecha de recepcion", f => f.Orden.FechaRecepcion, f => f.Orden.FechaRecepcion.ToString("dd/MM/yyyy HH:mm"))
+            };
 
-                dgvOrdenes.Rows[indiceFila].Tag = orden.Id;
-                codigo++;
-            }
-
-            // TODO: cuando cada estado guarde su propia fecha (sprint futuro),
-            // la columna "Fecha de modificacion" debe mostrar esa fecha en vez
-            // de FechaRecepcion, que es fija desde la creacion de la orden.
+            tablaOrdenes.Cargar(
+                columnas,
+                filas,
+                fila => _abrirSeguimiento(fila.Orden.Id),
+                columnas[0],
+                DireccionOrden.Descendente);
         }
     }
 }
