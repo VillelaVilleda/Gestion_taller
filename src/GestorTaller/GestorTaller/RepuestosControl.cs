@@ -26,16 +26,14 @@ namespace GestorTaller
 
         private void CargarRepuestos()
         {
-            dgvRepuestos.Columns.Clear();
-            dgvRepuestos.Columns.Add("Nombre", "Nombre");
-            dgvRepuestos.Columns.Add("Existencia", "Existencia");
-
-            dgvRepuestos.Rows.Clear();
-
-            foreach (var repuesto in _repuestoRepository.ObtenerTodos())
+            var columnas = new List<ColumnaTabla<Repuesto>>
             {
-                dgvRepuestos.Rows.Add(repuesto.Nombre, repuesto.Existencia);
-            }
+                new("Nombre", r => r.Nombre),
+                new("Existencia", r => r.Existencia),
+                new("Precio", r => r.Precio, r => $"Q {r.Precio:N2}")
+            };
+
+            tablaRepuestos.Cargar(columnas, _repuestoRepository.ObtenerTodos(), ordenInicial: columnas[0]);
         }
     }
 }
