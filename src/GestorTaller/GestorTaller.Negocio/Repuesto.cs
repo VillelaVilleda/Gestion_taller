@@ -11,4 +11,7 @@ public class Repuesto
     public Guid Id { get; set; }
     public string Nombre { get; set; } = string.Empty;
     public int Existencia { get; set; }
+
+    /// <summary>Precio unitario en quetzales (mayor o igual a 0).</summary>
+    public decimal Precio { get; set; }
 }

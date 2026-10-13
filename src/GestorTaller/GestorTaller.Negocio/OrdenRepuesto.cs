@@ -10,4 +10,10 @@ public class OrdenRepuesto
     public Guid RepuestoId { get; set; }
     public Repuesto Repuesto { get; set; } = null!;
     public int Cantidad { get; set; }
+
+    /// <summary>
+    /// Precio unitario del repuesto al momento de asignarlo (copia del precio del
+    /// repuesto), para que cambiar el precio despues no altere ordenes ya hechas.
+    /// </summary>
+    public decimal PrecioUnitario { get; set; }
 }

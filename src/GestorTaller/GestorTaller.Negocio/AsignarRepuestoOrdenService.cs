@@ -52,7 +52,8 @@ public class AsignarRepuestoOrdenService
                 OrdenId = orden.Id,
                 RepuestoId = repuesto.Id,
                 Repuesto = repuesto,
-                Cantidad = cantidad
+                Cantidad = cantidad,
+                PrecioUnitario = repuesto.Precio
             });
         }
         else
