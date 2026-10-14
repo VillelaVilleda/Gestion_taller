@@ -118,7 +118,7 @@ namespace GestorTaller
 
         private Control CrearFormularioReparacion(Orden orden)
         {
-            var control = new ReparacionControl(_ordenRepository, _empleadoRepository, _repuestoRepository);
+            var control = new ReparacionControl(_empleadoRepository);
             control.Mostrar(orden);
             control.ReparacionRegistrada += GuardarYActualizar;
             return control;
