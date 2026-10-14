@@ -102,7 +102,7 @@ namespace GestorTaller
 
         private Control CrearFormularioCotizacion(Orden orden)
         {
-            var control = new CotizacionControl(_empleadoRepository);
+            var control = new CotizacionControl(_ordenRepository, _empleadoRepository, _repuestoRepository);
             control.Mostrar(orden);
             control.CotizacionRegistrada += GuardarYActualizar;
             return control;
