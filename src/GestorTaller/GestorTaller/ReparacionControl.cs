@@ -24,9 +24,7 @@ namespace GestorTaller
             _registrarReparacionOrdenService = new RegistrarReparacionOrdenService(new AvanzarEstadoOrdenService());
 
             dgvRepuestosAsignados.Columns.Add("Repuesto", "Repuesto");
-            dgvRepuestosAsignados.Columns.Add("Cantidad", "Cant.");
-            dgvRepuestosAsignados.Columns.Add("Precio", "Precio");
-            dgvRepuestosAsignados.Columns.Add("Subtotal", "Subtotal");
+            dgvRepuestosAsignados.Columns.Add("Cantidad", "Cantidad");
             Load += (_, _) => BeginInvoke(() =>
             {
                 if (!IsDisposed && cmbEmpleado.Enabled)
@@ -68,11 +66,7 @@ namespace GestorTaller
 
             foreach (var asignado in _orden.Repuestos)
             {
-                dgvRepuestosAsignados.Rows.Add(
-                    asignado.Repuesto?.Nombre ?? "(sin nombre)",
-                    asignado.Cantidad,
-                    $"Q {asignado.PrecioUnitario:N2}",
-                    $"Q {asignado.PrecioUnitario * asignado.Cantidad:N2}");
+                dgvRepuestosAsignados.Rows.Add(asignado.Repuesto?.Nombre ?? "(sin nombre)", asignado.Cantidad);
             }
 
             dgvRepuestosAsignados.ClearSelection();

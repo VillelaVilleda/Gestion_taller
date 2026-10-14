@@ -35,6 +35,7 @@ namespace GestorTaller
             dgvRepuestos.Columns.Add("Precio", "Precio");
             dgvRepuestos.Columns.Add("Subtotal", "Subtotal");
             cmbRepuesto.SelectedIndexChanged += (_, _) => ActualizarDisponible();
+            numMontoCotizado.ValueChanged += (_, _) => ActualizarTotal();
 
             Load += (_, _) => BeginInvoke(() =>
             {
@@ -129,6 +130,19 @@ namespace GestorTaller
 
             var subtotal = _orden.Repuestos.Sum(a => a.PrecioUnitario * a.Cantidad);
             lblSubtotalRepuestos.Text = $"Subtotal de repuestos: Q {subtotal:N2}";
+            ActualizarTotal();
+        }
+
+        // Suma que se le informa al cliente: costo de mano de obra + repuestos cotizados.
+        private void ActualizarTotal()
+        {
+            if (_orden is null)
+            {
+                return;
+            }
+
+            var repuestos = _orden.Repuestos.Sum(a => a.PrecioUnitario * a.Cantidad);
+            lblTotalCotizacion.Text = $"Mano de obra + repuestos: Q {numMontoCotizado.Value + repuestos:N2}";
         }
 
         private void btnAgregarRepuesto_Click(object? sender, EventArgs e)

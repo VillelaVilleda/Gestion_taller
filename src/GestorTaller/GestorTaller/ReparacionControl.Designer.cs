@@ -102,7 +102,7 @@ namespace GestorTaller
             lblRepuestos.Name = "lblRepuestos";
             lblRepuestos.Size = new Size(150, 23);
             lblRepuestos.TabIndex = 6;
-            lblRepuestos.Text = "Repuestos aceptados";
+            lblRepuestos.Text = "Repuestos a utilizar";
             //
             // dgvRepuestosAsignados
             //
