@@ -1,10 +1,10 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Quita (total o parcialmente) un repuesto ya asignado a una orden que esta
-/// EnReparacion y devuelve la cantidad al inventario. Es el inverso de
-/// <see cref="AsignarRepuestoOrdenService"/>. Solo modifica los objetos de
-/// dominio; quien lo invoca se encarga de persistirlos.
+/// Quita (total o parcialmente) un repuesto de la cotizacion de una orden que esta en
+/// Cotizacion. Es el inverso de <see cref="AsignarRepuestoOrdenService"/>: como el repuesto
+/// aun no se habia descontado del inventario, quitarlo no modifica la existencia.
+/// Solo modifica la orden; quien lo invoca se encarga de persistirla.
 /// </summary>
 public class QuitarRepuestoOrdenService
 {
@@ -20,9 +20,9 @@ public class QuitarRepuestoOrdenService
             throw new ArgumentException("El repuesto es obligatorio.");
         }
 
-        if (orden.Estado != EstadoOrden.EnReparacion)
+        if (orden.Estado != EstadoOrden.Cotizacion)
         {
-            throw new InvalidOperationException("Solo se pueden quitar repuestos de una orden en reparacion.");
+            throw new InvalidOperationException("Solo se pueden quitar repuestos de una orden en cotizacion.");
         }
 
         if (cantidad <= 0)
@@ -34,13 +34,13 @@ public class QuitarRepuestoOrdenService
 
         if (asignado is null)
         {
-            throw new InvalidOperationException($"El repuesto {repuesto.Nombre} no esta asignado a la orden.");
+            throw new InvalidOperationException($"El repuesto {repuesto.Nombre} no esta en la orden.");
         }
 
         if (cantidad > asignado.Cantidad)
         {
             throw new InvalidOperationException(
-                $"Solo hay {asignado.Cantidad} de {repuesto.Nombre} asignados a la orden.");
+                $"Solo hay {asignado.Cantidad} de {repuesto.Nombre} en la orden.");
         }
 
         asignado.Cantidad -= cantidad;
@@ -49,7 +49,5 @@ public class QuitarRepuestoOrdenService
         {
             orden.Repuestos.Remove(asignado);
         }
-
-        repuesto.Existencia += cantidad;
     }
 }
