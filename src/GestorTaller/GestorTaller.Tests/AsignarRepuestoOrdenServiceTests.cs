@@ -2,7 +2,9 @@ using GestorTaller.Negocio;
 
 namespace GestorTaller.Tests;
 
-// Pruebas del servicio "asignar repuesto a una orden" (issue #70).
+// Pruebas del servicio "agregar repuesto a la cotizacion de una orden" (issues #70 y #103).
+// El repuesto se agrega durante la Cotizacion: no se descuenta del inventario
+// (eso ocurre cuando el cliente acepta la cotizacion).
 public class AsignarRepuestoOrdenServiceTests
 {
     private static Orden CrearOrdenEnEstado(EstadoOrden estado)
@@ -26,33 +28,9 @@ public class AsignarRepuestoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_GuardaElPrecioDelRepuestoEnLaAsignacion()
+    public void Ejecutar_EnCotizacionConDatosValidos_AgregaElRepuestoALaOrden()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
-        var repuesto = CrearRepuesto(10, 25.50m);
-
-        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
-
-        Assert.Equal(25.50m, Assert.Single(orden.Repuestos).PrecioUnitario);
-    }
-
-    [Fact]
-    public void Ejecutar_SiCambiaElPrecioDespues_ElPrecioYaAsignadoNoCambia()
-    {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
-        var repuesto = CrearRepuesto(10, 25.50m);
-        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
-
-        repuesto.Precio = 40m;
-        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 1);
-
-        Assert.Equal(25.50m, Assert.Single(orden.Repuestos).PrecioUnitario);
-    }
-
-    [Fact]
-    public void Ejecutar_EnReparacionConDatosValidos_AgregaElRepuestoALaOrden()
-    {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(10);
 
         new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 3);
@@ -64,37 +42,73 @@ public class AsignarRepuestoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_DescuentaLaCantidadDeLaExistencia()
+    public void Ejecutar_NoDescuentaLaExistencia()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(10);
 
         new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 3);
 
-        Assert.Equal(7, repuesto.Existencia);
+        Assert.Equal(10, repuesto.Existencia);
     }
 
     [Fact]
-    public void Ejecutar_ConCantidadIgualALaExistencia_DejaLaExistenciaEnCero()
+    public void Ejecutar_GuardaElPrecioDelRepuestoEnLaAsignacion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var repuesto = CrearRepuesto(10, 25.50m);
+
+        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
+
+        Assert.Equal(25.50m, Assert.Single(orden.Repuestos).PrecioUnitario);
+    }
+
+    [Fact]
+    public void Ejecutar_SiCambiaElPrecioDespues_ElPrecioYaAsignadoNoCambia()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var repuesto = CrearRepuesto(10, 25.50m);
+        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
+
+        repuesto.Precio = 40m;
+        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 1);
+
+        Assert.Equal(25.50m, Assert.Single(orden.Repuestos).PrecioUnitario);
+    }
+
+    [Fact]
+    public void Ejecutar_ConCantidadIgualALaExistencia_EsValido()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(4);
 
         new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 4);
 
-        Assert.Equal(0, repuesto.Existencia);
+        Assert.Equal(4, Assert.Single(orden.Repuestos).Cantidad);
     }
 
     [Fact]
     public void Ejecutar_ConCantidadMayorALaExistencia_LanzaExcepcionYNoCambiaNada()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(2);
 
         Assert.Throws<InvalidOperationException>(() => new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, 3));
 
-        Assert.Equal(2, repuesto.Existencia);
         Assert.Empty(orden.Repuestos);
+    }
+
+    [Fact]
+    public void Ejecutar_SiLaSumaConLoYaAgregadoSuperaLaExistencia_LanzaExcepcionYNoCambiaNada()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var repuesto = CrearRepuesto(5);
+        var servicio = new AsignarRepuestoOrdenService();
+        servicio.Ejecutar(orden, repuesto, 3);
+
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, repuesto, 3));
+
+        Assert.Equal(3, Assert.Single(orden.Repuestos).Cantidad);
     }
 
     [Theory]
@@ -102,7 +116,7 @@ public class AsignarRepuestoOrdenServiceTests
     [InlineData(-1)]
     public void Ejecutar_ConCantidadNoPositiva_LanzaExcepcion(int cantidad)
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(10);
 
         Assert.Throws<ArgumentException>(() => new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, cantidad));
@@ -111,10 +125,10 @@ public class AsignarRepuestoOrdenServiceTests
     [Theory]
     [InlineData(EstadoOrden.Recepcion)]
     [InlineData(EstadoOrden.Diagnostico)]
-    [InlineData(EstadoOrden.Cotizacion)]
+    [InlineData(EstadoOrden.EnReparacion)]
     [InlineData(EstadoOrden.Terminado)]
     [InlineData(EstadoOrden.Entregado)]
-    public void Ejecutar_DesdeEstadoDistintoAEnReparacion_LanzaExcepcion(EstadoOrden estado)
+    public void Ejecutar_DesdeEstadoDistintoACotizacion_LanzaExcepcion(EstadoOrden estado)
     {
         var orden = CrearOrdenEnEstado(estado);
         var repuesto = CrearRepuesto(10);
@@ -123,18 +137,16 @@ public class AsignarRepuestoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_ConElMismoRepuestoDosVeces_SumaLaCantidadYDescuentaAmbas()
+    public void Ejecutar_ConElMismoRepuestoDosVeces_SumaLaCantidad()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(10);
         var servicio = new AsignarRepuestoOrdenService();
 
         servicio.Ejecutar(orden, repuesto, 2);
         servicio.Ejecutar(orden, repuesto, 3);
 
-        var asignado = Assert.Single(orden.Repuestos);
-        Assert.Equal(5, asignado.Cantidad);
-        Assert.Equal(5, repuesto.Existencia);
+        Assert.Equal(5, Assert.Single(orden.Repuestos).Cantidad);
     }
 
     [Fact]
@@ -146,7 +158,7 @@ public class AsignarRepuestoOrdenServiceTests
     [Fact]
     public void Ejecutar_SinRepuesto_LanzaExcepcion()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
 
         Assert.Throws<ArgumentException>(() => new AsignarRepuestoOrdenService().Ejecutar(orden, null!, 1));
     }

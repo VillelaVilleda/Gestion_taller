@@ -2,7 +2,8 @@ using GestorTaller.Negocio;
 
 namespace GestorTaller.Tests;
 
-// Pruebas del servicio "quitar repuesto asignado a una orden".
+// Pruebas del servicio "quitar repuesto de la cotizacion de una orden" (issue #103).
+// El repuesto solo estaba en la cotizacion: quitarlo no toca el inventario.
 public class QuitarRepuestoOrdenServiceTests
 {
     private static Orden CrearOrdenEnEstado(EstadoOrden estado)
@@ -25,11 +26,11 @@ public class QuitarRepuestoOrdenServiceTests
         return new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro de aceite", Existencia = existencia };
     }
 
-    // Deja una orden EnReparacion con el repuesto ya asignado (y el inventario descontado).
-    private static (Orden orden, Repuesto repuesto) CrearOrdenConAsignado(int existenciaInicial, int cantidadAsignada)
+    // Deja una orden en Cotizacion con el repuesto ya agregado.
+    private static (Orden orden, Repuesto repuesto) CrearOrdenConAsignado(int existencia, int cantidadAsignada)
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
-        var repuesto = CrearRepuesto(existenciaInicial);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var repuesto = CrearRepuesto(existencia);
         new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, cantidadAsignada);
         return (orden, repuesto);
     }
@@ -45,16 +46,6 @@ public class QuitarRepuestoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_DevuelveLaCantidadAlInventario()
-    {
-        var (orden, repuesto) = CrearOrdenConAsignado(10, 5);
-
-        new QuitarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
-
-        Assert.Equal(7, repuesto.Existencia);
-    }
-
-    [Fact]
     public void Ejecutar_ConTodaLaCantidad_EliminaLaLineaDeLaOrden()
     {
         var (orden, repuesto) = CrearOrdenConAsignado(10, 5);
@@ -62,6 +53,15 @@ public class QuitarRepuestoOrdenServiceTests
         new QuitarRepuestoOrdenService().Ejecutar(orden, repuesto, 5);
 
         Assert.Empty(orden.Repuestos);
+    }
+
+    [Fact]
+    public void Ejecutar_NoModificaLaExistencia()
+    {
+        var (orden, repuesto) = CrearOrdenConAsignado(10, 5);
+
+        new QuitarRepuestoOrdenService().Ejecutar(orden, repuesto, 2);
+
         Assert.Equal(10, repuesto.Existencia);
     }
 
@@ -74,7 +74,7 @@ public class QuitarRepuestoOrdenServiceTests
     [Fact]
     public void Ejecutar_ConRepuestoNulo_LanzaArgumentException()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
 
         Assert.Throws<ArgumentException>(() => new QuitarRepuestoOrdenService().Ejecutar(orden, null!, 1));
     }
@@ -82,10 +82,10 @@ public class QuitarRepuestoOrdenServiceTests
     [Theory]
     [InlineData(EstadoOrden.Recepcion)]
     [InlineData(EstadoOrden.Diagnostico)]
-    [InlineData(EstadoOrden.Cotizacion)]
+    [InlineData(EstadoOrden.EnReparacion)]
     [InlineData(EstadoOrden.Terminado)]
     [InlineData(EstadoOrden.Entregado)]
-    public void Ejecutar_FueraDeEnReparacion_LanzaInvalidOperationException(EstadoOrden estado)
+    public void Ejecutar_FueraDeCotizacion_LanzaInvalidOperationException(EstadoOrden estado)
     {
         var (orden, repuesto) = CrearOrdenConAsignado(10, 5);
         orden.Estado = estado;
@@ -104,30 +104,21 @@ public class QuitarRepuestoOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_ConRepuestoNoAsignado_LanzaInvalidOperationException()
+    public void Ejecutar_ConRepuestoNoAgregado_LanzaInvalidOperationException()
     {
-        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var repuesto = CrearRepuesto(10);
 
         Assert.Throws<InvalidOperationException>(() => new QuitarRepuestoOrdenService().Ejecutar(orden, repuesto, 1));
     }
 
     [Fact]
-    public void Ejecutar_ConMasDeLoAsignado_LanzaInvalidOperationException()
-    {
-        var (orden, repuesto) = CrearOrdenConAsignado(10, 5);
-
-        Assert.Throws<InvalidOperationException>(() => new QuitarRepuestoOrdenService().Ejecutar(orden, repuesto, 6));
-    }
-
-    [Fact]
-    public void Ejecutar_CuandoFalla_NoModificaOrdenNiInventario()
+    public void Ejecutar_ConMasDeLoAgregado_LanzaExcepcionYNoCambiaNada()
     {
         var (orden, repuesto) = CrearOrdenConAsignado(10, 5);
 
         Assert.Throws<InvalidOperationException>(() => new QuitarRepuestoOrdenService().Ejecutar(orden, repuesto, 6));
 
         Assert.Equal(5, Assert.Single(orden.Repuestos).Cantidad);
-        Assert.Equal(5, repuesto.Existencia);
     }
 }

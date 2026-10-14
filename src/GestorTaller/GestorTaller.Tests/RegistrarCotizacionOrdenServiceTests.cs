@@ -113,4 +113,85 @@ public class RegistrarCotizacionOrdenServiceTests
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, "Maria Diaz", 350m, aceptada: true));
     }
+
+    // ---- Repuestos de la cotizacion (issue #103) ----
+
+    private static Repuesto AgregarRepuesto(Orden orden, string nombre, int existencia, int cantidad)
+    {
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = nombre, Existencia = existencia };
+        orden.Repuestos.Add(new OrdenRepuesto
+        {
+            OrdenId = orden.Id,
+            RepuestoId = repuesto.Id,
+            Repuesto = repuesto,
+            Cantidad = cantidad
+        });
+        return repuesto;
+    }
+
+    [Fact]
+    public void Ejecutar_Aceptada_DescuentaElInventarioDeCadaRepuesto()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var filtro = AgregarRepuesto(orden, "Filtro de aceite", 10, 3);
+        var bujia = AgregarRepuesto(orden, "Bujia", 8, 8);
+
+        CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
+
+        Assert.Equal(7, filtro.Existencia);
+        Assert.Equal(0, bujia.Existencia);
+        Assert.Equal(2, orden.Repuestos.Count);
+    }
+
+    [Fact]
+    public void Ejecutar_AceptadaConExistenciaInsuficiente_LanzaExcepcionConElNombreDelRepuesto()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        AgregarRepuesto(orden, "Filtro de aceite", 2, 3);
+
+        var ex = Assert.Throws<InvalidOperationException>(
+            () => CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: true));
+
+        Assert.Contains("Filtro de aceite", ex.Message);
+    }
+
+    [Fact]
+    public void Ejecutar_AceptadaConExistenciaInsuficiente_NoCambiaNada()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var suficiente = AgregarRepuesto(orden, "Bujia", 10, 2);
+        var insuficiente = AgregarRepuesto(orden, "Filtro de aceite", 1, 3);
+
+        Assert.Throws<InvalidOperationException>(
+            () => CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: true));
+
+        Assert.Equal(EstadoOrden.Cotizacion, orden.Estado);
+        Assert.Equal(10, suficiente.Existencia);
+        Assert.Equal(1, insuficiente.Existencia);
+        Assert.Equal(string.Empty, orden.EmpleadoCotizacion);
+        Assert.Equal(2, orden.Repuestos.Count);
+    }
+
+    [Fact]
+    public void Ejecutar_Rechazada_QuitaLosRepuestosSinTocarElInventario()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var filtro = AgregarRepuesto(orden, "Filtro de aceite", 10, 3);
+
+        CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
+
+        Assert.Empty(orden.Repuestos);
+        Assert.Equal(10, filtro.Existencia);
+    }
+
+    [Fact]
+    public void Ejecutar_RechazadaConExistenciaInsuficiente_NoLanzaExcepcion()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        AgregarRepuesto(orden, "Filtro de aceite", 0, 3);
+
+        CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
+
+        Assert.Equal(EstadoOrden.Terminado, orden.Estado);
+    }
 }
