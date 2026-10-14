@@ -378,6 +378,93 @@ public class OrdenRepositoryEfCoreTests
         Assert.Equal(filtro.Id, restante.RepuestoId);
     }
 
+    // Issue #103: orden en Cotizacion con 3 filtros cotizados y 10 en inventario.
+    private static (DbContextOptions<GestorTallerDbContext> opciones, Guid ordenId, Guid repuestoId) PrepararOrdenCotizada()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+
+        using var escritura = new GestorTallerDbContext(opciones);
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Filtro de aceite", Existencia = 10 };
+        escritura.Clientes.Add(cliente);
+        escritura.Repuestos.Add(repuesto);
+        escritura.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(escritura);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion, EstadoOrden.Diagnostico, EstadoOrden.Cotizacion);
+        repositorio.Agregar(orden);
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 3 });
+        repositorio.Actualizar(orden);
+
+        return (opciones, orden.Id, repuesto.Id);
+    }
+
+    [Fact]
+    public void Actualizar_AlAceptarLaCotizacion_GuardaElDescuentoDelInventarioYElNuevoEstado()
+    {
+        var (opciones, ordenId, repuestoId) = PrepararOrdenCotizada();
+
+        using (var trabajo = new GestorTallerDbContext(opciones))
+        {
+            var repositorio = new OrdenRepositoryEfCore(trabajo);
+            var orden = repositorio.ObtenerPorId(ordenId)!;
+
+            new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService())
+                .Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
+            repositorio.Actualizar(orden);
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        var guardada = new OrdenRepositoryEfCore(lectura).ObtenerPorId(ordenId)!;
+
+        Assert.Equal(EstadoOrden.EnReparacion, guardada.Estado);
+        Assert.Equal(3, Assert.Single(guardada.Repuestos).Cantidad);
+        Assert.Equal(7, lectura.Repuestos.Find(repuestoId)!.Existencia);
+    }
+
+    [Fact]
+    public void Actualizar_AlRechazarLaCotizacion_BorraLosRepuestosYNoTocaElInventario()
+    {
+        var (opciones, ordenId, repuestoId) = PrepararOrdenCotizada();
+
+        using (var trabajo = new GestorTallerDbContext(opciones))
+        {
+            var repositorio = new OrdenRepositoryEfCore(trabajo);
+            var orden = repositorio.ObtenerPorId(ordenId)!;
+
+            new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService())
+                .Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
+            repositorio.Actualizar(orden);
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        var guardada = new OrdenRepositoryEfCore(lectura).ObtenerPorId(ordenId)!;
+
+        Assert.Equal(EstadoOrden.Terminado, guardada.Estado);
+        Assert.Empty(guardada.Repuestos);
+        Assert.Equal(10, lectura.Repuestos.Find(repuestoId)!.Existencia);
+    }
+
+    [Fact]
+    public void Actualizar_AlQuitarRepuestosDeLaCotizacion_NoCambiaElInventarioGuardado()
+    {
+        var (opciones, ordenId, repuestoId) = PrepararOrdenCotizada();
+
+        using (var trabajo = new GestorTallerDbContext(opciones))
+        {
+            var repositorio = new OrdenRepositoryEfCore(trabajo);
+            var orden = repositorio.ObtenerPorId(ordenId)!;
+
+            new QuitarRepuestoOrdenService().Ejecutar(orden, orden.Repuestos[0].Repuesto, 3);
+            repositorio.Actualizar(orden);
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+
+        Assert.Empty(lectura.Set<OrdenRepuesto>().Where(r => r.OrdenId == ordenId));
+        Assert.Equal(10, lectura.Repuestos.Find(repuestoId)!.Existencia);
+    }
+
     // Issue #81: volver a consultar una orden ya rastreada no debe pisar el
     // historial en memoria con el guardado (que aun no tiene los estados nuevos).
     [Fact]
