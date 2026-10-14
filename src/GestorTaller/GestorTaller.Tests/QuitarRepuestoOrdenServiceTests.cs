@@ -29,8 +29,14 @@ public class QuitarRepuestoOrdenServiceTests
     private static (Orden orden, Repuesto repuesto) CrearOrdenConAsignado(int existenciaInicial, int cantidadAsignada)
     {
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
-        var repuesto = CrearRepuesto(existenciaInicial);
-        new AsignarRepuestoOrdenService().Ejecutar(orden, repuesto, cantidadAsignada);
+        var repuesto = CrearRepuesto(existenciaInicial - cantidadAsignada);
+        orden.Repuestos.Add(new OrdenRepuesto
+        {
+            OrdenId = orden.Id,
+            RepuestoId = repuesto.Id,
+            Repuesto = repuesto,
+            Cantidad = cantidadAsignada
+        });
         return (orden, repuesto);
     }
 

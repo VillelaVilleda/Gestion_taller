@@ -1,17 +1,18 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: asignar un repuesto (con cantidad) a una orden en reparacion y
-/// descontar esa cantidad de la existencia del repuesto (DERCAS 6.2.4.2, 6.2.4.3, 6.3.2).
+/// Caso de uso: agregar un repuesto (con cantidad) a la cotizacion de una orden, para que
+/// el cliente conozca el total antes de aceptar. NO descuenta el inventario: eso ocurre
+/// cuando el cliente acepta la cotizacion.
 /// Reglas (ver AsignarRepuestoOrdenServiceTests):
 ///   - la orden y el repuesto deben existir
-///   - la orden debe estar en estado EnReparacion
+///   - la orden debe estar en estado Cotizacion
 ///   - la cantidad debe ser mayor a cero
-///   - la cantidad no puede superar la existencia disponible
-///   - si el repuesto ya estaba asignado a la orden, se suma la cantidad
+///   - la cantidad total (lo ya agregado mas lo nuevo) no puede superar la existencia
+///   - si el repuesto ya estaba en la orden, se suma la cantidad y se conserva el precio original
+///   - al agregarlo por primera vez se guarda el precio unitario de ese momento
 ///   - todo se valida antes de modificar: si falla, no cambia nada
-/// Guardar los cambios (orden y repuesto) es responsabilidad de quien llama,
-/// con IOrdenRepository.Actualizar.
+/// Guardar los cambios es responsabilidad de quien llama, con IOrdenRepository.Actualizar.
 /// </summary>
 public class AsignarRepuestoOrdenService
 {
@@ -27,9 +28,9 @@ public class AsignarRepuestoOrdenService
             throw new ArgumentException("Se requiere un repuesto.", nameof(repuesto));
         }
 
-        if (orden.Estado != EstadoOrden.EnReparacion)
+        if (orden.Estado != EstadoOrden.Cotizacion)
         {
-            throw new InvalidOperationException("Solo se pueden asignar repuestos a una orden en estado EnReparacion.");
+            throw new InvalidOperationException("Solo se pueden agregar repuestos a una orden en estado Cotizacion.");
         }
 
         if (cantidad <= 0)
@@ -37,13 +38,14 @@ public class AsignarRepuestoOrdenService
             throw new ArgumentException("La cantidad debe ser mayor a cero.", nameof(cantidad));
         }
 
-        if (cantidad > repuesto.Existencia)
+        var asignado = orden.Repuestos.FirstOrDefault(r => r.RepuestoId == repuesto.Id);
+        var cantidadTotal = (asignado?.Cantidad ?? 0) + cantidad;
+
+        if (cantidadTotal > repuesto.Existencia)
         {
             throw new InvalidOperationException(
                 $"No hay existencia suficiente de {repuesto.Nombre}. Disponible: {repuesto.Existencia}.");
         }
-
-        var asignado = orden.Repuestos.FirstOrDefault(r => r.RepuestoId == repuesto.Id);
 
         if (asignado is null)
         {
@@ -58,9 +60,7 @@ public class AsignarRepuestoOrdenService
         }
         else
         {
-            asignado.Cantidad += cantidad;
+            asignado.Cantidad = cantidadTotal;
         }
-
-        repuesto.Existencia -= cantidad;
     }
 }
