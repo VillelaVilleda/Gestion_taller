@@ -15,6 +15,7 @@ namespace GestorTaller
         private readonly RegistrarCotizacionOrdenService _registrarCotizacionOrdenService;
         private readonly AsignarRepuestoOrdenService _asignarRepuestoOrdenService = new();
         private readonly QuitarRepuestoOrdenService _quitarRepuestoOrdenService = new();
+        private readonly CalcularTotalOrdenService _calcularTotalOrdenService = new();
         private readonly IOrdenRepository _ordenRepository;
         private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IRepuestoRepository _repuestoRepository;
@@ -127,13 +128,10 @@ namespace GestorTaller
             }
 
             dgvRepuestos.ClearSelection();
-
-            var subtotal = _orden.Repuestos.Sum(a => a.PrecioUnitario * a.Cantidad);
-            lblSubtotalRepuestos.Text = $"Subtotal de repuestos: Q {subtotal:N2}";
             ActualizarTotal();
         }
 
-        // Suma que se le informa al cliente: costo de mano de obra + repuestos cotizados.
+        // Desglose que se le informa al cliente: diagnostico + mano de obra + repuestos cotizados.
         private void ActualizarTotal()
         {
             if (_orden is null)
@@ -141,8 +139,13 @@ namespace GestorTaller
                 return;
             }
 
-            var repuestos = _orden.Repuestos.Sum(a => a.PrecioUnitario * a.Cantidad);
-            lblTotalCotizacion.Text = $"Mano de obra + repuestos: Q {numMontoCotizado.Value + repuestos:N2}";
+            var desglose = _calcularTotalOrdenService.Calcular(_orden.CostoDiagnostico, numMontoCotizado.Value, _orden.Repuestos);
+
+            lblDesglose.Text =
+                $"Diagnostico: Q {desglose.CostoDiagnostico:N2}\n" +
+                $"Mano de obra: Q {desglose.ManoDeObra:N2}\n" +
+                $"Repuestos: Q {desglose.Repuestos:N2}";
+            lblTotalCotizacion.Text = $"Total a cobrar: Q {desglose.Total:N2}";
         }
 
         private void btnAgregarRepuesto_Click(object? sender, EventArgs e)

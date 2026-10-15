@@ -12,6 +12,7 @@ namespace GestorTaller
     public partial class TerminadoControl : UserControl
     {
         private readonly RegistrarEntregaOrdenService _registrarEntregaOrdenService;
+        private readonly CalcularTotalOrdenService _calcularTotalOrdenService = new();
         private readonly IEmpleadoRepository _empleadoRepository;
         private Orden _orden = null!;
 
@@ -44,7 +45,13 @@ namespace GestorTaller
 
             cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoEntrega);
 
-            var totalAPagar = esPendiente ? CalcularMontoTotal(orden) : orden.MontoPagado;
+            var desglose = _calcularTotalOrdenService.Calcular(orden);
+            lblDesglose.Text =
+                $"Costo de diagnostico: Q {desglose.CostoDiagnostico:N2}\n" +
+                $"Costo de mano de obra: Q {desglose.ManoDeObra:N2}\n" +
+                $"Repuestos: Q {desglose.Repuestos:N2}";
+
+            var totalAPagar = esPendiente ? desglose.Total : orden.MontoPagado;
             lblTotalAPagar.Text = $"Q {totalAPagar:N2}";
 
             lblFechaEntrega.Text = orden.FechaEntrega.HasValue
@@ -60,25 +67,13 @@ namespace GestorTaller
 
         private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
 
-        private static decimal CalcularMontoTotal(Orden orden)
-        {
-            var total = orden.CostoDiagnostico;
-
-            if (orden.HistorialEstados.Contains(EstadoOrden.EnReparacion))
-            {
-                total += orden.MontoCotizado;
-            }
-
-            return total;
-        }
-
         private void btnConfirmarPago_Click(object? sender, EventArgs e)
         {
             lblMensaje.ForeColor = Color.DarkRed;
 
             try
             {
-                _registrarEntregaOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), CalcularMontoTotal(_orden));
+                _registrarEntregaOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), _calcularTotalOrdenService.Calcular(_orden).Total);
                 EntregaRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

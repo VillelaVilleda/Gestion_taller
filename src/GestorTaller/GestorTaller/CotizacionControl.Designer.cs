@@ -16,7 +16,7 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblDisponible;
         private System.Windows.Forms.DataGridView dgvRepuestos;
         private System.Windows.Forms.Button btnQuitarRepuesto;
-        private System.Windows.Forms.Label lblSubtotalRepuestos;
+        private System.Windows.Forms.Label lblDesglose;
         private System.Windows.Forms.Label lblTotalCotizacion;
         private System.Windows.Forms.Label lblDecision;
         private System.Windows.Forms.RadioButton rbAceptada;
@@ -47,7 +47,7 @@ namespace GestorTaller
             lblDisponible = new Label();
             dgvRepuestos = new DataGridView();
             btnQuitarRepuesto = new Button();
-            lblSubtotalRepuestos = new Label();
+            lblDesglose = new Label();
             lblTotalCotizacion = new Label();
             lblDecision = new Label();
             rbAceptada = new RadioButton();
@@ -93,7 +93,7 @@ namespace GestorTaller
             lblMonto.Name = "lblMonto";
             lblMonto.Size = new Size(110, 20);
             lblMonto.TabIndex = 3;
-            lblMonto.Text = "Monto cotizado";
+            lblMonto.Text = "Costo de mano de obra";
             //
             // numMontoCotizado
             //
@@ -175,31 +175,31 @@ namespace GestorTaller
             btnQuitarRepuesto.Text = "Quitar repuesto seleccionado";
             btnQuitarRepuesto.Click += btnQuitarRepuesto_Click;
             //
-            // lblSubtotalRepuestos
+            // lblDesglose
             //
-            lblSubtotalRepuestos.AutoSize = true;
-            lblSubtotalRepuestos.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblSubtotalRepuestos.Location = new Point(20, 424);
-            lblSubtotalRepuestos.Name = "lblSubtotalRepuestos";
-            lblSubtotalRepuestos.Size = new Size(200, 23);
-            lblSubtotalRepuestos.TabIndex = 12;
-            lblSubtotalRepuestos.Text = "Subtotal de repuestos: Q 0.00";
+            lblDesglose.AutoSize = true;
+            lblDesglose.Location = new Point(20, 424);
+            lblDesglose.MaximumSize = new Size(340, 0);
+            lblDesglose.Name = "lblDesglose";
+            lblDesglose.Size = new Size(300, 60);
+            lblDesglose.TabIndex = 12;
+            lblDesglose.Text = "Diagnostico: Q 0.00";
             //
             // lblTotalCotizacion
             //
             lblTotalCotizacion.AutoSize = true;
             lblTotalCotizacion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTotalCotizacion.Location = new Point(20, 452);
+            lblTotalCotizacion.Location = new Point(20, 492);
             lblTotalCotizacion.MaximumSize = new Size(340, 0);
             lblTotalCotizacion.Name = "lblTotalCotizacion";
             lblTotalCotizacion.Size = new Size(300, 23);
             lblTotalCotizacion.TabIndex = 13;
-            lblTotalCotizacion.Text = "Mano de obra + repuestos: Q 0.00";
+            lblTotalCotizacion.Text = "Total a cobrar: Q 0.00";
             //
             // lblDecision
             //
             lblDecision.AutoSize = true;
-            lblDecision.Location = new Point(20, 490);
+            lblDecision.Location = new Point(20, 530);
             lblDecision.Name = "lblDecision";
             lblDecision.Size = new Size(160, 20);
             lblDecision.TabIndex = 14;
@@ -209,7 +209,7 @@ namespace GestorTaller
             //
             rbAceptada.AutoSize = true;
             rbAceptada.Checked = true;
-            rbAceptada.Location = new Point(20, 515);
+            rbAceptada.Location = new Point(20, 555);
             rbAceptada.Name = "rbAceptada";
             rbAceptada.Size = new Size(120, 24);
             rbAceptada.TabIndex = 15;
@@ -219,7 +219,7 @@ namespace GestorTaller
             // rbRechazada
             //
             rbRechazada.AutoSize = true;
-            rbRechazada.Location = new Point(160, 515);
+            rbRechazada.Location = new Point(160, 555);
             rbRechazada.Name = "rbRechazada";
             rbRechazada.Size = new Size(130, 24);
             rbRechazada.TabIndex = 16;
@@ -227,7 +227,7 @@ namespace GestorTaller
             //
             // btnGuardarCotizacion
             //
-            btnGuardarCotizacion.Location = new Point(20, 555);
+            btnGuardarCotizacion.Location = new Point(20, 595);
             btnGuardarCotizacion.Name = "btnGuardarCotizacion";
             btnGuardarCotizacion.Size = new Size(180, 32);
             btnGuardarCotizacion.TabIndex = 17;
@@ -238,7 +238,7 @@ namespace GestorTaller
             //
             lblMensaje.AutoSize = true;
             lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 600);
+            lblMensaje.Location = new Point(20, 640);
             lblMensaje.MaximumSize = new Size(340, 0);
             lblMensaje.Name = "lblMensaje";
             lblMensaje.Size = new Size(0, 20);
@@ -261,7 +261,7 @@ namespace GestorTaller
             Controls.Add(lblDisponible);
             Controls.Add(dgvRepuestos);
             Controls.Add(btnQuitarRepuesto);
-            Controls.Add(lblSubtotalRepuestos);
+            Controls.Add(lblDesglose);
             Controls.Add(lblTotalCotizacion);
             Controls.Add(lblDecision);
             Controls.Add(rbAceptada);
@@ -269,7 +269,7 @@ namespace GestorTaller
             Controls.Add(btnGuardarCotizacion);
             Controls.Add(lblMensaje);
             Name = "CotizacionControl";
-            Size = new Size(400, 670);
+            Size = new Size(400, 700);
             ((System.ComponentModel.ISupportInitialize)numMontoCotizado).EndInit();
             ((System.ComponentModel.ISupportInitialize)numCantidad).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvRepuestos).EndInit();

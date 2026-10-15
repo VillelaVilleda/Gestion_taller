@@ -8,6 +8,7 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblSubtitulo;
         private System.Windows.Forms.Label lblEmpleado;
         private GestorTaller.ComboBoxFiltrable cmbEmpleado;
+        private System.Windows.Forms.Label lblDesglose;
         private System.Windows.Forms.Label lblMonto;
         private System.Windows.Forms.Label lblTotalAPagar;
         private System.Windows.Forms.Label lblFechaEntrega;
@@ -29,6 +30,7 @@ namespace GestorTaller
             lblSubtitulo = new Label();
             lblEmpleado = new Label();
             cmbEmpleado = new ComboBoxFiltrable();
+            lblDesglose = new Label();
             lblMonto = new Label();
             lblTotalAPagar = new Label();
             lblFechaEntrega = new Label();
@@ -73,10 +75,20 @@ namespace GestorTaller
             cmbEmpleado.Size = new Size(340, 27);
             cmbEmpleado.TabIndex = 3;
             //
+            // lblDesglose
+            //
+            lblDesglose.AutoSize = true;
+            lblDesglose.Location = new Point(20, 135);
+            lblDesglose.MaximumSize = new Size(340, 0);
+            lblDesglose.Name = "lblDesglose";
+            lblDesglose.Size = new Size(300, 60);
+            lblDesglose.TabIndex = 9;
+            lblDesglose.Text = "Costo de diagnostico: Q 0.00";
+            //
             // lblMonto
             //
             lblMonto.AutoSize = true;
-            lblMonto.Location = new Point(20, 135);
+            lblMonto.Location = new Point(20, 205);
             lblMonto.Name = "lblMonto";
             lblMonto.Size = new Size(110, 20);
             lblMonto.TabIndex = 4;
@@ -86,7 +98,7 @@ namespace GestorTaller
             //
             lblTotalAPagar.AutoSize = true;
             lblTotalAPagar.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTotalAPagar.Location = new Point(20, 155);
+            lblTotalAPagar.Location = new Point(20, 225);
             lblTotalAPagar.Name = "lblTotalAPagar";
             lblTotalAPagar.Size = new Size(100, 32);
             lblTotalAPagar.TabIndex = 5;
@@ -96,14 +108,14 @@ namespace GestorTaller
             //
             lblFechaEntrega.AutoSize = true;
             lblFechaEntrega.ForeColor = Color.Gray;
-            lblFechaEntrega.Location = new Point(20, 195);
+            lblFechaEntrega.Location = new Point(20, 265);
             lblFechaEntrega.Name = "lblFechaEntrega";
             lblFechaEntrega.Size = new Size(0, 20);
             lblFechaEntrega.TabIndex = 6;
             //
             // btnConfirmarPago
             //
-            btnConfirmarPago.Location = new Point(20, 225);
+            btnConfirmarPago.Location = new Point(20, 295);
             btnConfirmarPago.Name = "btnConfirmarPago";
             btnConfirmarPago.Size = new Size(180, 32);
             btnConfirmarPago.TabIndex = 7;
@@ -114,7 +126,7 @@ namespace GestorTaller
             //
             lblMensaje.AutoSize = true;
             lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 270);
+            lblMensaje.Location = new Point(20, 340);
             lblMensaje.MaximumSize = new Size(340, 0);
             lblMensaje.Name = "lblMensaje";
             lblMensaje.Size = new Size(0, 20);
@@ -128,13 +140,14 @@ namespace GestorTaller
             Controls.Add(lblSubtitulo);
             Controls.Add(lblEmpleado);
             Controls.Add(cmbEmpleado);
+            Controls.Add(lblDesglose);
             Controls.Add(lblMonto);
             Controls.Add(lblTotalAPagar);
             Controls.Add(lblFechaEntrega);
             Controls.Add(btnConfirmarPago);
             Controls.Add(lblMensaje);
             Name = "TerminadoControl";
-            Size = new Size(400, 320);
+            Size = new Size(400, 390);
             ResumeLayout(false);
             PerformLayout();
         }
