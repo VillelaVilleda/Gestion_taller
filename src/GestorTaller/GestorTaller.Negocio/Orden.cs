@@ -14,14 +14,14 @@ public class Orden
     public EstadoOrden Estado { get; set; }
     public DateTime FechaRecepcion { get; set; }
     public List<EstadoOrden> HistorialEstados { get; set; } = new();
-    public string EmpleadoDiagnostico { get; set; } = string.Empty;
+    public Empleado? EmpleadoDiagnostico { get; set; }
     public string DetalleDiagnostico { get; set; } = string.Empty;
-    public string EmpleadoCotizacion { get; set; } = string.Empty;
+    public Empleado? EmpleadoCotizacion { get; set; }
     public decimal MontoCotizado { get; set; }
     public bool CotizacionAceptada { get; set; }
-    public string EmpleadoReparacion { get; set; } = string.Empty;
+    public Empleado? EmpleadoReparacion { get; set; }
     public string DetalleReparacion { get; set; } = string.Empty;
-    public string EmpleadoEntrega { get; set; } = string.Empty;
+    public Empleado? EmpleadoEntrega { get; set; }
     public decimal MontoPagado { get; set; }
     public DateTime? FechaEntrega { get; set; }
     public List<OrdenRepuesto> Repuestos { get; set; } = new();

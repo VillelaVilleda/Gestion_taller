@@ -20,14 +20,14 @@ public class RegistrarEntregaOrdenService
         _avanzarEstadoOrdenService = avanzarEstadoOrdenService;
     }
 
-    public void Ejecutar(Orden orden, string empleadoEntrega, decimal montoPagado)
+    public void Ejecutar(Orden orden, Empleado empleadoEntrega, decimal montoPagado)
     {
         if (orden is null)
         {
             throw new ArgumentException("Se requiere una orden.", nameof(orden));
         }
 
-        if (string.IsNullOrWhiteSpace(empleadoEntrega))
+        if (empleadoEntrega is null)
         {
             throw new ArgumentException("Se requiere el empleado encargado de la entrega.", nameof(empleadoEntrega));
         }

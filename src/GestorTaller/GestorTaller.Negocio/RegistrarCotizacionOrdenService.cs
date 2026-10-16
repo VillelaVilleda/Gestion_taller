@@ -26,7 +26,7 @@ public class RegistrarCotizacionOrdenService
         _avanzarEstadoOrdenService = avanzarEstadoOrdenService;
     }
 
-    public void Ejecutar(Orden orden, string empleadoCotizacion, decimal montoCotizado, bool aceptada)
+    public void Ejecutar(Orden orden, Empleado empleadoCotizacion, decimal montoCotizado, bool aceptada)
     {
         if (orden is null)
         {
@@ -38,7 +38,7 @@ public class RegistrarCotizacionOrdenService
             throw new InvalidOperationException("Solo se puede registrar la cotizacion de una orden en estado Cotizacion.");
         }
 
-        if (string.IsNullOrWhiteSpace(empleadoCotizacion))
+        if (empleadoCotizacion is null)
         {
             throw new ArgumentException("Se requiere el empleado encargado de la cotizacion.", nameof(empleadoCotizacion));
         }

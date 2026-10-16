@@ -42,68 +42,65 @@ ON CONFLICT ("Id") DO UPDATE SET existencia = EXCLUDED.existencia, precio = EXCL
 
 -- o1: Recepcion
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('01111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
      'Vehiculo sedan color rojo, placa ABC-123', 'El vehiculo no enciende', 15.00, 'Recepcion', NOW() - INTERVAL '1 day',
-     '', '', '', 0, FALSE, '', '', '', 0, NULL)
+    NULL, '', NULL, 0, FALSE, NULL, '', NULL, 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o2: Diagnostico
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('02222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222',
      'Motocicleta 150cc', 'Hace un ruido extrano en el motor', 20.00, 'Diagnostico', NOW() - INTERVAL '3 days',
-     'Carlos Mendez', 'Se detecto desgaste en la cadena de distribucion', '', 0, FALSE, '', '', '', 0, NULL)
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'Se detecto desgaste en la cadena de distribucion', NULL, 0, FALSE, NULL, '', NULL, 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o3: Cotizacion
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('03333333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333',
      'Pickup color blanco', 'Los frenos chillan al frenar', 15.00, 'Cotizacion', NOW() - INTERVAL '4 days',
-     'Maria Gonzalez', 'Pastillas de freno desgastadas', 'Maria Gonzalez', 150.00, FALSE, '', '', '', 0, NULL)
+    'dddddddd-dddd-dddd-dddd-dddddddddddd', 'Pastillas de freno desgastadas', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 150.00, FALSE, NULL, '', NULL, 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o4: EnReparacion
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('04444444-4444-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444',
      'Sedan compacto azul', 'Necesita cambio de bateria y revision general', 15.00, 'EnReparacion', NOW() - INTERVAL '5 days',
-     'Carlos Mendez', 'Bateria descargada, requiere cambio', 'Carlos Mendez', 80.00, TRUE,
-     'Maria Gonzalez', '', '', 0, NULL)
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'Bateria descargada, requiere cambio', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 80.00, TRUE, 'dddddddd-dddd-dddd-dddd-dddddddddddd', '', NULL, 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o5: Terminado (reparacion completada normalmente)
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('05555555-5555-5555-5555-555555555555', '11111111-1111-1111-1111-111111111111',
      'Camioneta doble cabina', 'Cambio de correa de distribucion', 20.00, 'Terminado', NOW() - INTERVAL '7 days',
-     'Maria Gonzalez', 'Correa de distribucion con desgaste severo', 'Maria Gonzalez', 130.00, TRUE,
-     'Carlos Mendez', 'Se reemplazo la correa de distribucion y se reviso el tensor', '', 0, NULL)
+    'dddddddd-dddd-dddd-dddd-dddddddddddd', 'Correa de distribucion con desgaste severo', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 130.00, TRUE, 'cccccccc-cccc-cccc-cccc-cccccccccccc', 'Se reemplazo la correa de distribucion y se reviso el tensor', NULL, 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o6: Terminado (cotizacion rechazada, salta EnReparacion)
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('06666666-6666-6666-6666-666666666666', '22222222-2222-2222-2222-222222222222',
      'Motocicleta 250cc', 'Ruido en la suspension', 15.00, 'Terminado', NOW() - INTERVAL '6 days',
-     'Carlos Mendez', 'Amortiguador trasero danado', 'Carlos Mendez', 600.00, FALSE, '', '', '', 0, NULL)
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'Amortiguador trasero danado', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 600.00, FALSE, NULL, '', NULL, 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o7: Entregado
 INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, costo_diagnostico, estado, fecha_recepcion,
-    empleado_diagnostico, detalle_diagnostico, empleado_cotizacion, monto_cotizado, cotizacion_aceptada,
-    empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
+    empleado_diagnostico_id, detalle_diagnostico, empleado_cotizacion_id, monto_cotizado, cotizacion_aceptada,
+    empleado_reparacion_id, detalle_reparacion, empleado_entrega_id, monto_pagado, fecha_entrega) VALUES
     ('07777777-7777-7777-7777-777777777777', '33333333-3333-3333-3333-333333333333',
      'Sedan color negro', 'Revision de frenos y cambio de pastillas', 15.00, 'Entregado', NOW() - INTERVAL '10 days',
-     'Maria Gonzalez', 'Pastillas delanteras y traseras gastadas', 'Maria Gonzalez', 100.00, TRUE,
-     'Carlos Mendez', 'Se cambiaron pastillas delanteras y traseras', 'Maria Gonzalez', 475.00, NOW() - INTERVAL '1 hour')
+    'dddddddd-dddd-dddd-dddd-dddddddddddd', 'Pastillas delanteras y traseras gastadas', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 100.00, TRUE, 'cccccccc-cccc-cccc-cccc-cccccccccccc', 'Se cambiaron pastillas delanteras y traseras', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 475.00, NOW() - INTERVAL '1 hour')
 ON CONFLICT ("Id") DO NOTHING;
 
 -- ===================== REPUESTOS POR ORDEN =====================

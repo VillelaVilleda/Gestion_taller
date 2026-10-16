@@ -26,11 +26,11 @@ namespace GestorTaller
             AgregarDato("Fecha de recepcion", orden.FechaRecepcion.ToString("dd/MM/yyyy HH:mm"));
 
             AgregarTitulo("Diagnostico");
-            AgregarDato("Empleado", orden.EmpleadoDiagnostico);
+            AgregarDato("Empleado", orden.EmpleadoDiagnostico?.Nombre ?? string.Empty);
             AgregarDato("Detalle", orden.DetalleDiagnostico);
 
             AgregarTitulo("Cotizacion");
-            AgregarDato("Empleado", orden.EmpleadoCotizacion);
+            AgregarDato("Empleado", orden.EmpleadoCotizacion?.Nombre ?? string.Empty);
             AgregarDato("Monto cotizado", $"Q {orden.MontoCotizado:N2}");
             AgregarDato("Decision del cliente", orden.CotizacionAceptada ? "Aceptada" : "Rechazada");
 
@@ -38,7 +38,7 @@ namespace GestorTaller
             AgregarTitulo("Reparacion");
             if (huboReparacion)
             {
-                AgregarDato("Empleado", orden.EmpleadoReparacion);
+                AgregarDato("Empleado", orden.EmpleadoReparacion?.Nombre ?? string.Empty);
                 AgregarDato("Detalle", orden.DetalleReparacion);
 
                 AgregarTitulo("Repuestos utilizados");
@@ -60,7 +60,7 @@ namespace GestorTaller
             }
 
             AgregarTitulo("Entrega");
-            AgregarDato("Empleado", orden.EmpleadoEntrega);
+            AgregarDato("Empleado", orden.EmpleadoEntrega?.Nombre ?? string.Empty);
             AgregarDato("Monto pagado", $"Q {orden.MontoPagado:N2}");
             AgregarDato("Fecha de entrega", orden.FechaEntrega.HasValue
                 ? orden.FechaEntrega.Value.ToString("dd/MM/yyyy HH:mm")

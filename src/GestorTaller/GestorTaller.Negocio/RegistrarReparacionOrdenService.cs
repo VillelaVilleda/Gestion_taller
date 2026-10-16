@@ -19,7 +19,7 @@ public class RegistrarReparacionOrdenService
         _avanzarEstadoOrdenService = avanzarEstadoOrdenService;
     }
 
-    public void Ejecutar(Orden orden, string empleadoReparacion, string detalleReparacion)
+    public void Ejecutar(Orden orden, Empleado empleadoReparacion, string detalleReparacion)
     {
         if (orden is null)
         {
@@ -31,7 +31,7 @@ public class RegistrarReparacionOrdenService
             throw new InvalidOperationException("Solo se puede registrar la reparacion de una orden en estado EnReparacion.");
         }
 
-        if (string.IsNullOrWhiteSpace(empleadoReparacion))
+        if (empleadoReparacion is null)
         {
             throw new ArgumentException("Se requiere el empleado encargado de la reparacion.", nameof(empleadoReparacion));
         }

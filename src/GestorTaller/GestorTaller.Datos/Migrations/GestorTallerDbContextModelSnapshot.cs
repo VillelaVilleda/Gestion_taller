@@ -160,29 +160,21 @@ namespace GestorTaller.Datos.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("detalle_reparacion");
 
-                    b.Property<string>("EmpleadoCotizacion")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("empleado_cotizacion");
+                    b.Property<Guid?>("EmpleadoCotizacionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("empleado_cotizacion_id");
 
-                    b.Property<string>("EmpleadoDiagnostico")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("empleado_diagnostico");
+                    b.Property<Guid?>("EmpleadoDiagnosticoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("empleado_diagnostico_id");
 
-                    b.Property<string>("EmpleadoEntrega")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("empleado_entrega");
+                    b.Property<Guid?>("EmpleadoEntregaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("empleado_entrega_id");
 
-                    b.Property<string>("EmpleadoReparacion")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("empleado_reparacion");
+                    b.Property<Guid?>("EmpleadoReparacionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("empleado_reparacion_id");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -209,6 +201,14 @@ namespace GestorTaller.Datos.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("EmpleadoCotizacionId");
+
+                    b.HasIndex("EmpleadoDiagnosticoId");
+
+                    b.HasIndex("EmpleadoEntregaId");
+
+                    b.HasIndex("EmpleadoReparacionId");
 
                     b.ToTable("orden", (string)null);
                 });
@@ -289,7 +289,35 @@ namespace GestorTaller.Datos.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GestorTaller.Negocio.Empleado", "EmpleadoCotizacion")
+                        .WithMany()
+                        .HasForeignKey("EmpleadoCotizacionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GestorTaller.Negocio.Empleado", "EmpleadoDiagnostico")
+                        .WithMany()
+                        .HasForeignKey("EmpleadoDiagnosticoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GestorTaller.Negocio.Empleado", "EmpleadoEntrega")
+                        .WithMany()
+                        .HasForeignKey("EmpleadoEntregaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GestorTaller.Negocio.Empleado", "EmpleadoReparacion")
+                        .WithMany()
+                        .HasForeignKey("EmpleadoReparacionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Cliente");
+
+                    b.Navigation("EmpleadoCotizacion");
+
+                    b.Navigation("EmpleadoDiagnostico");
+
+                    b.Navigation("EmpleadoEntrega");
+
+                    b.Navigation("EmpleadoReparacion");
                 });
 
             modelBuilder.Entity("GestorTaller.Negocio.OrdenRepuesto", b =>
