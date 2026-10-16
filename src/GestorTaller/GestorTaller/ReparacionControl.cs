@@ -46,7 +46,7 @@ namespace GestorTaller
             txtDetalle.ReadOnly = !esPendiente;
             btnGuardarReparacion.Visible = esPendiente;
 
-            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoReparacion);
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoReparacion?.Nombre);
             txtDetalle.Text = orden.DetalleReparacion;
 
             MostrarAsignados();
@@ -58,7 +58,7 @@ namespace GestorTaller
             cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
         }
 
-        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
+        private Empleado? EmpleadoSeleccionado() => cmbEmpleado.ElementoSeleccionado as Empleado;
 
         private void MostrarAsignados()
         {
@@ -78,7 +78,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarReparacionOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), txtDetalle.Text);
+                _registrarReparacionOrdenService.Ejecutar(_orden, EmpleadoSeleccionado()!, txtDetalle.Text);
                 ReparacionRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

@@ -42,7 +42,7 @@ namespace GestorTaller
             cmbEmpleado.Enabled = esPendiente;
             btnConfirmarPago.Visible = esPendiente;
 
-            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoEntrega);
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoEntrega?.Nombre);
 
             var totalAPagar = esPendiente ? CalcularMontoTotal(orden) : orden.MontoPagado;
             lblTotalAPagar.Text = $"Q {totalAPagar:N2}";
@@ -58,7 +58,7 @@ namespace GestorTaller
             cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
         }
 
-        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
+        private Empleado? EmpleadoSeleccionado() => cmbEmpleado.ElementoSeleccionado as Empleado;
 
         private static decimal CalcularMontoTotal(Orden orden)
         {
@@ -78,7 +78,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarEntregaOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), CalcularMontoTotal(_orden));
+                _registrarEntregaOrdenService.Ejecutar(_orden, EmpleadoSeleccionado()!, CalcularMontoTotal(_orden));
                 EntregaRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

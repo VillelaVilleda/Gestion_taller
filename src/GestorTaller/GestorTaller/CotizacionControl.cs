@@ -66,7 +66,7 @@ namespace GestorTaller
             btnQuitarRepuesto.Visible = esPendiente;
             lblDisponible.Visible = esPendiente;
 
-            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoCotizacion);
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoCotizacion?.Nombre);
             numMontoCotizado.Value = orden.MontoCotizado;
 
             if (esPendiente || orden.CotizacionAceptada)
@@ -92,7 +92,7 @@ namespace GestorTaller
             cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
         }
 
-        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
+        private Empleado? EmpleadoSeleccionado() => cmbEmpleado.ElementoSeleccionado as Empleado;
 
         private void CargarRepuestos()
         {
@@ -215,7 +215,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarCotizacionOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), numMontoCotizado.Value, rbAceptada.Checked);
+                _registrarCotizacionOrdenService.Ejecutar(_orden, EmpleadoSeleccionado()!, numMontoCotizado.Value, rbAceptada.Checked);
                 CotizacionRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

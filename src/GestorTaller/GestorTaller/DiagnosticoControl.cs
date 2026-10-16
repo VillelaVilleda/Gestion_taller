@@ -43,7 +43,7 @@ namespace GestorTaller
             txtDetalle.ReadOnly = !esPendiente;
             btnGuardarDiagnostico.Visible = esPendiente;
 
-            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoDiagnostico);
+            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoDiagnostico?.Nombre);
             txtDetalle.Text = orden.DetalleDiagnostico;
         }
 
@@ -53,7 +53,7 @@ namespace GestorTaller
             cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
         }
 
-        private string NombreEmpleadoSeleccionado() => (cmbEmpleado.ElementoSeleccionado as Empleado)?.Nombre ?? string.Empty;
+        private Empleado? EmpleadoSeleccionado() => cmbEmpleado.ElementoSeleccionado as Empleado;
 
         private void btnGuardarDiagnostico_Click(object? sender, EventArgs e)
         {
@@ -61,7 +61,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarDiagnosticoOrdenService.Ejecutar(_orden, NombreEmpleadoSeleccionado(), txtDetalle.Text);
+                _registrarDiagnosticoOrdenService.Ejecutar(_orden, EmpleadoSeleccionado()!, txtDetalle.Text);
                 DiagnosticoRegistrado?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
