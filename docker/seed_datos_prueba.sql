@@ -1,5 +1,8 @@
 -- Datos de prueba para desarrollo local (issue #48).
--- Seguro de correr varias veces: usa ON CONFLICT para no duplicar filas.
+-- Pensado para una base recien limpiada (ver comandos en la guia). No correr completo sobre
+-- una base con datos: el historial de estados no tiene ON CONFLICT y se duplicaria.
+-- monto_cotizado = costo de mano de obra; el total = diagnostico + mano de obra + repuestos.
+-- La existencia de los repuestos ya refleja los descuentos de las ordenes aceptadas.
 
 BEGIN;
 
@@ -28,11 +31,11 @@ ON CONFLICT ("Id") DO NOTHING;
 -- precio en quetzales (columna agregada en la issue #88).
 INSERT INTO repuesto ("Id", nombre, existencia, precio) VALUES
     ('e1111111-1111-1111-1111-111111111111', 'Filtro de aceite', 20, 45.00),
-    ('e2222222-2222-2222-2222-222222222222', 'Pastillas de freno', 15, 180.00),
+    ('e2222222-2222-2222-2222-222222222222', 'Pastillas de freno', 13, 180.00),
     ('e3333333-3333-3333-3333-333333333333', 'Bujia', 40, 25.00),
-    ('e4444444-4444-4444-4444-444444444444', 'Correa de distribucion', 5, 320.00),
-    ('e5555555-5555-5555-5555-555555555555', 'Bateria 12v', 8, 650.00)
-ON CONFLICT ("Id") DO UPDATE SET precio = EXCLUDED.precio;
+    ('e4444444-4444-4444-4444-444444444444', 'Correa de distribucion', 4, 320.00),
+    ('e5555555-5555-5555-5555-555555555555', 'Bateria 12v', 7, 650.00)
+ON CONFLICT ("Id") DO UPDATE SET existencia = EXCLUDED.existencia, precio = EXCLUDED.precio;
 
 -- ===================== ORDENES =====================
 -- Una orden por cada estado (y una extra para el caso de cotizacion rechazada).
@@ -61,7 +64,7 @@ INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, c
     empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
     ('03333333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333',
      'Pickup color blanco', 'Los frenos chillan al frenar', 15.00, 'Cotizacion', NOW() - INTERVAL '4 days',
-     'Maria Gonzalez', 'Pastillas de freno desgastadas', 'Maria Gonzalez', 350.00, FALSE, '', '', '', 0, NULL)
+     'Maria Gonzalez', 'Pastillas de freno desgastadas', 'Maria Gonzalez', 150.00, FALSE, '', '', '', 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
 -- o4: EnReparacion
@@ -70,7 +73,7 @@ INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, c
     empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
     ('04444444-4444-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444',
      'Sedan compacto azul', 'Necesita cambio de bateria y revision general', 15.00, 'EnReparacion', NOW() - INTERVAL '5 days',
-     'Carlos Mendez', 'Bateria descargada, requiere cambio', 'Carlos Mendez', 180.00, TRUE,
+     'Carlos Mendez', 'Bateria descargada, requiere cambio', 'Carlos Mendez', 80.00, TRUE,
      'Maria Gonzalez', '', '', 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
@@ -80,7 +83,7 @@ INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, c
     empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
     ('05555555-5555-5555-5555-555555555555', '11111111-1111-1111-1111-111111111111',
      'Camioneta doble cabina', 'Cambio de correa de distribucion', 20.00, 'Terminado', NOW() - INTERVAL '7 days',
-     'Maria Gonzalez', 'Correa de distribucion con desgaste severo', 'Maria Gonzalez', 450.00, TRUE,
+     'Maria Gonzalez', 'Correa de distribucion con desgaste severo', 'Maria Gonzalez', 130.00, TRUE,
      'Carlos Mendez', 'Se reemplazo la correa de distribucion y se reviso el tensor', '', 0, NULL)
 ON CONFLICT ("Id") DO NOTHING;
 
@@ -99,9 +102,20 @@ INSERT INTO orden ("Id", cliente_id, descripcion_objeto, descripcion_problema, c
     empleado_reparacion, detalle_reparacion, empleado_entrega, monto_pagado, fecha_entrega) VALUES
     ('07777777-7777-7777-7777-777777777777', '33333333-3333-3333-3333-333333333333',
      'Sedan color negro', 'Revision de frenos y cambio de pastillas', 15.00, 'Entregado', NOW() - INTERVAL '10 days',
-     'Maria Gonzalez', 'Pastillas delanteras y traseras gastadas', 'Maria Gonzalez', 220.00, TRUE,
-     'Carlos Mendez', 'Se cambiaron pastillas delanteras y traseras', 'Maria Gonzalez', 220.00, NOW() - INTERVAL '1 hour')
+     'Maria Gonzalez', 'Pastillas delanteras y traseras gastadas', 'Maria Gonzalez', 100.00, TRUE,
+     'Carlos Mendez', 'Se cambiaron pastillas delanteras y traseras', 'Maria Gonzalez', 475.00, NOW() - INTERVAL '1 hour')
 ON CONFLICT ("Id") DO NOTHING;
+
+-- ===================== REPUESTOS POR ORDEN =====================
+-- precio_unitario = precio del repuesto al momento de cotizar.
+-- o3 (cotizacion pendiente): total 15 + 150 + 180 = 345. o4: 15 + 80 + 650 = 745.
+-- o5: 20 + 130 + 320 = 470. o7: 15 + 100 + 2 x 180 = 475 (pagado).
+INSERT INTO orden_repuesto (orden_id, repuesto_id, cantidad, precio_unitario) VALUES
+    ('03333333-3333-3333-3333-333333333333', 'e2222222-2222-2222-2222-222222222222', 1, 180.00),
+    ('04444444-4444-4444-4444-444444444444', 'e5555555-5555-5555-5555-555555555555', 1, 650.00),
+    ('05555555-5555-5555-5555-555555555555', 'e4444444-4444-4444-4444-444444444444', 1, 320.00),
+    ('07777777-7777-7777-7777-777777777777', 'e2222222-2222-2222-2222-222222222222', 2, 180.00)
+ON CONFLICT (orden_id, repuesto_id) DO NOTHING;
 
 -- ===================== HISTORIAL DE ESTADOS =====================
 -- Debe reflejar exactamente los mismos estados por los que paso cada orden.
