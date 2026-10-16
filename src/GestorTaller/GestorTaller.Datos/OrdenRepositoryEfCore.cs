@@ -24,6 +24,10 @@ public class OrdenRepositoryEfCore : IOrdenRepository
         var orden = _dbContext.Ordenes
             .Include(o => o.Cliente)
             .Include(o => o.Repuestos).ThenInclude(r => r.Repuesto)
+            .Include(o => o.EmpleadoDiagnostico)
+            .Include(o => o.EmpleadoCotizacion)
+            .Include(o => o.EmpleadoReparacion)
+            .Include(o => o.EmpleadoEntrega)
             .FirstOrDefault(o => o.Id == id);
 
         if (orden is null)
@@ -48,6 +52,10 @@ public class OrdenRepositoryEfCore : IOrdenRepository
         var ordenes = _dbContext.Ordenes
             .Include(o => o.Cliente)
             .Include(o => o.Repuestos).ThenInclude(r => r.Repuesto)
+            .Include(o => o.EmpleadoDiagnostico)
+            .Include(o => o.EmpleadoCotizacion)
+            .Include(o => o.EmpleadoReparacion)
+            .Include(o => o.EmpleadoEntrega)
             .ToList();
 
         var historialesPorOrden = _dbContext.Set<HistorialEstadoOrden>()

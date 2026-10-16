@@ -63,17 +63,21 @@ public class GestorTallerDbContext : DbContext
             entidad.Property(o => o.Estado).HasColumnName("estado").HasConversion<string>().HasMaxLength(20).IsRequired();
             entidad.Property(o => o.FechaRecepcion).HasColumnName("fecha_recepcion").HasConversion(fechaAUtc);
 
-            entidad.Property(o => o.EmpleadoDiagnostico).HasColumnName("empleado_diagnostico").HasMaxLength(150);
+            entidad.Property<Guid?>("EmpleadoDiagnosticoId").HasColumnName("empleado_diagnostico_id");
+            entidad.HasOne(o => o.EmpleadoDiagnostico).WithMany().HasForeignKey("EmpleadoDiagnosticoId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.DetalleDiagnostico).HasColumnName("detalle_diagnostico").HasMaxLength(500);
 
-            entidad.Property(o => o.EmpleadoCotizacion).HasColumnName("empleado_cotizacion").HasMaxLength(150);
+            entidad.Property<Guid?>("EmpleadoCotizacionId").HasColumnName("empleado_cotizacion_id");
+            entidad.HasOne(o => o.EmpleadoCotizacion).WithMany().HasForeignKey("EmpleadoCotizacionId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.MontoCotizado).HasColumnName("monto_cotizado").HasColumnType("numeric(10,2)");
             entidad.Property(o => o.CotizacionAceptada).HasColumnName("cotizacion_aceptada");
 
-            entidad.Property(o => o.EmpleadoReparacion).HasColumnName("empleado_reparacion").HasMaxLength(150);
+            entidad.Property<Guid?>("EmpleadoReparacionId").HasColumnName("empleado_reparacion_id");
+            entidad.HasOne(o => o.EmpleadoReparacion).WithMany().HasForeignKey("EmpleadoReparacionId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.DetalleReparacion).HasColumnName("detalle_reparacion").HasMaxLength(500);
 
-            entidad.Property(o => o.EmpleadoEntrega).HasColumnName("empleado_entrega").HasMaxLength(150);
+            entidad.Property<Guid?>("EmpleadoEntregaId").HasColumnName("empleado_entrega_id");
+            entidad.HasOne(o => o.EmpleadoEntrega).WithMany().HasForeignKey("EmpleadoEntregaId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.MontoPagado).HasColumnName("monto_pagado").HasColumnType("numeric(10,2)");
             entidad.Property(o => o.FechaEntrega).HasColumnName("fecha_entrega").HasConversion(fechaNulaAUtc);
 
