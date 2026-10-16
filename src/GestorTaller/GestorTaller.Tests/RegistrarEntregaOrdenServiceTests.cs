@@ -5,6 +5,8 @@ namespace GestorTaller.Tests;
 // Pruebas del servicio "registrar entrega de una orden" (issue #28).
 public class RegistrarEntregaOrdenServiceTests
 {
+    private static readonly Empleado empleado = new() { Id = Guid.NewGuid(), Nombre = "Ana Torres" };
+
     private static Orden CrearOrdenEnEstado(EstadoOrden estado)
     {
         return new Orden
@@ -31,7 +33,7 @@ public class RegistrarEntregaOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Terminado);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Ana Torres", 450m);
+        servicio.Ejecutar(orden, empleado, 450m);
 
         Assert.Equal(EstadoOrden.Entregado, orden.Estado);
     }
@@ -42,9 +44,9 @@ public class RegistrarEntregaOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Terminado);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Ana Torres", 450m);
+        servicio.Ejecutar(orden, empleado, 450m);
 
-        Assert.Equal("Ana Torres", orden.EmpleadoEntrega);
+        Assert.Same(empleado, orden.EmpleadoEntrega);
         Assert.Equal(450m, orden.MontoPagado);
         Assert.NotNull(orden.FechaEntrega);
     }
@@ -55,7 +57,7 @@ public class RegistrarEntregaOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Terminado);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Ana Torres", 450m);
+        servicio.Ejecutar(orden, empleado, 450m);
 
         Assert.Contains(EstadoOrden.Entregado, orden.HistorialEstados);
     }
@@ -71,19 +73,16 @@ public class RegistrarEntregaOrdenServiceTests
         var orden = CrearOrdenEnEstado(estado);
         var servicio = CrearServicio();
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, "Ana Torres", 450m));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, empleado, 450m));
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData(null)]
-    public void Ejecutar_SinEmpleado_LanzaExcepcion(string? empleado)
+    [Fact]
+    public void Ejecutar_SinEmpleado_LanzaExcepcion()
     {
         var orden = CrearOrdenEnEstado(EstadoOrden.Terminado);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado!, 450m));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, null!, 450m));
     }
 
     [Fact]
@@ -94,7 +93,7 @@ public class RegistrarEntregaOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Terminado);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Ana Torres", 0m);
+        servicio.Ejecutar(orden, empleado, 0m);
 
         Assert.Equal(EstadoOrden.Entregado, orden.Estado);
         Assert.Equal(0m, orden.MontoPagado);
@@ -106,7 +105,7 @@ public class RegistrarEntregaOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Terminado);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Ana Torres", -10m));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado, -10m));
     }
 
     [Fact]
@@ -114,6 +113,6 @@ public class RegistrarEntregaOrdenServiceTests
     {
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, "Ana Torres", 450m));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, empleado, 450m));
     }
 }

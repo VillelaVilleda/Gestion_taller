@@ -19,7 +19,7 @@ public class RegistrarDiagnosticoOrdenService
         _avanzarEstadoOrdenService = avanzarEstadoOrdenService;
     }
 
-    public void Ejecutar(Orden orden, string empleadoDiagnostico, string detalleDiagnostico)
+    public void Ejecutar(Orden orden, Empleado empleadoDiagnostico, string detalleDiagnostico)
     {
         if (orden is null)
         {
@@ -31,7 +31,7 @@ public class RegistrarDiagnosticoOrdenService
             throw new InvalidOperationException("Solo se puede registrar el diagnostico de una orden en estado Diagnostico.");
         }
 
-        if (string.IsNullOrWhiteSpace(empleadoDiagnostico))
+        if (empleadoDiagnostico is null)
         {
             throw new ArgumentException("Se requiere el empleado encargado del diagnostico.", nameof(empleadoDiagnostico));
         }

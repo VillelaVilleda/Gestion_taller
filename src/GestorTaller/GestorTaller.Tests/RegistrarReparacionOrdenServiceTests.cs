@@ -5,6 +5,8 @@ namespace GestorTaller.Tests;
 // Pruebas del servicio "registrar reparacion de una orden" (issue #27).
 public class RegistrarReparacionOrdenServiceTests
 {
+    private static readonly Empleado empleado = new() { Id = Guid.NewGuid(), Nombre = "Pedro Gomez" };
+
     private static Orden CrearOrdenEnEstado(EstadoOrden estado)
     {
         return new Orden
@@ -31,7 +33,7 @@ public class RegistrarReparacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Pedro Gomez", "Se cambio el alternador");
+        servicio.Ejecutar(orden, empleado, "Se cambio el alternador");
 
         Assert.Equal(EstadoOrden.Terminado, orden.Estado);
     }
@@ -42,9 +44,9 @@ public class RegistrarReparacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Pedro Gomez", "Se cambio el alternador");
+        servicio.Ejecutar(orden, empleado, "Se cambio el alternador");
 
-        Assert.Equal("Pedro Gomez", orden.EmpleadoReparacion);
+        Assert.Same(empleado, orden.EmpleadoReparacion);
         Assert.Equal("Se cambio el alternador", orden.DetalleReparacion);
     }
 
@@ -54,7 +56,7 @@ public class RegistrarReparacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Pedro Gomez", "Se cambio el alternador");
+        servicio.Ejecutar(orden, empleado, "Se cambio el alternador");
 
         Assert.Contains(EstadoOrden.Terminado, orden.HistorialEstados);
     }
@@ -70,19 +72,16 @@ public class RegistrarReparacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(estado);
         var servicio = CrearServicio();
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, "Pedro Gomez", "Se cambio el alternador"));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, empleado, "Se cambio el alternador"));
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData(null)]
-    public void Ejecutar_SinEmpleado_LanzaExcepcion(string? empleado)
+    [Fact]
+    public void Ejecutar_SinEmpleado_LanzaExcepcion()
     {
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado!, "Se cambio el alternador"));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, null!, "Se cambio el alternador"));
     }
 
     [Theory]
@@ -94,7 +93,7 @@ public class RegistrarReparacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Pedro Gomez", detalle!));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado, detalle!));
     }
 
     [Fact]
@@ -102,6 +101,6 @@ public class RegistrarReparacionOrdenServiceTests
     {
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, "Pedro Gomez", "Se cambio el alternador"));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, empleado, "Se cambio el alternador"));
     }
 }

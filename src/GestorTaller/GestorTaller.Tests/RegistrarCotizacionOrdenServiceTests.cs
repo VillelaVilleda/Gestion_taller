@@ -5,6 +5,8 @@ namespace GestorTaller.Tests;
 // Pruebas del servicio "registrar cotizacion de una orden" (issue #26).
 public class RegistrarCotizacionOrdenServiceTests
 {
+    private static readonly Empleado empleado = new() { Id = Guid.NewGuid(), Nombre = "Maria Diaz" };
+
     private static Orden CrearOrdenEnEstado(EstadoOrden estado)
     {
         return new Orden
@@ -31,7 +33,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
+        servicio.Ejecutar(orden, empleado, 350m, aceptada: true);
 
         Assert.Equal(EstadoOrden.EnReparacion, orden.Estado);
         Assert.Contains(EstadoOrden.EnReparacion, orden.HistorialEstados);
@@ -43,7 +45,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
+        servicio.Ejecutar(orden, empleado, 350m, aceptada: false);
 
         Assert.Equal(EstadoOrden.Terminado, orden.Estado);
         Assert.DoesNotContain(EstadoOrden.EnReparacion, orden.HistorialEstados);
@@ -55,9 +57,9 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
-        servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
+        servicio.Ejecutar(orden, empleado, 350m, aceptada: true);
 
-        Assert.Equal("Maria Diaz", orden.EmpleadoCotizacion);
+        Assert.Same(empleado, orden.EmpleadoCotizacion);
         Assert.Equal(350m, orden.MontoCotizado);
         Assert.True(orden.CotizacionAceptada);
     }
@@ -73,19 +75,16 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(estado);
         var servicio = CrearServicio();
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, "Maria Diaz", 350m, aceptada: true));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(orden, empleado, 350m, aceptada: true));
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData(null)]
-    public void Ejecutar_SinEmpleado_LanzaExcepcion(string? empleado)
+    [Fact]
+    public void Ejecutar_SinEmpleado_LanzaExcepcion()
     {
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado!, 350m, aceptada: true));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, null!, 350m, aceptada: true));
     }
 
     [Fact]
@@ -94,7 +93,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Maria Diaz", 0m, aceptada: true));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado, 0m, aceptada: true));
     }
 
     [Fact]
@@ -103,7 +102,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, "Maria Diaz", -5m, aceptada: true));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado, -5m, aceptada: true));
     }
 
     [Fact]
@@ -111,7 +110,7 @@ public class RegistrarCotizacionOrdenServiceTests
     {
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, "Maria Diaz", 350m, aceptada: true));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, empleado, 350m, aceptada: true));
     }
 
     // ---- Repuestos de la cotizacion (issue #103) ----
@@ -136,7 +135,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var filtro = AgregarRepuesto(orden, "Filtro de aceite", 10, 3);
         var bujia = AgregarRepuesto(orden, "Bujia", 8, 8);
 
-        CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: true);
+        CrearServicio().Ejecutar(orden, empleado, 350m, aceptada: true);
 
         Assert.Equal(7, filtro.Existencia);
         Assert.Equal(0, bujia.Existencia);
@@ -150,7 +149,7 @@ public class RegistrarCotizacionOrdenServiceTests
         AgregarRepuesto(orden, "Filtro de aceite", 2, 3);
 
         var ex = Assert.Throws<InvalidOperationException>(
-            () => CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: true));
+            () => CrearServicio().Ejecutar(orden, empleado, 350m, aceptada: true));
 
         Assert.Contains("Filtro de aceite", ex.Message);
     }
@@ -163,12 +162,12 @@ public class RegistrarCotizacionOrdenServiceTests
         var insuficiente = AgregarRepuesto(orden, "Filtro de aceite", 1, 3);
 
         Assert.Throws<InvalidOperationException>(
-            () => CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: true));
+            () => CrearServicio().Ejecutar(orden, empleado, 350m, aceptada: true));
 
         Assert.Equal(EstadoOrden.Cotizacion, orden.Estado);
         Assert.Equal(10, suficiente.Existencia);
         Assert.Equal(1, insuficiente.Existencia);
-        Assert.Equal(string.Empty, orden.EmpleadoCotizacion);
+        Assert.Null(orden.EmpleadoCotizacion);
         Assert.Equal(2, orden.Repuestos.Count);
     }
 
@@ -178,7 +177,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         var filtro = AgregarRepuesto(orden, "Filtro de aceite", 10, 3);
 
-        CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
+        CrearServicio().Ejecutar(orden, empleado, 350m, aceptada: false);
 
         Assert.Empty(orden.Repuestos);
         Assert.Equal(10, filtro.Existencia);
@@ -190,7 +189,7 @@ public class RegistrarCotizacionOrdenServiceTests
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
         AgregarRepuesto(orden, "Filtro de aceite", 0, 3);
 
-        CrearServicio().Ejecutar(orden, "Maria Diaz", 350m, aceptada: false);
+        CrearServicio().Ejecutar(orden, empleado, 350m, aceptada: false);
 
         Assert.Equal(EstadoOrden.Terminado, orden.Estado);
     }
