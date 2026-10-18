@@ -31,7 +31,7 @@ namespace GestorTaller
 
             AgregarTitulo("Cotizacion");
             AgregarDato("Empleado", orden.EmpleadoCotizacion?.Nombre ?? string.Empty);
-            AgregarDato("Monto cotizado", $"Q {orden.MontoCotizado:N2}");
+            AgregarDato("Costo de mano de obra", $"Q {orden.MontoCotizado:N2}");
             AgregarDato("Decision del cliente", orden.CotizacionAceptada ? "Aceptada" : "Rechazada");
 
             var huboReparacion = orden.HistorialEstados.Contains(EstadoOrden.EnReparacion);
@@ -50,7 +50,9 @@ namespace GestorTaller
                 {
                     foreach (var asignado in orden.Repuestos)
                     {
-                        AgregarDato(asignado.Repuesto?.Nombre ?? "(sin nombre)", $"x {asignado.Cantidad}");
+                        AgregarDato(
+                            asignado.Repuesto?.Nombre ?? "(sin nombre)",
+                            $"x {asignado.Cantidad}  |  Q {asignado.PrecioUnitario:N2} c/u  |  Subtotal Q {asignado.PrecioUnitario * asignado.Cantidad:N2}");
                     }
                 }
             }
@@ -59,8 +61,13 @@ namespace GestorTaller
                 AgregarDato("", "No aplica: el cliente rechazo la cotizacion.");
             }
 
+            var desglose = new CalcularTotalOrdenService().Calcular(orden);
+
             AgregarTitulo("Entrega");
             AgregarDato("Empleado", orden.EmpleadoEntrega?.Nombre ?? string.Empty);
+            AgregarDato("Costo de diagnostico", $"Q {desglose.CostoDiagnostico:N2}");
+            AgregarDato("Costo de mano de obra", $"Q {desglose.ManoDeObra:N2}");
+            AgregarDato("Repuestos", $"Q {desglose.Repuestos:N2}");
             AgregarDato("Monto pagado", $"Q {orden.MontoPagado:N2}");
             AgregarDato("Fecha de entrega", orden.FechaEntrega.HasValue
                 ? orden.FechaEntrega.Value.ToString("dd/MM/yyyy HH:mm")
