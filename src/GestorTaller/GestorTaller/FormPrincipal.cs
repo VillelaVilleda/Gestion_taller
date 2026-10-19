@@ -34,6 +34,9 @@ namespace GestorTaller
             _repuestoRepository = repuestoRepository;
             _usuarioActual = usuarioActual;
             _permisos = new PermisosUsuario(usuarioActual);
+
+            Text = $"GestorTaller - {usuarioActual.Nombre} ({(usuarioActual.EsAdministrador ? "Administrador" : "Usuario")})";
+            btnEmpleados.Visible = _permisos.PuedeAdministrarEmpleados;
             _cerrarSesion = cerrarSesion;
         }
 
