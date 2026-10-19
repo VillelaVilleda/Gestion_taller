@@ -87,9 +87,12 @@ public class GestorTallerDbContext : DbContext
         modelBuilder.Entity<Repuesto>(entidad =>
         {
             entidad.ToTable("repuesto", tabla =>
-                tabla.HasCheckConstraint("ck_repuesto_precio", "precio >= 0"));
+            {
+                tabla.HasCheckConstraint("ck_repuesto_precio", "precio >= 0");
+                tabla.HasCheckConstraint("ck_repuesto_existencia", "existencia >= 0");
+            });
             entidad.HasKey(r => r.Id);
-            entidad.Property(r => r.Nombre).HasColumnName("nombre").IsRequired();
+            entidad.Property(r => r.Nombre).HasColumnName("nombre").HasMaxLength(150).IsRequired();
             entidad.Property(r => r.Existencia).HasColumnName("existencia").IsRequired();
             entidad.Property(r => r.Precio).HasColumnName("precio").HasPrecision(10, 2).IsRequired();
         });

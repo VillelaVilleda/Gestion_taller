@@ -256,7 +256,8 @@ namespace GestorTaller.Datos.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("nombre");
 
                     b.Property<decimal>("Precio")
@@ -268,6 +269,8 @@ namespace GestorTaller.Datos.Migrations
 
                     b.ToTable("repuesto", null, t =>
                         {
+                            t.HasCheckConstraint("ck_repuesto_existencia", "existencia >= 0");
+
                             t.HasCheckConstraint("ck_repuesto_precio", "precio >= 0");
                         });
                 });
