@@ -42,14 +42,14 @@ namespace GestorTaller
                 return;
             }
 
-            AbrirVentanaPrincipal();
+            AbrirVentanaPrincipal(usuario);
         }
 
-        private void AbrirVentanaPrincipal()
+        private void AbrirVentanaPrincipal(Empleado usuario)
         {
             Hide();
 
-            var formPrincipal = new FormPrincipal(_ordenRepository, _clienteRepository, _empleadoRepository, _repuestoRepository, MostrarLogin);
+            var formPrincipal = new FormPrincipal(_ordenRepository, _clienteRepository, _empleadoRepository, _repuestoRepository, usuario, MostrarLogin);
             formPrincipal.Show();
         }
 
