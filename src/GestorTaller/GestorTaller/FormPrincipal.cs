@@ -18,14 +18,22 @@ namespace GestorTaller
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly Action _cerrarSesion;
         private bool _cerrandoSesion;
+        private Empleado? _usuarioActual;
+        private PermisosUsuario? _permisos;
 
-        public FormPrincipal(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Action cerrarSesion)
+        internal Empleado? UsuarioActual => _usuarioActual;
+
+        internal PermisosUsuario? Permisos => _permisos;
+
+        public FormPrincipal(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Action cerrarSesion)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
+            _usuarioActual = usuarioActual;
+            _permisos = new PermisosUsuario(usuarioActual);
             _cerrarSesion = cerrarSesion;
         }
 
@@ -48,6 +56,8 @@ namespace GestorTaller
         private void btnCerrarSesion_Click(object? sender, EventArgs e)
         {
             _cerrandoSesion = true;
+            _usuarioActual = null;
+            _permisos = null;
             _cerrarSesion();
             Close();
         }
