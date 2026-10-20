@@ -65,6 +65,12 @@ namespace GestorTaller
             Close();
         }
 
+        private void btnCambiarContrasena_Click(object? sender, EventArgs e)
+        {
+            using var dialogo = new FormCambiarContrasena(_empleadoRepository, _usuarioActual!);
+            dialogo.ShowDialog(this);
+        }
+
         private void btnSalir_Click(object? sender, EventArgs e)
         {
             Application.Exit();

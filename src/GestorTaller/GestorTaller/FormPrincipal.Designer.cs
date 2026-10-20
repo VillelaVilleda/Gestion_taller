@@ -11,6 +11,7 @@ namespace GestorTaller
         private System.Windows.Forms.Button btnRepuestos;
         private System.Windows.Forms.Button btnClientes;
         private System.Windows.Forms.Button btnEmpleados;
+        private System.Windows.Forms.Button btnCambiarContrasena;
         private System.Windows.Forms.Button btnCerrarSesion;
         private System.Windows.Forms.Button btnSalir;
 
@@ -33,6 +34,7 @@ namespace GestorTaller
             btnRepuestos = new Button();
             btnClientes = new Button();
             btnEmpleados = new Button();
+            btnCambiarContrasena = new Button();
             btnCerrarSesion = new Button();
             btnSalir = new Button();
             panelContenido = new Panel();
@@ -49,6 +51,7 @@ namespace GestorTaller
             panelMenu.Controls.Add(btnRepuestos);
             panelMenu.Controls.Add(btnClientes);
             panelMenu.Controls.Add(btnEmpleados);
+            panelMenu.Controls.Add(btnCambiarContrasena);
             panelMenu.Controls.Add(btnCerrarSesion);
             panelMenu.Controls.Add(btnSalir);
             panelMenu.Dock = DockStyle.Left;
@@ -103,6 +106,16 @@ namespace GestorTaller
             btnEmpleados.TabIndex = 4;
             btnEmpleados.Text = "Empleados";
             btnEmpleados.Click += btnEmpleados_Click;
+            // 
+            // btnCambiarContrasena
+            // 
+            btnCambiarContrasena.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnCambiarContrasena.Location = new Point(10, 480);
+            btnCambiarContrasena.Name = "btnCambiarContrasena";
+            btnCambiarContrasena.Size = new Size(180, 35);
+            btnCambiarContrasena.TabIndex = 7;
+            btnCambiarContrasena.Text = "Cambiar contrasena";
+            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
             // 
             // btnCerrarSesion
             // 
