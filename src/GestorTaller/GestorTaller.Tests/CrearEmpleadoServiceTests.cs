@@ -5,19 +5,6 @@ namespace GestorTaller.Tests;
 // Pruebas del servicio "crear empleado con credenciales generadas" (issue #114).
 public class CrearEmpleadoServiceTests
 {
-    private class EmpleadoRepositoryFalso : IEmpleadoRepository
-    {
-        public List<Empleado> Guardados { get; } = new();
-
-        public void Agregar(Empleado empleado) => Guardados.Add(empleado);
-
-        public Empleado? ObtenerPorId(Guid id) => Guardados.FirstOrDefault(e => e.Id == id);
-
-        public Empleado? ObtenerPorNombreUsuario(string nombreUsuario) => Guardados.FirstOrDefault(e => e.NombreUsuario == nombreUsuario);
-
-        public IReadOnlyList<Empleado> ObtenerTodos() => Guardados;
-    }
-
     private static (CrearEmpleadoService Servicio, EmpleadoRepositoryFalso Repositorio) Crear()
     {
         var repositorio = new EmpleadoRepositoryFalso();

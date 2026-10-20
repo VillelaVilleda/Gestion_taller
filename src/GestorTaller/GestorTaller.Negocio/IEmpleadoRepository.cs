@@ -7,6 +7,7 @@ namespace GestorTaller.Negocio;
 public interface IEmpleadoRepository
 {
     void Agregar(Empleado empleado);
+    void Actualizar(Empleado empleado);
     Empleado? ObtenerPorId(Guid id);
     Empleado? ObtenerPorNombreUsuario(string nombreUsuario);
     IReadOnlyList<Empleado> ObtenerTodos();
