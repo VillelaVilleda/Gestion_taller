@@ -65,6 +65,12 @@ namespace GestorTaller
             Close();
         }
 
+        private void btnCambiarContrasena_Click(object? sender, EventArgs e)
+        {
+            using var dialogo = new FormCambiarContrasena(_empleadoRepository, _usuarioActual!);
+            dialogo.ShowDialog(this);
+        }
+
         private void btnSalir_Click(object? sender, EventArgs e)
         {
             Application.Exit();
@@ -88,7 +94,7 @@ namespace GestorTaller
 
         private void MostrarSeccionClientes() => MostrarControl(new ClientesControl(_clienteRepository));
 
-        private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository));
+        private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository, _permisos!));
 
         private void MostrarSeccionRepuestos() => MostrarControl(new RepuestosControl(_repuestoRepository));
 

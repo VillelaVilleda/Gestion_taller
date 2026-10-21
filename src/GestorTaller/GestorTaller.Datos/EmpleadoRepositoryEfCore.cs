@@ -17,6 +17,12 @@ public class EmpleadoRepositoryEfCore : IEmpleadoRepository
         _dbContext.SaveChanges();
     }
 
+    public void Actualizar(Empleado empleado)
+    {
+        _dbContext.Empleados.Update(empleado);
+        _dbContext.SaveChanges();
+    }
+
     public Empleado? ObtenerPorId(Guid id)
     {
         return _dbContext.Empleados.Find(id);
