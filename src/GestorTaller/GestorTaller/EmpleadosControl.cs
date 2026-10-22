@@ -5,22 +5,27 @@ namespace GestorTaller
     /// <summary>
     /// Seccion de "Empleados" dentro de la ventana principal (menu lateral).
     /// Permite al administrador crear empleados (usuario y contrasena temporal
-    /// generados por el sistema) y restablecer contrasenas. La contrasena temporal
-    /// se muestra una sola vez; nunca se muestra el hash. Editar y eliminar quedan
+    /// generados por el sistema), editar su nombre y rol, y restablecer contrasenas. La contrasena temporal
+    /// se muestra una sola vez; nunca se muestra el hash. Eliminar queda
     /// para una issue futura.
     /// </summary>
     public partial class EmpleadosControl : UserControl
     {
         private readonly IEmpleadoRepository _empleadoRepository;
+        private readonly Empleado _usuarioActual;
         private readonly PermisosUsuario _permisos;
+        private readonly ModificarEmpleadoService _modificarEmpleadoService;
         private readonly CrearEmpleadoService _crearEmpleadoService;
         private readonly RestablecerContrasenaService _restablecerContrasenaService;
 
-        public EmpleadosControl(IEmpleadoRepository empleadoRepository, PermisosUsuario permisos)
+        public EmpleadosControl(IEmpleadoRepository empleadoRepository, Empleado usuarioActual)
         {
             InitializeComponent();
             _empleadoRepository = empleadoRepository;
-            _permisos = permisos;
+            _usuarioActual = usuarioActual;
+            _permisos = new PermisosUsuario(usuarioActual);
+            _modificarEmpleadoService = new ModificarEmpleadoService(empleadoRepository);
+            cmbEmpleado.SelectedIndexChanged += (_, _) => MostrarDatosDelSeleccionado();
             _crearEmpleadoService = new CrearEmpleadoService(empleadoRepository);
             _restablecerContrasenaService = new RestablecerContrasenaService(empleadoRepository);
             Load += EmpleadosControl_Load;
@@ -43,6 +48,39 @@ namespace GestorTaller
             var empleados = _empleadoRepository.ObtenerTodos();
             tablaEmpleados.Cargar(columnas, empleados, ordenInicial: columnas[0]);
             cmbEmpleado.CargarElementos(empleados.OrderBy(e => e.Nombre).ToList(), e => e.Nombre);
+        }
+
+        private void MostrarDatosDelSeleccionado()
+        {
+            var empleado = cmbEmpleado.ElementoSeleccionado as Empleado;
+
+            txtEditarNombre.Text = empleado?.Nombre ?? string.Empty;
+            chkEditarAdministrador.Checked = empleado?.EsAdministrador ?? false;
+        }
+
+        private void btnGuardarCambios_Click(object? sender, EventArgs e)
+        {
+            lblMensaje.ForeColor = Color.DarkRed;
+
+            if (cmbEmpleado.ElementoSeleccionado is not Empleado empleado)
+            {
+                lblMensaje.Text = "Selecciona un empleado de la lista.";
+                return;
+            }
+
+            try
+            {
+                _modificarEmpleadoService.Ejecutar(_usuarioActual, empleado, txtEditarNombre.Text, chkEditarAdministrador.Checked);
+
+                lblMensaje.ForeColor = Color.DarkGreen;
+                lblMensaje.Text = $"Empleado \"{empleado.Nombre}\" actualizado.";
+
+                CargarEmpleados();
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+            {
+                lblMensaje.Text = ex.Message;
+            }
         }
 
         private void btnCrearEmpleado_Click(object? sender, EventArgs e)
