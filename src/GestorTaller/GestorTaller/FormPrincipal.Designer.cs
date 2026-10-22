@@ -145,7 +145,6 @@ namespace GestorTaller
             panelContenido.Name = "panelContenido";
             panelContenido.Size = new Size(700, 600);
             panelContenido.TabIndex = 1;
-            panelContenido.Paint += panelContenido_Paint;
             // 
             // label1
             // 
