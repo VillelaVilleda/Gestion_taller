@@ -94,7 +94,7 @@ namespace GestorTaller
 
         private void MostrarSeccionClientes() => MostrarControl(new ClientesControl(_clienteRepository));
 
-        private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository, _permisos!));
+        private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository, _usuarioActual!));
 
         private void MostrarSeccionRepuestos() => MostrarControl(new RepuestosControl(_repuestoRepository));
 
