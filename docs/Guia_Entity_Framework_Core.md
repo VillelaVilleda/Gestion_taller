@@ -16,7 +16,7 @@ La capa de negocio (`GestorTaller.Negocio`) **no conoce EF Core**. Solo define l
 ## 3. Componentes principales
 
 - **`GestorTallerDbContext`:** tiene un `DbSet` por tabla (`Clientes`, `Empleados`, `Ordenes`, `Repuestos`, `OrdenRepuestos`). El modelo se configura en `OnModelCreating` con *Fluent API*, sin atributos en las entidades.
-- **`ConexionBaseDeDatos`:** devuelve la cadena de conexión. Usa la variable de entorno `GESTORTALLER_CONNECTION_STRING` y, si no existe, un valor local de desarrollo.
+- **`ConexionBaseDeDatos`:** devuelve la cadena de conexión. Lee la variable de entorno `GESTORTALLER_CONNECTION_STRING`; si no está definida, la aplicación indica qué falta. La cadena no se guarda en el código.
 - **`GestorTallerDbContextFactory`:** le indica a `dotnet ef` cómo crear el contexto al generar migraciones. La aplicación no lo usa al ejecutarse.
 - **`Program.cs`:** crea el `DbContext`, lo comparte entre los repositorios y lo entrega a los formularios.
 - **Repositorios (`*RepositoryEfCore`):** reciben el `DbContext` y encapsulan las consultas. `OrdenRepositoryEfCore` carga las relaciones con `Include` y guarda cada operación con un solo `SaveChanges()`, de modo que se aplica completa o no se aplica.
@@ -53,4 +53,4 @@ cd ..\src\GestorTaller
 dotnet ef database update --project GestorTaller.Datos --startup-project GestorTaller
 ```
 
-Las credenciales salen de `docker/.env`, que no se sube a Git. Para cargar datos de prueba, ejecutar `docker/seed_datos_prueba.sql` solo en una base recién creada.
+Las credenciales salen de `docker/.env`, que no se sube a Git. Antes de ejecutar la aplicación o `dotnet ef`, hay que definir `GESTORTALLER_CONNECTION_STRING` con los mismos datos, por ejemplo `Host=localhost;Port=5432;Database=<base>;Username=<usuario>;Password=<clave>`. Para cargar datos de prueba, ejecutar `docker/seed_datos_prueba.sql` solo en una base recién creada.

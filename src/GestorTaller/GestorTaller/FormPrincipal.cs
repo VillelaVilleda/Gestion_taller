@@ -5,10 +5,8 @@ namespace GestorTaller
     /// <summary>
     /// Ventana principal de la aplicacion: menu lateral a la izquierda y un
     /// panel de contenido a la derecha, donde se muestran las distintas
-    /// secciones (Nueva orden, Ordenes registradas, etc.).
-    ///
-    /// Por ahora los botones del menu todavia no cambian el contenido; eso
-    /// se conecta en el siguiente paso.
+    /// secciones (Nueva orden, Ordenes registradas, etc.). Conserva el empleado
+    /// autenticado y sus permisos mientras dura la sesion.
     /// </summary>
     public partial class FormPrincipal : Form
     {
@@ -98,29 +96,17 @@ namespace GestorTaller
 
         private void MostrarSeccionRepuestos() => MostrarControl(new RepuestosControl(_repuestoRepository));
 
-        private void MostrarPlaceholder(string seccion)
-        {
-            var lblPlaceholder = new Label
-            {
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 12F),
-                Text = $"{seccion} - Proximamente"
-            };
-
-            MostrarControl(lblPlaceholder);
-        }
-
         private void MostrarControl(Control control)
         {
+            var anteriores = panelContenido.Controls.Cast<Control>().ToList();
+
             panelContenido.Controls.Clear();
             control.Dock = DockStyle.Fill;
             panelContenido.Controls.Add(control);
-        }
 
-        private void panelContenido_Paint(object sender, PaintEventArgs e)
-        {
-
+            // Se liberan despues de terminar el evento actual: a veces el cambio de seccion
+            // lo provoca un boton del propio control que se esta reemplazando.
+            BeginInvoke(() => anteriores.ForEach(anterior => anterior.Dispose()));
         }
     }
 }
