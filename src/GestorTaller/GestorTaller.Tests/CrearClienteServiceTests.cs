@@ -5,6 +5,8 @@ namespace GestorTaller.Tests;
 // Pruebas del servicio "crear cliente nuevo" (issue #72, correccion de clientes duplicados).
 public class CrearClienteServiceTests
 {
+    private const string Telefono = "5555-1234";
+
     private class ClienteRepositoryFalso : IClienteRepository
     {
         public List<Cliente> Guardados { get; } = new();
@@ -21,10 +23,30 @@ public class CrearClienteServiceTests
     {
         var servicio = new CrearClienteService(new ClienteRepositoryFalso());
 
-        var cliente = servicio.Ejecutar("  Juan Perez  ");
+        var cliente = servicio.Ejecutar("  Juan Perez  ", Telefono);
 
         Assert.Equal("Juan Perez", cliente.Nombre);
         Assert.NotEqual(Guid.Empty, cliente.Id);
+    }
+
+    [Fact]
+    public void Ejecutar_ConDatosDeContacto_LosGuardaRecortados()
+    {
+        var servicio = new CrearClienteService(new ClienteRepositoryFalso());
+
+        var cliente = servicio.Ejecutar("Juan Perez", " 5555-1234 ", " juan@correo.com ", "  Zona 1  ");
+
+        Assert.Equal("5555-1234", cliente.Telefono);
+        Assert.Equal("juan@correo.com", cliente.Correo);
+        Assert.Equal("Zona 1", cliente.Direccion);
+    }
+
+    [Fact]
+    public void Ejecutar_SinContacto_LanzaExcepcion()
+    {
+        var servicio = new CrearClienteService(new ClienteRepositoryFalso());
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar("Juan Perez", direccion: "Zona 1"));
     }
 
     [Fact]
@@ -33,7 +55,7 @@ public class CrearClienteServiceTests
         var repositorio = new ClienteRepositoryFalso();
         var servicio = new CrearClienteService(repositorio);
 
-        servicio.Ejecutar("Juan Perez");
+        servicio.Ejecutar("Juan Perez", Telefono);
 
         Assert.Empty(repositorio.Guardados);
     }
@@ -59,7 +81,7 @@ public class CrearClienteServiceTests
         repositorio.Agregar(new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" });
         var servicio = new CrearClienteService(repositorio);
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(nombre));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(nombre, Telefono));
     }
 
     [Fact]
@@ -69,6 +91,6 @@ public class CrearClienteServiceTests
         repositorio.Agregar(new Cliente { Id = Guid.NewGuid(), Nombre = "María López" });
         var servicio = new CrearClienteService(repositorio);
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar("maria lopez"));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar("maria lopez", Telefono));
     }
 }

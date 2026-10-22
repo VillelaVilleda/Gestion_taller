@@ -9,6 +9,13 @@ namespace GestorTaller
         private GestorTaller.ComboBoxFiltrable cmbCliente;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.CheckBox chkClienteNuevo;
+        private System.Windows.Forms.Panel panelContacto;
+        private System.Windows.Forms.Label lblTelefono;
+        private System.Windows.Forms.TextBox txtTelefono;
+        private System.Windows.Forms.Label lblCorreo;
+        private System.Windows.Forms.TextBox txtCorreo;
+        private System.Windows.Forms.Label lblDireccion;
+        private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.Label lblObjeto;
         private System.Windows.Forms.TextBox txtObjeto;
         private System.Windows.Forms.Label lblDescripcion;
@@ -36,6 +43,13 @@ namespace GestorTaller
             cmbCliente = new ComboBoxFiltrable();
             txtCliente = new TextBox();
             chkClienteNuevo = new CheckBox();
+            panelContacto = new Panel();
+            lblTelefono = new Label();
+            txtTelefono = new TextBox();
+            lblCorreo = new Label();
+            txtCorreo = new TextBox();
+            lblDireccion = new Label();
+            txtDireccion = new TextBox();
             lblObjeto = new Label();
             txtObjeto = new TextBox();
             lblDescripcion = new Label();
@@ -92,6 +106,71 @@ namespace GestorTaller
             chkClienteNuevo.TabIndex = 4;
             chkClienteNuevo.Text = "Cliente nuevo";
             chkClienteNuevo.CheckedChanged += chkClienteNuevo_CheckedChanged;
+            //
+            // panelContacto
+            //
+            panelContacto.Controls.Add(lblTelefono);
+            panelContacto.Controls.Add(txtTelefono);
+            panelContacto.Controls.Add(lblCorreo);
+            panelContacto.Controls.Add(txtCorreo);
+            panelContacto.Controls.Add(lblDireccion);
+            panelContacto.Controls.Add(txtDireccion);
+            panelContacto.Location = new Point(390, 62);
+            panelContacto.Name = "panelContacto";
+            panelContacto.Size = new Size(280, 190);
+            panelContacto.TabIndex = 13;
+            panelContacto.Visible = false;
+            //
+            // lblTelefono
+            //
+            lblTelefono.AutoSize = true;
+            lblTelefono.Location = new Point(0, 3);
+            lblTelefono.Name = "lblTelefono";
+            lblTelefono.Size = new Size(200, 20);
+            lblTelefono.TabIndex = 0;
+            lblTelefono.Text = "Telefono (o correo, al menos uno)";
+            //
+            // txtTelefono
+            //
+            txtTelefono.Location = new Point(0, 23);
+            txtTelefono.MaxLength = 20;
+            txtTelefono.Name = "txtTelefono";
+            txtTelefono.Size = new Size(260, 27);
+            txtTelefono.TabIndex = 1;
+            //
+            // lblCorreo
+            //
+            lblCorreo.AutoSize = true;
+            lblCorreo.Location = new Point(0, 63);
+            lblCorreo.Name = "lblCorreo";
+            lblCorreo.Size = new Size(120, 20);
+            lblCorreo.TabIndex = 2;
+            lblCorreo.Text = "Correo electronico";
+            //
+            // txtCorreo
+            //
+            txtCorreo.Location = new Point(0, 83);
+            txtCorreo.MaxLength = 150;
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.Size = new Size(260, 27);
+            txtCorreo.TabIndex = 3;
+            //
+            // lblDireccion
+            //
+            lblDireccion.AutoSize = true;
+            lblDireccion.Location = new Point(0, 123);
+            lblDireccion.Name = "lblDireccion";
+            lblDireccion.Size = new Size(150, 20);
+            lblDireccion.TabIndex = 4;
+            lblDireccion.Text = "Direccion (opcional)";
+            //
+            // txtDireccion
+            //
+            txtDireccion.Location = new Point(0, 143);
+            txtDireccion.MaxLength = 300;
+            txtDireccion.Name = "txtDireccion";
+            txtDireccion.Size = new Size(260, 27);
+            txtDireccion.TabIndex = 5;
             //
             // lblObjeto
             //
@@ -175,6 +254,7 @@ namespace GestorTaller
             Controls.Add(cmbCliente);
             Controls.Add(txtCliente);
             Controls.Add(chkClienteNuevo);
+            Controls.Add(panelContacto);
             Controls.Add(lblObjeto);
             Controls.Add(txtObjeto);
             Controls.Add(lblDescripcion);

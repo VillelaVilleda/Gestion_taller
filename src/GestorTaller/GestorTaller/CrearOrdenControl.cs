@@ -5,7 +5,8 @@ namespace GestorTaller
     /// <summary>
     /// Seccion de "Nueva orden" dentro de la ventana principal (menu lateral).
     /// El cliente se elige de la lista (con busqueda) o se marca "Cliente nuevo"
-    /// para escribir su nombre. Un cliente existente nunca se duplica: la orden
+    /// para escribir su nombre y sus datos de contacto (telefono, correo y direccion).
+    /// Un cliente existente nunca se duplica: la orden
     /// se asocia al ya registrado, y un cliente nuevo se guarda junto con la orden.
     /// </summary>
     public partial class CrearOrdenControl : UserControl
@@ -41,6 +42,7 @@ namespace GestorTaller
         private void AlternarClienteNuevo()
         {
             txtCliente.Visible = chkClienteNuevo.Checked;
+            panelContacto.Visible = chkClienteNuevo.Checked;
             cmbCliente.Visible = !chkClienteNuevo.Checked;
         }
 
@@ -48,7 +50,7 @@ namespace GestorTaller
         {
             if (chkClienteNuevo.Checked)
             {
-                return _crearClienteService.Ejecutar(txtCliente.Text);
+                return _crearClienteService.Ejecutar(txtCliente.Text, txtTelefono.Text, txtCorreo.Text, txtDireccion.Text);
             }
 
             return cmbCliente.ElementoSeleccionado as Cliente;
@@ -75,6 +77,9 @@ namespace GestorTaller
 
                 chkClienteNuevo.Checked = false;
                 txtCliente.Clear();
+                txtTelefono.Clear();
+                txtCorreo.Clear();
+                txtDireccion.Clear();
                 txtObjeto.Clear();
                 txtDescripcion.Clear();
                 numCostoDiagnostico.Value = 0;
