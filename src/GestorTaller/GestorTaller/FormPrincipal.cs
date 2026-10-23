@@ -31,6 +31,7 @@ namespace GestorTaller
             _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
             _usuarioActual = usuarioActual;
+            RegistroErrores.UsuarioActual = usuarioActual.Nombre;
             _permisos = new PermisosUsuario(usuarioActual);
 
             Text = $"GestorTaller - {usuarioActual.Nombre} ({(usuarioActual.EsAdministrador ? "Administrador" : "Usuario")})";
@@ -58,6 +59,7 @@ namespace GestorTaller
         {
             _cerrandoSesion = true;
             _usuarioActual = null;
+            RegistroErrores.UsuarioActual = null;
             _permisos = null;
             _cerrarSesion();
             Close();
