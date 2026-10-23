@@ -70,7 +70,7 @@ namespace GestorTaller
 
             try
             {
-                _modificarEmpleadoService.Ejecutar(_usuarioActual, empleado, txtEditarNombre.Text, chkEditarAdministrador.Checked);
+                _modificarEmpleadoService.Ejecutar(_usuarioActual, empleado, txtEditarNombre.Text, empleado.NombreUsuario, chkEditarAdministrador.Checked);
 
                 lblMensaje.ForeColor = Color.DarkGreen;
                 lblMensaje.Text = $"Empleado \"{empleado.Nombre}\" actualizado.";
