@@ -12,6 +12,7 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblRestablecer;
         private GestorTaller.ComboBoxFiltrable cmbEmpleado;
         private System.Windows.Forms.TextBox txtEditarNombre;
+        private System.Windows.Forms.TextBox txtEditarUsuario;
         private System.Windows.Forms.CheckBox chkEditarAdministrador;
         private System.Windows.Forms.Button btnGuardarCambios;
         private System.Windows.Forms.Button btnRestablecer;
@@ -39,6 +40,7 @@ namespace GestorTaller
             lblRestablecer = new Label();
             cmbEmpleado = new ComboBoxFiltrable();
             txtEditarNombre = new TextBox();
+            txtEditarUsuario = new TextBox();
             chkEditarAdministrador = new CheckBox();
             btnGuardarCambios = new Button();
             btnRestablecer = new Button();
@@ -105,22 +107,31 @@ namespace GestorTaller
             //
             cmbEmpleado.Location = new Point(20, 140);
             cmbEmpleado.Name = "cmbEmpleado";
-            cmbEmpleado.Size = new Size(250, 28);
+            cmbEmpleado.Size = new Size(190, 28);
             cmbEmpleado.TabIndex = 6;
             //
             // txtEditarNombre
             //
-            txtEditarNombre.Location = new Point(280, 140);
+            txtEditarNombre.Location = new Point(220, 140);
             txtEditarNombre.MaxLength = 150;
             txtEditarNombre.Name = "txtEditarNombre";
             txtEditarNombre.PlaceholderText = "Nombre";
-            txtEditarNombre.Size = new Size(190, 27);
+            txtEditarNombre.Size = new Size(170, 27);
             txtEditarNombre.TabIndex = 10;
+            //
+            // txtEditarUsuario
+            //
+            txtEditarUsuario.Location = new Point(400, 140);
+            txtEditarUsuario.MaxLength = 50;
+            txtEditarUsuario.Name = "txtEditarUsuario";
+            txtEditarUsuario.PlaceholderText = "Usuario";
+            txtEditarUsuario.Size = new Size(130, 27);
+            txtEditarUsuario.TabIndex = 13;
             //
             // chkEditarAdministrador
             //
             chkEditarAdministrador.AutoSize = true;
-            chkEditarAdministrador.Location = new Point(480, 142);
+            chkEditarAdministrador.Location = new Point(540, 142);
             chkEditarAdministrador.Name = "chkEditarAdministrador";
             chkEditarAdministrador.Size = new Size(120, 24);
             chkEditarAdministrador.TabIndex = 11;
@@ -174,6 +185,7 @@ namespace GestorTaller
             Controls.Add(lblRestablecer);
             Controls.Add(cmbEmpleado);
             Controls.Add(txtEditarNombre);
+            Controls.Add(txtEditarUsuario);
             Controls.Add(chkEditarAdministrador);
             Controls.Add(btnGuardarCambios);
             Controls.Add(btnRestablecer);

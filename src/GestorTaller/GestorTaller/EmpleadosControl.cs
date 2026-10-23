@@ -5,7 +5,7 @@ namespace GestorTaller
     /// <summary>
     /// Seccion de "Empleados" dentro de la ventana principal (menu lateral).
     /// Permite al administrador crear empleados (usuario y contrasena temporal
-    /// generados por el sistema), editar su nombre y rol, y restablecer contrasenas. La contrasena temporal
+    /// generados por el sistema), editar su nombre, usuario y rol, y restablecer contrasenas. La contrasena temporal
     /// se muestra una sola vez; nunca se muestra el hash. Eliminar queda
     /// para una issue futura.
     /// </summary>
@@ -55,6 +55,7 @@ namespace GestorTaller
             var empleado = cmbEmpleado.ElementoSeleccionado as Empleado;
 
             txtEditarNombre.Text = empleado?.Nombre ?? string.Empty;
+            txtEditarUsuario.Text = empleado?.NombreUsuario ?? string.Empty;
             chkEditarAdministrador.Checked = empleado?.EsAdministrador ?? false;
         }
 
@@ -70,7 +71,7 @@ namespace GestorTaller
 
             try
             {
-                _modificarEmpleadoService.Ejecutar(_usuarioActual, empleado, txtEditarNombre.Text, chkEditarAdministrador.Checked);
+                _modificarEmpleadoService.Ejecutar(_usuarioActual, empleado, txtEditarNombre.Text, txtEditarUsuario.Text, chkEditarAdministrador.Checked);
 
                 lblMensaje.ForeColor = Color.DarkGreen;
                 lblMensaje.Text = $"Empleado \"{empleado.Nombre}\" actualizado.";
