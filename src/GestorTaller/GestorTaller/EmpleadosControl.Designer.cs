@@ -16,6 +16,7 @@ namespace GestorTaller
         private System.Windows.Forms.CheckBox chkEditarAdministrador;
         private System.Windows.Forms.Button btnGuardarCambios;
         private System.Windows.Forms.Button btnRestablecer;
+        private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Label lblMensaje;
         private GestorTaller.TablaListadoControl tablaEmpleados;
 
@@ -44,6 +45,7 @@ namespace GestorTaller
             chkEditarAdministrador = new CheckBox();
             btnGuardarCambios = new Button();
             btnRestablecer = new Button();
+            btnEliminar = new Button();
             lblMensaje = new Label();
             tablaEmpleados = new TablaListadoControl();
             SuspendLayout();
@@ -155,6 +157,15 @@ namespace GestorTaller
             btnRestablecer.Text = "Restablecer contrasena";
             btnRestablecer.Click += btnRestablecer_Click;
             //
+            // btnEliminar
+            //
+            btnEliminar.Location = new Point(390, 178);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(170, 30);
+            btnEliminar.TabIndex = 14;
+            btnEliminar.Text = "Eliminar empleado";
+            btnEliminar.Click += btnEliminar_Click;
+            //
             // lblMensaje
             //
             lblMensaje.AutoSize = true;
@@ -189,6 +200,7 @@ namespace GestorTaller
             Controls.Add(chkEditarAdministrador);
             Controls.Add(btnGuardarCambios);
             Controls.Add(btnRestablecer);
+            Controls.Add(btnEliminar);
             Controls.Add(lblMensaje);
             Controls.Add(tablaEmpleados);
             Name = "EmpleadosControl";

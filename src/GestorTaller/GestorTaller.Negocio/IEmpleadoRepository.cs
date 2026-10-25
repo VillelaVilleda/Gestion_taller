@@ -8,6 +8,7 @@ public interface IEmpleadoRepository
 {
     void Agregar(Empleado empleado);
     void Actualizar(Empleado empleado);
+    void Eliminar(Empleado empleado);
     Empleado? ObtenerPorId(Guid id);
     Empleado? ObtenerPorNombreUsuario(string nombreUsuario);
     IReadOnlyList<Empleado> ObtenerTodos();

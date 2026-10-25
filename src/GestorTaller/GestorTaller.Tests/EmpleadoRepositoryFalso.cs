@@ -13,6 +13,8 @@ internal class EmpleadoRepositoryFalso : IEmpleadoRepository
 
     public void Actualizar(Empleado empleado) => Actualizaciones++;
 
+    public void Eliminar(Empleado empleado) => Guardados.Remove(empleado);
+
     public Empleado? ObtenerPorId(Guid id) => Guardados.FirstOrDefault(e => e.Id == id);
 
     public Empleado? ObtenerPorNombreUsuario(string nombreUsuario) => Guardados.FirstOrDefault(e => e.NombreUsuario == nombreUsuario);
