@@ -68,6 +68,36 @@ public class RepuestoRepositoryEfCoreTests
     }
 
     [Fact]
+    public void Actualizar_GuardaLosCambios()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var repositorio = new RepuestoRepositoryEfCore(dbContext);
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 5, Precio = 10m };
+        repositorio.Agregar(repuesto);
+
+        repuesto.Nombre = "Bujia NGK";
+        repuesto.Precio = 20m;
+        repositorio.Actualizar(repuesto);
+
+        var guardado = repositorio.ObtenerPorId(repuesto.Id);
+        Assert.Equal("Bujia NGK", guardado!.Nombre);
+        Assert.Equal(20m, guardado.Precio);
+    }
+
+    [Fact]
+    public void Eliminar_QuitaElRepuestoDeLaBaseDeDatos()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var repositorio = new RepuestoRepositoryEfCore(dbContext);
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 5 };
+        repositorio.Agregar(repuesto);
+
+        repositorio.Eliminar(repuesto);
+
+        Assert.Empty(dbContext.Repuestos);
+    }
+
+    [Fact]
     public void Agregar_GuardaExistenciaEnCero()
     {
         using var dbContext = CrearDbContextEnMemoria();

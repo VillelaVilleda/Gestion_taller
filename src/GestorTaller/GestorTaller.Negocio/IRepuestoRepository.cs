@@ -7,6 +7,8 @@
 public interface IRepuestoRepository
 {
     void Agregar(Repuesto repuesto);
+    void Actualizar(Repuesto repuesto);
+    void Eliminar(Repuesto repuesto);
     Repuesto? ObtenerPorId(Guid id);
     IReadOnlyList<Repuesto> ObtenerTodos();
 }

@@ -5,17 +5,6 @@ namespace GestorTaller.Tests;
 // Pruebas del servicio "crear repuesto" (issue #113).
 public class CrearRepuestoServiceTests
 {
-    private class RepuestoRepositoryFalso : IRepuestoRepository
-    {
-        public List<Repuesto> Guardados { get; } = new();
-
-        public void Agregar(Repuesto repuesto) => Guardados.Add(repuesto);
-
-        public Repuesto? ObtenerPorId(Guid id) => Guardados.FirstOrDefault(r => r.Id == id);
-
-        public IReadOnlyList<Repuesto> ObtenerTodos() => Guardados;
-    }
-
     private static (CrearRepuestoService Servicio, RepuestoRepositoryFalso Repositorio) Crear()
     {
         var repositorio = new RepuestoRepositoryFalso();
