@@ -7,17 +7,6 @@ public class CrearClienteServiceTests
 {
     private const string Telefono = "5555-1234";
 
-    private class ClienteRepositoryFalso : IClienteRepository
-    {
-        public List<Cliente> Guardados { get; } = new();
-
-        public void Agregar(Cliente cliente) => Guardados.Add(cliente);
-
-        public Cliente? ObtenerPorId(Guid id) => Guardados.FirstOrDefault(c => c.Id == id);
-
-        public IReadOnlyList<Cliente> ObtenerTodos() => Guardados;
-    }
-
     [Fact]
     public void Ejecutar_ConNombreValido_DevuelveUnClienteConEseNombre()
     {
