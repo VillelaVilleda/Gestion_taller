@@ -5,9 +5,8 @@ namespace GestorTaller
     /// <summary>
     /// Seccion de "Empleados" dentro de la ventana principal (menu lateral).
     /// Permite al administrador crear empleados (usuario y contrasena temporal
-    /// generados por el sistema), editar su nombre, usuario y rol, y restablecer contrasenas. La contrasena temporal
-    /// se muestra una sola vez; nunca se muestra el hash. Eliminar queda
-    /// para una issue futura.
+    /// generados por el sistema), editar su nombre, usuario y rol,, restablecer contrasenas y eliminar empleados. La contrasena temporal
+    /// se muestra una sola vez; nunca se muestra el hash.
     /// </summary>
     public partial class EmpleadosControl : UserControl
     {
@@ -17,8 +16,9 @@ namespace GestorTaller
         private readonly ModificarEmpleadoService _modificarEmpleadoService;
         private readonly CrearEmpleadoService _crearEmpleadoService;
         private readonly RestablecerContrasenaService _restablecerContrasenaService;
+        private readonly EliminarEmpleadoService _eliminarEmpleadoService;
 
-        public EmpleadosControl(IEmpleadoRepository empleadoRepository, Empleado usuarioActual)
+        public EmpleadosControl(IEmpleadoRepository empleadoRepository, IOrdenRepository ordenRepository, Empleado usuarioActual)
         {
             InitializeComponent();
             _empleadoRepository = empleadoRepository;
@@ -28,6 +28,8 @@ namespace GestorTaller
             cmbEmpleado.SelectedIndexChanged += (_, _) => MostrarDatosDelSeleccionado();
             _crearEmpleadoService = new CrearEmpleadoService(empleadoRepository);
             _restablecerContrasenaService = new RestablecerContrasenaService(empleadoRepository);
+            _eliminarEmpleadoService = new EliminarEmpleadoService(empleadoRepository, ordenRepository);
+            btnEliminar.Visible = _permisos.PuedeEliminar;
             Load += EmpleadosControl_Load;
         }
 
@@ -134,6 +136,42 @@ namespace GestorTaller
                 lblMensaje.ForeColor = Color.DarkGreen;
                 lblMensaje.Text = $"Contrasena de \"{empleado.Nombre}\" restablecida.";
                 MostrarCredenciales(empleado.NombreUsuario, password);
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+            {
+                lblMensaje.Text = ex.Message;
+            }
+        }
+
+        private void btnEliminar_Click(object? sender, EventArgs e)
+        {
+            lblMensaje.ForeColor = Color.DarkRed;
+
+            if (cmbEmpleado.ElementoSeleccionado is not Empleado empleado)
+            {
+                lblMensaje.Text = "Selecciona un empleado de la lista.";
+                return;
+            }
+
+            var confirmar = MessageBox.Show(
+                $"Se eliminara al empleado \"{empleado.Nombre}\". Continuar?",
+                "Eliminar empleado",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirmar != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                _eliminarEmpleadoService.Ejecutar(_usuarioActual, empleado);
+
+                lblMensaje.ForeColor = Color.DarkGreen;
+                lblMensaje.Text = $"Empleado \"{empleado.Nombre}\" eliminado.";
+
+                CargarEmpleados();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
