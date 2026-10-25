@@ -14,6 +14,14 @@ namespace GestorTaller
         private System.Windows.Forms.Button btnAgregarRepuesto;
         private System.Windows.Forms.Label lblMensaje;
         private GestorTaller.TablaListadoControl tablaRepuestos;
+        private System.Windows.Forms.Panel panelEdicion;
+        private System.Windows.Forms.Label lblEditar;
+        private GestorTaller.ComboBoxFiltrable cmbRepuesto;
+        private System.Windows.Forms.TextBox txtEditarNombre;
+        private System.Windows.Forms.NumericUpDown numEditarExistencia;
+        private System.Windows.Forms.NumericUpDown numEditarPrecio;
+        private System.Windows.Forms.Button btnGuardarCambios;
+        private System.Windows.Forms.Button btnEliminar;
 
         protected override void Dispose(bool disposing)
         {
@@ -38,8 +46,19 @@ namespace GestorTaller
             btnAgregarRepuesto = new Button();
             lblMensaje = new Label();
             tablaRepuestos = new TablaListadoControl();
+            panelEdicion = new Panel();
+            lblEditar = new Label();
+            cmbRepuesto = new ComboBoxFiltrable();
+            txtEditarNombre = new TextBox();
+            numEditarExistencia = new NumericUpDown();
+            numEditarPrecio = new NumericUpDown();
+            btnGuardarCambios = new Button();
+            btnEliminar = new Button();
             ((System.ComponentModel.ISupportInitialize)numExistencia).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrecio).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numEditarExistencia).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numEditarPrecio).BeginInit();
+            panelEdicion.SuspendLayout();
             SuspendLayout();
             //
             // lblTitulo
@@ -118,7 +137,7 @@ namespace GestorTaller
             //
             lblMensaje.AutoSize = true;
             lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 110);
+            lblMensaje.Location = new Point(20, 210);
             lblMensaje.MaximumSize = new Size(640, 0);
             lblMensaje.Name = "lblMensaje";
             lblMensaje.Size = new Size(0, 20);
@@ -127,10 +146,85 @@ namespace GestorTaller
             // tablaRepuestos
             //
             tablaRepuestos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tablaRepuestos.Location = new Point(0, 140);
+            tablaRepuestos.Location = new Point(0, 240);
             tablaRepuestos.Name = "tablaRepuestos";
-            tablaRepuestos.Size = new Size(680, 320);
+            tablaRepuestos.Size = new Size(680, 220);
             tablaRepuestos.TabIndex = 9;
+            //
+            // panelEdicion
+            //
+            panelEdicion.Controls.Add(lblEditar);
+            panelEdicion.Controls.Add(cmbRepuesto);
+            panelEdicion.Controls.Add(txtEditarNombre);
+            panelEdicion.Controls.Add(numEditarExistencia);
+            panelEdicion.Controls.Add(numEditarPrecio);
+            panelEdicion.Controls.Add(btnGuardarCambios);
+            panelEdicion.Controls.Add(btnEliminar);
+            panelEdicion.Location = new Point(0, 110);
+            panelEdicion.Name = "panelEdicion";
+            panelEdicion.Size = new Size(680, 95);
+            panelEdicion.TabIndex = 10;
+            //
+            // lblEditar
+            //
+            lblEditar.AutoSize = true;
+            lblEditar.Location = new Point(20, 2);
+            lblEditar.Name = "lblEditar";
+            lblEditar.Size = new Size(200, 20);
+            lblEditar.TabIndex = 0;
+            lblEditar.Text = "Editar o eliminar un repuesto";
+            //
+            // cmbRepuesto
+            //
+            cmbRepuesto.Location = new Point(20, 25);
+            cmbRepuesto.Name = "cmbRepuesto";
+            cmbRepuesto.Size = new Size(190, 28);
+            cmbRepuesto.TabIndex = 1;
+            //
+            // txtEditarNombre
+            //
+            txtEditarNombre.Location = new Point(220, 26);
+            txtEditarNombre.MaxLength = 150;
+            txtEditarNombre.Name = "txtEditarNombre";
+            txtEditarNombre.PlaceholderText = "Nombre";
+            txtEditarNombre.Size = new Size(150, 27);
+            txtEditarNombre.TabIndex = 2;
+            //
+            // numEditarExistencia
+            //
+            numEditarExistencia.Location = new Point(380, 26);
+            numEditarExistencia.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numEditarExistencia.Name = "numEditarExistencia";
+            numEditarExistencia.Size = new Size(80, 27);
+            numEditarExistencia.TabIndex = 3;
+            //
+            // numEditarPrecio
+            //
+            numEditarPrecio.DecimalPlaces = 2;
+            numEditarPrecio.Location = new Point(470, 26);
+            numEditarPrecio.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numEditarPrecio.Name = "numEditarPrecio";
+            numEditarPrecio.Size = new Size(110, 27);
+            numEditarPrecio.TabIndex = 4;
+            numEditarPrecio.ThousandsSeparator = true;
+            //
+            // btnGuardarCambios
+            //
+            btnGuardarCambios.Location = new Point(20, 60);
+            btnGuardarCambios.Name = "btnGuardarCambios";
+            btnGuardarCambios.Size = new Size(160, 30);
+            btnGuardarCambios.TabIndex = 5;
+            btnGuardarCambios.Text = "Guardar cambios";
+            btnGuardarCambios.Click += btnGuardarCambios_Click;
+            //
+            // btnEliminar
+            //
+            btnEliminar.Location = new Point(190, 60);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(120, 30);
+            btnEliminar.TabIndex = 6;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.Click += btnEliminar_Click;
             //
             // RepuestosControl
             //
@@ -146,10 +240,15 @@ namespace GestorTaller
             Controls.Add(btnAgregarRepuesto);
             Controls.Add(lblMensaje);
             Controls.Add(tablaRepuestos);
+            Controls.Add(panelEdicion);
             Name = "RepuestosControl";
             Size = new Size(680, 460);
             ((System.ComponentModel.ISupportInitialize)numExistencia).EndInit();
             ((System.ComponentModel.ISupportInitialize)numPrecio).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numEditarExistencia).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numEditarPrecio).EndInit();
+            panelEdicion.ResumeLayout(false);
+            panelEdicion.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
