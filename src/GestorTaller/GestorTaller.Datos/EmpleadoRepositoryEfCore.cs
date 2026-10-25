@@ -23,6 +23,12 @@ public class EmpleadoRepositoryEfCore : IEmpleadoRepository
         _dbContext.SaveChanges();
     }
 
+    public void Eliminar(Empleado empleado)
+    {
+        _dbContext.Empleados.Remove(empleado);
+        _dbContext.SaveChanges();
+    }
+
     public Empleado? ObtenerPorId(Guid id)
     {
         return _dbContext.Empleados.Find(id);

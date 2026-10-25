@@ -51,6 +51,19 @@ public class EmpleadoRepositoryEfCoreTests
     }
 
     [Fact]
+    public void Eliminar_QuitaAlEmpleadoDeLaBaseDeDatos()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var repositorio = new EmpleadoRepositoryEfCore(dbContext);
+        var empleado = new Empleado { Id = Guid.NewGuid(), Nombre = "Ana Torres", NombreUsuario = "atorres", PasswordUsuario = "clave123" };
+        repositorio.Agregar(empleado);
+
+        repositorio.Eliminar(empleado);
+
+        Assert.Empty(dbContext.Empleados);
+    }
+
+    [Fact]
     public void ObtenerPorId_DevuelveElEmpleadoCorrecto()
     {
         using var dbContext = CrearDbContextEnMemoria();
