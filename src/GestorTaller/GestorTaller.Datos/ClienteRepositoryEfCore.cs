@@ -17,6 +17,18 @@ public class ClienteRepositoryEfCore : IClienteRepository
         _dbContext.SaveChanges();
     }
 
+    public void Actualizar(Cliente cliente)
+    {
+        _dbContext.Clientes.Update(cliente);
+        _dbContext.SaveChanges();
+    }
+
+    public void Eliminar(Cliente cliente)
+    {
+        _dbContext.Clientes.Remove(cliente);
+        _dbContext.SaveChanges();
+    }
+
     public Cliente? ObtenerPorId(Guid id)
     {
         return _dbContext.Clientes.Find(id);

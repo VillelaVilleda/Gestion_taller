@@ -29,6 +29,36 @@ public class ClienteRepositoryEfCoreTests
     }
 
     [Fact]
+    public void Actualizar_GuardaLosCambios()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var repositorio = new ClienteRepositoryEfCore(dbContext);
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez", Telefono = "5555-1234" };
+        repositorio.Agregar(cliente);
+
+        cliente.Nombre = "Juan Perez Lopez";
+        cliente.Correo = "juan@correo.com";
+        repositorio.Actualizar(cliente);
+
+        var guardado = repositorio.ObtenerPorId(cliente.Id);
+        Assert.Equal("Juan Perez Lopez", guardado!.Nombre);
+        Assert.Equal("juan@correo.com", guardado.Correo);
+    }
+
+    [Fact]
+    public void Eliminar_QuitaElClienteDeLaBaseDeDatos()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var repositorio = new ClienteRepositoryEfCore(dbContext);
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        repositorio.Agregar(cliente);
+
+        repositorio.Eliminar(cliente);
+
+        Assert.Empty(dbContext.Clientes);
+    }
+
+    [Fact]
     public void ObtenerPorId_DevuelveElClienteCorrecto()
     {
         using var dbContext = CrearDbContextEnMemoria();

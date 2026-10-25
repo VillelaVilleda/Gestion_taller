@@ -7,6 +7,8 @@ namespace GestorTaller.Negocio;
 public interface IClienteRepository
 {
     void Agregar(Cliente cliente);
+    void Actualizar(Cliente cliente);
+    void Eliminar(Cliente cliente);
     Cliente? ObtenerPorId(Guid id);
     IReadOnlyList<Cliente> ObtenerTodos();
 }
