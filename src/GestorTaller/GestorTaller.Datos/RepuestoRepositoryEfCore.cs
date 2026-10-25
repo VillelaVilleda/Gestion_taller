@@ -17,6 +17,18 @@ public class RepuestoRepositoryEfCore : IRepuestoRepository
         _dbContext.SaveChanges();
     }
 
+    public void Actualizar(Repuesto repuesto)
+    {
+        _dbContext.Repuestos.Update(repuesto);
+        _dbContext.SaveChanges();
+    }
+
+    public void Eliminar(Repuesto repuesto)
+    {
+        _dbContext.Repuestos.Remove(repuesto);
+        _dbContext.SaveChanges();
+    }
+
     public Repuesto? ObtenerPorId(Guid id)
     {
         return _dbContext.Repuestos.Find(id);
