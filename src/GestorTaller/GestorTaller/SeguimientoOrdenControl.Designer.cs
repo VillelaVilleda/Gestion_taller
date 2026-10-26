@@ -8,6 +8,7 @@
         private System.Windows.Forms.Panel panelFormulario;
         private System.Windows.Forms.Label lblEncabezado;
         private System.Windows.Forms.Button btnEditarOrden;
+        private System.Windows.Forms.Button btnEliminarOrden;
 
         protected override void Dispose(bool disposing)
         {
@@ -24,6 +25,7 @@
             panelFormulario = new Panel();
             lblEncabezado = new Label();
             btnEditarOrden = new Button();
+            btnEliminarOrden = new Button();
             SuspendLayout();
             // 
             // breadcrumb
@@ -48,7 +50,7 @@
             lblEncabezado.Dock = DockStyle.Top;
             lblEncabezado.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             lblEncabezado.Name = "lblEncabezado";
-            lblEncabezado.Padding = new Padding(20, 6, 200, 0);
+            lblEncabezado.Padding = new Padding(20, 6, 330, 0);
             lblEncabezado.Size = new Size(680, 34);
             lblEncabezado.TabIndex = 2;
             //
@@ -63,11 +65,23 @@
             btnEditarOrden.Visible = false;
             btnEditarOrden.Click += btnEditarOrden_Click;
             //
+            // btnEliminarOrden
+            //
+            btnEliminarOrden.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnEliminarOrden.Location = new Point(360, 3);
+            btnEliminarOrden.Name = "btnEliminarOrden";
+            btnEliminarOrden.Size = new Size(120, 28);
+            btnEliminarOrden.TabIndex = 4;
+            btnEliminarOrden.Text = "Eliminar orden";
+            btnEliminarOrden.Visible = false;
+            btnEliminarOrden.Click += btnEliminarOrden_Click;
+            //
             // SeguimientoOrdenControl
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(btnEditarOrden);
+            Controls.Add(btnEliminarOrden);
             Controls.Add(panelFormulario);
             Controls.Add(breadcrumb);
             Controls.Add(lblEncabezado);

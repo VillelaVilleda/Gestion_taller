@@ -90,7 +90,7 @@ namespace GestorTaller
 
         private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository, AbrirSeguimientoOrden));
 
-        private void AbrirSeguimientoOrden(Guid ordenId) => MostrarControl(new SeguimientoOrdenControl(_ordenRepository, _empleadoRepository, _repuestoRepository, _usuarioActual!, ordenId));
+        private void AbrirSeguimientoOrden(Guid ordenId) => MostrarControl(new SeguimientoOrdenControl(_ordenRepository, _empleadoRepository, _repuestoRepository, _usuarioActual!, ordenId, MostrarSeccionOrdenesRegistradas));
 
         private void MostrarSeccionClientes() => MostrarControl(new ClientesControl(_clienteRepository, _ordenRepository, _usuarioActual!));
 
