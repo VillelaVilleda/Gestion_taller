@@ -113,3 +113,7 @@ La capa de negocio no depende de las demás: se comunica con los datos mediante 
 
 - `docs/Guia_Entity_Framework_Core.md`: uso de EF Core y migraciones.
 - `docs/DERCAS_V3.pdf`: especificación de requisitos y criterios de aceptación.
+
+## Créditos
+
+Los íconos de la interfaz son de [Lucide](https://lucide.dev/) (licencia ISC; algunos derivan de Feather, licencia MIT). El aviso de licencia está en `src/GestorTaller/GestorTaller/Recursos/Iconos/LICENSE-Lucide.txt`.
