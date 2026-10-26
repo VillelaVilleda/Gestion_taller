@@ -7,11 +7,13 @@ namespace GestorTaller
         private readonly IOrdenRepository _ordenRepository;
         private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IRepuestoRepository _repuestoRepository;
+        private readonly PermisosUsuario _permisos;
         private readonly Guid _ordenId;
 
-        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Guid ordenId)
+        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Guid ordenId)
         {
             InitializeComponent();
+            _permisos = new PermisosUsuario(usuarioActual);
             _ordenRepository = ordenRepository;
             _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
@@ -51,6 +53,7 @@ namespace GestorTaller
 
             if (orden is null)
             {
+                btnEditarOrden.Visible = false;
                 MostrarFormulario(new Label
                 {
                     Dock = DockStyle.Fill,
@@ -60,9 +63,27 @@ namespace GestorTaller
                 return;
             }
 
+            btnEditarOrden.Visible = _permisos.PuedeEditar && orden.Estado != EstadoOrden.Entregado;
             lblEncabezado.Text = $"Cliente: {orden.Cliente.Nombre}  |  {orden.DescripcionObjeto}";
             breadcrumb.Mostrar(orden.HistorialEstados);
             MostrarPaso(orden.Estado);
+        }
+
+        private void btnEditarOrden_Click(object? sender, EventArgs e)
+        {
+            var orden = _ordenRepository.ObtenerPorId(_ordenId);
+
+            if (orden is null)
+            {
+                return;
+            }
+
+            using var dialogo = new FormEditarOrden(_ordenRepository, _permisos, orden);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
+            {
+                ActualizarBreadcrumbYMostrarPasoActual();
+            }
         }
 
         private void MostrarPaso(EstadoOrden paso)
