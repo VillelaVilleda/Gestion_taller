@@ -27,7 +27,10 @@ La capa de negocio (`GestorTaller.Negocio`) **no conoce EF Core**. Solo define l
 - Importes con `numeric(10,2)` y restricciones `CHECK` (`precio >= 0`, `cantidad > 0`).
 - El estado de la orden se guarda como texto, y su historial en la tabla `orden_historial_estado`.
 - `orden_repuesto` resuelve la relación entre órdenes y repuestos, con cantidad y precio unitario al cotizar.
-- Los empleados responsables de cada etapa de la orden son llaves foráneas hacia `empleado`.
+- Los empleados responsables de cada etapa de la orden son llaves foráneas hacia `empleado`, con borrado restringido: no se puede eliminar un empleado que es responsable de una orden (el servicio lo valida antes con un mensaje claro).
+- `orden_repuesto` también restringe el borrado de repuestos: un repuesto que está en alguna orden no se puede eliminar.
+- Al eliminar una orden se borran también su historial de estados y sus repuestos asignados (borrado en cascada). Si la cotización ya estaba aceptada, el servicio devuelve antes el inventario y todo se guarda en una sola operación.
+- El nombre de usuario del empleado es único (índice único); el servicio además lo compara sin importar mayúsculas y lo guarda en minúsculas.
 - Las fechas se guardan en UTC y se convierten a hora local al leerlas, porque PostgreSQL solo acepta UTC.
 
 ## 5. Migraciones
@@ -42,7 +45,7 @@ dotnet ef migrations add NombreDeLaMigracion --project GestorTaller.Datos --star
 dotnet ef database update --project GestorTaller.Datos --startup-project GestorTaller
 ```
 
-La aplicación no migra la base al iniciar; se hace con el segundo comando. Las migraciones están en `GestorTaller.Datos/Migrations` y se suben a Git, así cualquier integrante obtiene el mismo esquema. Migraciones actuales: `InicialSprint4`, `RenombrarUsuarioAEmpleado`, `AgregarRepuesto`, `AgregarOrdenRepuesto`, `AgregarPrecioRepuestos` y `RelacionarEmpleadosEnOrden`.
+La aplicación no migra la base al iniciar; se hace con el segundo comando. Las migraciones están en `GestorTaller.Datos/Migrations` y se suben a Git, así cualquier integrante obtiene el mismo esquema. Migraciones actuales: `InicialSprint4`, `RenombrarUsuarioAEmpleado`, `AgregarRepuesto`, `AgregarOrdenRepuesto`, `AgregarPrecioRepuestos`, `RelacionarEmpleadosEnOrden` y `RestriccionesDeRepuesto`.
 
 ## 6. Cómo reproducir el entorno
 
