@@ -17,6 +17,7 @@ namespace GestorTaller
         public FormLogin(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;

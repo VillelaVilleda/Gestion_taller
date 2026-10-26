@@ -36,6 +36,7 @@ namespace GestorTaller
             StartPosition = FormStartPosition.CenterParent;
             MaximizeBox = false;
             MinimizeBox = false;
+            Tema.Aplicar(this);
 
             _txtObjeto.Text = orden.DescripcionObjeto;
             _txtProblema.Text = orden.DescripcionProblema;

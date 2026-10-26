@@ -26,6 +26,7 @@ namespace GestorTaller
         public FormPrincipal(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Action cerrarSesion)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;
@@ -103,6 +104,7 @@ namespace GestorTaller
             var anteriores = panelContenido.Controls.Cast<Control>().ToList();
 
             panelContenido.Controls.Clear();
+            Tema.Aplicar(control);
             control.Dock = DockStyle.Fill;
             panelContenido.Controls.Add(control);
 

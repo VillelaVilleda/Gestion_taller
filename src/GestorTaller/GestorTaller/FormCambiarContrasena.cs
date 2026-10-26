@@ -27,6 +27,7 @@ namespace GestorTaller
             StartPosition = FormStartPosition.CenterParent;
             MaximizeBox = false;
             MinimizeBox = false;
+            Tema.Aplicar(this);
 
             var btnGuardar = new Button { Text = "Guardar", Location = new Point(20, 240), Size = new Size(150, 32) };
             var btnCancelar = new Button { Text = "Cancelar", Location = new Point(190, 240), Size = new Size(150, 32), DialogResult = DialogResult.Cancel };
