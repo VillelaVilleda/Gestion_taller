@@ -8,12 +8,16 @@ namespace GestorTaller
         private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly PermisosUsuario _permisos;
+        private readonly EliminarOrdenService _eliminarOrdenService;
+        private readonly Action _ordenEliminada;
         private readonly Guid _ordenId;
 
-        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Guid ordenId)
+        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Guid ordenId, Action ordenEliminada)
         {
             InitializeComponent();
             _permisos = new PermisosUsuario(usuarioActual);
+            _eliminarOrdenService = new EliminarOrdenService(ordenRepository);
+            _ordenEliminada = ordenEliminada;
             _ordenRepository = ordenRepository;
             _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
@@ -54,6 +58,7 @@ namespace GestorTaller
             if (orden is null)
             {
                 btnEditarOrden.Visible = false;
+                btnEliminarOrden.Visible = false;
                 MostrarFormulario(new Label
                 {
                     Dock = DockStyle.Fill,
@@ -64,6 +69,7 @@ namespace GestorTaller
             }
 
             btnEditarOrden.Visible = _permisos.PuedeEditar && orden.Estado != EstadoOrden.Entregado;
+            btnEliminarOrden.Visible = _permisos.PuedeEliminar && orden.Estado != EstadoOrden.Entregado;
             lblEncabezado.Text = $"Cliente: {orden.Cliente.Nombre}  |  {orden.DescripcionObjeto}";
             breadcrumb.Mostrar(orden.HistorialEstados);
             MostrarPaso(orden.Estado);
@@ -83,6 +89,41 @@ namespace GestorTaller
             if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
                 ActualizarBreadcrumbYMostrarPasoActual();
+            }
+        }
+
+        private void btnEliminarOrden_Click(object? sender, EventArgs e)
+        {
+            var orden = _ordenRepository.ObtenerPorId(_ordenId);
+
+            if (orden is null)
+            {
+                return;
+            }
+
+            var aviso = orden.CotizacionAceptada
+                ? " Los repuestos descontados del inventario se devolveran."
+                : string.Empty;
+
+            var confirmar = MessageBox.Show(
+                $"Se eliminara la orden de {orden.Cliente.Nombre} ({orden.DescripcionObjeto}).{aviso} Esta accion no se puede deshacer. Continuar?",
+                "Eliminar orden",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirmar != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                _eliminarOrdenService.Ejecutar(_permisos, orden);
+                _ordenEliminada();
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+            {
+                MessageBox.Show(ex.Message, "Eliminar orden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
