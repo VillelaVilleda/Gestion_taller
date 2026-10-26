@@ -48,6 +48,32 @@ public class OrdenRepositoryEfCoreTests
     }
 
     [Fact]
+    public void Eliminar_BorraLaOrdenConSuHistorialYSusRepuestosYGuardaElInventario()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 7, Precio = 25m };
+        dbContext.Clientes.Add(cliente);
+        dbContext.Repuestos.Add(repuesto);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion, EstadoOrden.Diagnostico);
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 3, PrecioUnitario = 25m });
+        repositorio.Agregar(orden);
+
+        repuesto.Existencia += 3;
+        repositorio.Eliminar(orden);
+
+        dbContext.ChangeTracker.Clear();
+        Assert.Empty(dbContext.Ordenes);
+        Assert.Empty(dbContext.Set<HistorialEstadoOrden>());
+        Assert.Empty(dbContext.Set<OrdenRepuesto>());
+        Assert.Single(dbContext.Clientes);
+        Assert.Equal(10, dbContext.Repuestos.Single().Existencia);
+    }
+
+    [Fact]
     public void Agregar_GuardaElHistorialCompleto()
     {
         using var dbContext = CrearDbContextEnMemoria();

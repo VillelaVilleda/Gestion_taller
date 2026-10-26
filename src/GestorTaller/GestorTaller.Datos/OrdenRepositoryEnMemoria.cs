@@ -22,6 +22,11 @@ public class OrdenRepositoryEnMemoria : IOrdenRepository
         // que el llamador ya modifico.
     }
 
+    public void Eliminar(Orden orden)
+    {
+        _ordenes.Remove(orden);
+    }
+
     public Orden? ObtenerPorId(Guid id)
     {
         return _ordenes.FirstOrDefault(o => o.Id == id);

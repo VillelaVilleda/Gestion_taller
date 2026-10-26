@@ -4,6 +4,7 @@ public interface IOrdenRepository
 {
     void Agregar(Orden orden);
     void Actualizar(Orden orden);
+    void Eliminar(Orden orden);
     Orden? ObtenerPorId(Guid id);
     IReadOnlyList<Orden> ObtenerTodas();
 }

@@ -106,6 +106,18 @@ public class OrdenRepositoryEfCore : IOrdenRepository
         _dbContext.SaveChanges();
     }
 
+    // Borra la orden con su historial y sus repuestos asignados. Si antes se modifico la
+    // existencia de algun repuesto (devolucion de inventario), se guarda en el mismo SaveChanges.
+    public void Eliminar(Orden orden)
+    {
+        _dbContext.Set<HistorialEstadoOrden>().RemoveRange(
+            _dbContext.Set<HistorialEstadoOrden>().Where(h => h.OrdenId == orden.Id).ToList());
+        _dbContext.Set<OrdenRepuesto>().RemoveRange(
+            _dbContext.Set<OrdenRepuesto>().Where(r => r.OrdenId == orden.Id).ToList());
+        _dbContext.Ordenes.Remove(orden);
+        _dbContext.SaveChanges();
+    }
+
     // Update() marca como "modificados" los hijos que ya traen llave, incluso los nuevos
     // (la llave de OrdenRepuesto la ponemos nosotros), asi que distinguimos cuales son nuevos.
     private void SincronizarRepuestos(Orden orden)
