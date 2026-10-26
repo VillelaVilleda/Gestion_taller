@@ -31,6 +31,17 @@ namespace GestorTaller
         public static Font Fuente(float puntos = 10F, FontStyle estilo = FontStyle.Regular) =>
             new("Segoe UI", puntos, estilo);
 
+        /// <summary>
+        /// Pone el fondo y el color de texto del tema a una ventana o pantalla. Los controles
+        /// que no tengan color propio lo heredan; no cambia tamanos ni posiciones. La fuente no
+        /// se toca: las pantallas ya usan Segoe UI.
+        /// </summary>
+        public static void Aplicar(Control control)
+        {
+            control.BackColor = Fondo;
+            control.ForeColor = Titanio;
+        }
+
         public static (Color Texto, Color Fondo) ColoresEtapa(EstadoOrden estado)
         {
             var (texto, fondo) = PaletaTema.ColoresEtapa(estado);
