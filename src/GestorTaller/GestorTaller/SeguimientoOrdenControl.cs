@@ -102,16 +102,16 @@ namespace GestorTaller
             }
 
             var aviso = orden.CotizacionAceptada
-                ? " Los repuestos descontados del inventario se devolveran."
+                ? " Los repuestos descontados del inventario se devolverán."
                 : string.Empty;
 
-            var confirmar = MessageBox.Show(
-                $"Se eliminara la orden de {orden.Cliente.Nombre} ({orden.DescripcionObjeto}).{aviso} Esta accion no se puede deshacer. Continuar?",
+            var confirmar = DialogoConfirmacion.Confirmar(
+                this,
                 "Eliminar orden",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+                $"Se eliminará la orden de {orden.Cliente.Nombre} ({orden.DescripcionObjeto}).{aviso} Esta acción no se puede deshacer. ¿Continuar?",
+                "Eliminar orden");
 
-            if (confirmar != DialogResult.Yes)
+            if (!confirmar)
             {
                 return;
             }
@@ -123,7 +123,7 @@ namespace GestorTaller
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                MessageBox.Show(ex.Message, "Eliminar orden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogoConfirmacion.Informar(this, "No se pudo eliminar la orden", ex.Message);
             }
         }
 
