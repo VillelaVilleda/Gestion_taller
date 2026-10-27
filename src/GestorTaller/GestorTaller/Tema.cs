@@ -5,6 +5,14 @@ namespace GestorTaller
     /// <summary>
     /// Estilo visual comun de la aplicacion: colores, fuente y medidas. Los colores salen de
     /// <see cref="PaletaTema"/> (donde se prueba su contraste); aqui solo se convierten.
+    ///
+    /// Convencion de pantallas adaptables (para que todo se acomode al cambiar el tamano de la ventana):
+    ///   - Una pantalla es un TableLayoutPanel con Dock = Fill y Padding = <see cref="RellenoPantalla"/>.
+    ///   - Filas con alto fijo (AutoSize) para encabezados y formularios, y una fila Percent para la tabla.
+    ///   - Los campos de un formulario van en columnas Percent y con Dock = Fill; no se usan Location fijos.
+    ///   - Las tablas llevan Dock = Fill y columnas en modo Fill.
+    ///   - Los dialogos son de tamano fijo, centrados sobre su ventana (FormBorderStyle = FixedDialog).
+    ///   - Cada pantalla se revisa con docs/Revision_Diseno_Adaptable.md.
     /// </summary>
     internal static class Tema
     {
@@ -12,6 +20,7 @@ namespace GestorTaller
         public const int RadioControl = 6;
         public const int RadioTarjeta = 10;
         public const int Espaciado = 8;
+        public const int RellenoPantalla = 24;
 
         public static readonly Color Fondo = Convertir(PaletaTema.Fondo);
         public static readonly Color Blanco = Convertir(PaletaTema.Blanco);
@@ -49,6 +58,19 @@ namespace GestorTaller
         {
             control.BackColor = Fondo;
             control.ForeColor = Titanio;
+        }
+
+        /// <summary>
+        /// La pantalla conserva su tamano de diseno como minimo: si el espacio es menor aparecen
+        /// barras de desplazamiento en lugar de recortar sus controles. Llamar antes de Dock = Fill.
+        /// </summary>
+        public static void ConservarTamanoDeDiseno(Control control)
+        {
+            if (control is ScrollableControl desplazable)
+            {
+                desplazable.AutoScrollMinSize = control.Size;
+                desplazable.AutoScroll = true;
+            }
         }
 
         public static (Color Texto, Color Fondo) ColoresEtapa(EstadoOrden estado)

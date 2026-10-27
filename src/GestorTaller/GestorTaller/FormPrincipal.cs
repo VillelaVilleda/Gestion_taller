@@ -105,6 +105,8 @@ namespace GestorTaller
 
             panelContenido.Controls.Clear();
             Tema.Aplicar(control);
+
+            Tema.ConservarTamanoDeDiseno(control);
             control.Dock = DockStyle.Fill;
             panelContenido.Controls.Add(control);
 

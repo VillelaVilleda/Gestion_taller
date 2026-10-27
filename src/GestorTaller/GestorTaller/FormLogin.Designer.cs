@@ -13,6 +13,7 @@ namespace GestorTaller
         private BotonTema btnEntrar;
         private BotonTema btnSalir;
         private AvisoControl avisoMensaje;
+        private System.Windows.Forms.Panel panelTarjeta;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,6 +28,7 @@ namespace GestorTaller
 
         private void InitializeComponent()
         {
+            panelTarjeta = new Panel();
             lnkAyuda = new LinkLabel();
             lblLogo = new Label();
             lblUsuario = new Label();
@@ -36,7 +38,17 @@ namespace GestorTaller
             btnEntrar = new BotonTema();
             btnSalir = new BotonTema();
             avisoMensaje = new AvisoControl();
+            panelTarjeta.SuspendLayout();
             SuspendLayout();
+            // 
+            // panelTarjeta
+            // 
+            panelTarjeta.Anchor = AnchorStyles.None;
+            panelTarjeta.BackColor = Color.White;
+            panelTarjeta.Location = new Point(60, 60);
+            panelTarjeta.Name = "panelTarjeta";
+            panelTarjeta.Size = new Size(360, 400);
+            panelTarjeta.TabIndex = 1;
             // 
             // lnkAyuda
             // 
@@ -122,19 +134,23 @@ namespace GestorTaller
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(360, 400);
+            ClientSize = new Size(480, 520);
             Controls.Add(lnkAyuda);
-            Controls.Add(lblLogo);
-            Controls.Add(lblUsuario);
-            Controls.Add(txtUsuario);
-            Controls.Add(lblContrasena);
-            Controls.Add(txtContrasena);
-            Controls.Add(btnEntrar);
-            Controls.Add(avisoMensaje);
-            Controls.Add(btnSalir);
+            Controls.Add(panelTarjeta);
+            MinimumSize = new Size(420, 500);
+            panelTarjeta.Controls.Add(lblLogo);
+            panelTarjeta.Controls.Add(lblUsuario);
+            panelTarjeta.Controls.Add(txtUsuario);
+            panelTarjeta.Controls.Add(lblContrasena);
+            panelTarjeta.Controls.Add(txtContrasena);
+            panelTarjeta.Controls.Add(btnEntrar);
+            panelTarjeta.Controls.Add(avisoMensaje);
+            panelTarjeta.Controls.Add(btnSalir);
             Name = "FormLogin";
             Text = "GestorTaller - Iniciar sesion";
             Load += FormLogin_Load;
+            panelTarjeta.ResumeLayout(false);
+            panelTarjeta.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
