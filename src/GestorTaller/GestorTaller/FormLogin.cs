@@ -18,6 +18,7 @@ namespace GestorTaller
         {
             InitializeComponent();
             Tema.Aplicar(this);
+            BackColor = Tema.Blanco; // el inicio de sesion va sobre fondo blanco
             avisoMensaje.Limpiar();
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;

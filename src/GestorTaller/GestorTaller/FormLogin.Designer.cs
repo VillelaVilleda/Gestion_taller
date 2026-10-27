@@ -45,9 +45,9 @@ namespace GestorTaller
             // 
             panelTarjeta.Anchor = AnchorStyles.None;
             panelTarjeta.BackColor = Color.White;
-            panelTarjeta.Location = new Point(60, 60);
+            panelTarjeta.Location = new Point(70, 70);
             panelTarjeta.Name = "panelTarjeta";
-            panelTarjeta.Size = new Size(360, 400);
+            panelTarjeta.Size = new Size(420, 470);
             panelTarjeta.TabIndex = 1;
             // 
             // lnkAyuda
@@ -63,10 +63,10 @@ namespace GestorTaller
             // 
             // lblLogo
             // 
-            lblLogo.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblLogo.Location = new Point(0, 60);
+            lblLogo.Font = new Font("Segoe UI", 26F, FontStyle.Bold);
+            lblLogo.Location = new Point(0, 30);
             lblLogo.Name = "lblLogo";
-            lblLogo.Size = new Size(360, 60);
+            lblLogo.Size = new Size(420, 80);
             lblLogo.TabIndex = 1;
             lblLogo.Text = "GestorTaller";
             lblLogo.TextAlign = ContentAlignment.MiddleCenter;
@@ -74,7 +74,8 @@ namespace GestorTaller
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Location = new Point(60, 150);
+            lblUsuario.Font = new Font("Segoe UI", 10F);
+            lblUsuario.Location = new Point(50, 130);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(62, 20);
             lblUsuario.TabIndex = 2;
@@ -82,15 +83,17 @@ namespace GestorTaller
             // 
             // txtUsuario
             // 
-            txtUsuario.Location = new Point(60, 170);
+            txtUsuario.Font = new Font("Segoe UI", 12F);
+            txtUsuario.Location = new Point(50, 158);
             txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(240, 27);
+            txtUsuario.Size = new Size(320, 34);
             txtUsuario.TabIndex = 3;
             // 
             // lblContrasena
             // 
             lblContrasena.AutoSize = true;
-            lblContrasena.Location = new Point(60, 205);
+            lblContrasena.Font = new Font("Segoe UI", 10F);
+            lblContrasena.Location = new Point(50, 210);
             lblContrasena.Name = "lblContrasena";
             lblContrasena.Size = new Size(86, 20);
             lblContrasena.TabIndex = 4;
@@ -98,17 +101,19 @@ namespace GestorTaller
             // 
             // txtContrasena
             // 
-            txtContrasena.Location = new Point(60, 225);
+            txtContrasena.Font = new Font("Segoe UI", 12F);
+            txtContrasena.Location = new Point(50, 238);
             txtContrasena.Name = "txtContrasena";
             txtContrasena.PasswordChar = '●';
-            txtContrasena.Size = new Size(240, 27);
+            txtContrasena.Size = new Size(320, 34);
             txtContrasena.TabIndex = 5;
             // 
             // btnEntrar
             // 
-            btnEntrar.Location = new Point(60, 265);
+            btnEntrar.Font = new Font("Segoe UI", 11F);
+            btnEntrar.Location = new Point(50, 300);
             btnEntrar.Name = "btnEntrar";
-            btnEntrar.Size = new Size(240, 32);
+            btnEntrar.Size = new Size(320, 44);
             btnEntrar.TabIndex = 6;
             btnEntrar.Text = "Entrar";
             btnEntrar.Variante = VarianteBoton.Primario;
@@ -116,28 +121,29 @@ namespace GestorTaller
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(20, 350);
+            btnSalir.Font = new Font("Segoe UI", 11F);
+            btnSalir.Location = new Point(50, 356);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(80, 30);
+            btnSalir.Size = new Size(320, 44);
             btnSalir.TabIndex = 8;
             btnSalir.Text = "Salir";
             btnSalir.Click += btnSalir_Click;
             // 
             // avisoMensaje
             // 
-            avisoMensaje.Location = new Point(60, 305);
+            avisoMensaje.Location = new Point(50, 414);
             avisoMensaje.Name = "avisoMensaje";
-            avisoMensaje.Size = new Size(240, 40);
+            avisoMensaje.Size = new Size(320, 40);
             avisoMensaje.TabIndex = 7;
             // 
             // FormLogin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(480, 520);
+            ClientSize = new Size(560, 610);
             Controls.Add(lnkAyuda);
             Controls.Add(panelTarjeta);
-            MinimumSize = new Size(420, 500);
+            MinimumSize = new Size(560, 650);
             panelTarjeta.Controls.Add(lblLogo);
             panelTarjeta.Controls.Add(lblUsuario);
             panelTarjeta.Controls.Add(txtUsuario);
