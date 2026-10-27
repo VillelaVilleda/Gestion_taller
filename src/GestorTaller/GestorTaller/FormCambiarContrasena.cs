@@ -4,73 +4,41 @@ namespace GestorTaller
 {
     /// <summary>
     /// Ventana para que el empleado actual cambie su propia contrasena
-    /// (contrasena actual, nueva y confirmacion de la nueva). Los controles se
-    /// crean en codigo porque es un dialogo pequeno.
+    /// (contrasena actual, nueva y confirmacion de la nueva), sobre el dialogo base.
     /// </summary>
-    public class FormCambiarContrasena : Form
+    public class FormCambiarContrasena : FormDialogo
     {
         private readonly CambiarContrasenaService _cambiarContrasenaService;
         private readonly Empleado _empleado;
-        private readonly TextBox _txtActual = CrearCampoContrasena(40);
-        private readonly TextBox _txtNueva = CrearCampoContrasena(100);
-        private readonly TextBox _txtConfirmacion = CrearCampoContrasena(160);
-        private readonly Label _lblMensaje = new() { AutoSize = true, ForeColor = Color.DarkRed, Location = new Point(20, 195), MaximumSize = new Size(320, 0) };
+        private readonly TextBox _txtActual = CrearCampoContrasena();
+        private readonly TextBox _txtNueva = CrearCampoContrasena();
+        private readonly TextBox _txtConfirmacion = CrearCampoContrasena();
 
         public FormCambiarContrasena(IEmpleadoRepository empleadoRepository, Empleado empleado)
+            : base("Cambiar contraseña")
         {
             _cambiarContrasenaService = new CambiarContrasenaService(empleadoRepository);
             _empleado = empleado;
 
-            Text = "Cambiar contrasena";
-            ClientSize = new Size(360, 290);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            StartPosition = FormStartPosition.CenterParent;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Tema.Aplicar(this);
-
-            var btnGuardar = new Button { Text = "Guardar", Location = new Point(20, 240), Size = new Size(150, 32) };
-            var btnCancelar = new Button { Text = "Cancelar", Location = new Point(190, 240), Size = new Size(150, 32), DialogResult = DialogResult.Cancel };
-            btnGuardar.Click += btnGuardar_Click;
-            AcceptButton = btnGuardar;
-            CancelButton = btnCancelar;
-
-            Controls.Add(CrearEtiqueta("Contrasena actual", 15));
-            Controls.Add(_txtActual);
-            Controls.Add(CrearEtiqueta("Contrasena nueva", 75));
-            Controls.Add(_txtNueva);
-            Controls.Add(CrearEtiqueta("Confirmar contrasena nueva", 135));
-            Controls.Add(_txtConfirmacion);
-            Controls.Add(_lblMensaje);
-            Controls.Add(btnGuardar);
-            Controls.Add(btnCancelar);
+            AgregarCampo("Contraseña actual", _txtActual);
+            AgregarCampo("Contraseña nueva", _txtNueva);
+            AgregarCampo("Confirmar contraseña nueva", _txtConfirmacion);
         }
 
-        private static TextBox CrearCampoContrasena(int y) => new() { Location = new Point(20, y), Size = new Size(320, 27), UseSystemPasswordChar = true };
+        private static TextBox CrearCampoContrasena() => new() { UseSystemPasswordChar = true };
 
-        private static Label CrearEtiqueta(string texto, int y) => new() { Text = texto, AutoSize = true, Location = new Point(20, y) };
-
-        private void btnGuardar_Click(object? sender, EventArgs e)
+        protected override bool AlGuardar()
         {
-            _lblMensaje.Text = "";
-
             if (_txtNueva.Text != _txtConfirmacion.Text)
             {
-                _lblMensaje.Text = "La confirmacion no coincide con la contrasena nueva.";
-                return;
+                throw new ArgumentException("La confirmación no coincide con la contraseña nueva.");
             }
 
-            try
-            {
-                _cambiarContrasenaService.Ejecutar(_empleado, _txtActual.Text, _txtNueva.Text);
+            _cambiarContrasenaService.Ejecutar(_empleado, _txtActual.Text, _txtNueva.Text);
 
-                MessageBox.Show("Tu contrasena fue cambiada.", "Cambiar contrasena", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
-            }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
-            {
-                _lblMensaje.Text = ex.Message;
-            }
+            MessageBox.Show("Tu contraseña fue cambiada.", "Cambiar contraseña", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            return true;
         }
     }
 }
