@@ -10,8 +10,8 @@ namespace GestorTaller
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Label lblContrasena;
         private System.Windows.Forms.TextBox txtContrasena;
-        private System.Windows.Forms.Button btnEntrar;
-        private System.Windows.Forms.Button btnSalir;
+        private BotonTema btnEntrar;
+        private BotonTema btnSalir;
         private System.Windows.Forms.Label lblMensaje;
 
         protected override void Dispose(bool disposing)
@@ -33,8 +33,8 @@ namespace GestorTaller
             txtUsuario = new TextBox();
             lblContrasena = new Label();
             txtContrasena = new TextBox();
-            btnEntrar = new Button();
-            btnSalir = new Button();
+            btnEntrar = new BotonTema();
+            btnSalir = new BotonTema();
             lblMensaje = new Label();
             SuspendLayout();
             // 
@@ -99,6 +99,7 @@ namespace GestorTaller
             btnEntrar.Size = new Size(240, 32);
             btnEntrar.TabIndex = 6;
             btnEntrar.Text = "Entrar";
+            btnEntrar.Variante = VarianteBoton.Primario;
             btnEntrar.Click += btnEntrar_Click;
             // 
             // btnSalir
