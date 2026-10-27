@@ -60,6 +60,19 @@ namespace GestorTaller
             control.ForeColor = Titanio;
         }
 
+        /// <summary>
+        /// La pantalla conserva su tamano de diseno como minimo: si el espacio es menor aparecen
+        /// barras de desplazamiento en lugar de recortar sus controles. Llamar antes de Dock = Fill.
+        /// </summary>
+        public static void ConservarTamanoDeDiseno(Control control)
+        {
+            if (control is ScrollableControl desplazable)
+            {
+                desplazable.AutoScrollMinSize = control.Size;
+                desplazable.AutoScroll = true;
+            }
+        }
+
         public static (Color Texto, Color Fondo) ColoresEtapa(EstadoOrden estado)
         {
             var (texto, fondo) = PaletaTema.ColoresEtapa(estado);

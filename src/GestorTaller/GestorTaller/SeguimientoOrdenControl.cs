@@ -204,6 +204,7 @@ namespace GestorTaller
         private void MostrarFormulario(Control control)
         {
             panelFormulario.Controls.Clear();
+            Tema.ConservarTamanoDeDiseno(control);
             control.Dock = DockStyle.Fill;
             panelFormulario.Controls.Add(control);
         }
