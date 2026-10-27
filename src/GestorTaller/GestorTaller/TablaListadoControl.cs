@@ -18,6 +18,8 @@ namespace GestorTaller
         {
             InitializeComponent();
             AplicarEstilo();
+            dgvTabla.CellClick += dgvTabla_CellClick;
+            dgvTabla.KeyDown += dgvTabla_KeyDown;
         }
 
         // Se aplica aqui y no en el Designer: el diseñador no entiende las llamadas a Tema.
@@ -60,8 +62,9 @@ namespace GestorTaller
         }
 
         /// <summary>
-        /// Muestra los datos. Si se indica <paramref name="ver"/>, se agrega la columna
-        /// Acciones con un boton Ver que la invoca con la fila. <paramref name="ordenInicial"/>
+        /// Muestra los datos. Si se indica <paramref name="acciones"/>, se agrega la columna Acciones
+        /// con un combobox por fila que ofrece las acciones disponibles para esa fila; si solo se indica
+        /// <paramref name="ver"/>, la columna lleva un boton Ver. <paramref name="ordenInicial"/>
         /// permite arrancar ordenada (por ejemplo, codigo descendente).
         /// </summary>
         public void Cargar<T>(
@@ -69,7 +72,8 @@ namespace GestorTaller
             IEnumerable<T> datos,
             Action<T>? ver = null,
             ColumnaTabla<T>? ordenInicial = null,
-            DireccionOrden direccion = DireccionOrden.Ascendente)
+            DireccionOrden direccion = DireccionOrden.Ascendente,
+            IReadOnlyList<AccionFila<T>>? acciones = null)
         {
             var consulta = new ConsultaTabla<T>(columnas, datos);
 
@@ -78,7 +82,7 @@ namespace GestorTaller
                 consulta.Ordenar(ordenInicial, direccion);
             }
 
-            _vista = new VistaTabla<T>(consulta, ver);
+            _vista = new VistaTabla<T>(consulta, ver, acciones);
 
             cmbColumna.Items.Clear();
             foreach (var columna in columnas)
@@ -96,7 +100,17 @@ namespace GestorTaller
                 dgvTabla.Columns.Add(nueva);
             }
 
-            if (ver is not null)
+            if (acciones is { Count: > 0 })
+            {
+                dgvTabla.Columns.Add(new DataGridViewColumn(new CeldaAcciones())
+                {
+                    Name = ColumnaAcciones,
+                    HeaderText = ColumnaAcciones,
+                    FillWeight = 60,
+                    SortMode = DataGridViewColumnSortMode.NotSortable
+                });
+            }
+            else if (ver is not null)
             {
                 dgvTabla.Columns.Add(new DataGridViewButtonColumn
                 {
@@ -122,7 +136,11 @@ namespace GestorTaller
             dgvTabla.Rows.Clear();
             foreach (var (fila, celdas) in _vista.FilasDePagina())
             {
-                var indice = dgvTabla.Rows.Add(celdas);
+                // La celda de acciones lleva texto solo si la fila tiene alguna accion disponible.
+                var valores = _vista.TieneAcciones
+                    ? celdas.Append(_vista.AccionesDe(fila).Count > 0 ? ColumnaAcciones : string.Empty).ToArray()
+                    : celdas;
+                var indice = dgvTabla.Rows.Add(valores);
                 dgvTabla.Rows[indice].Tag = fila;
             }
 
@@ -175,6 +193,65 @@ namespace GestorTaller
             _vista.Ver(dgvTabla.Rows[e.RowIndex].Tag!);
         }
 
+        private void dgvTabla_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                MostrarMenuAcciones(e.RowIndex, e.ColumnIndex);
+            }
+        }
+
+        private void dgvTabla_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode is Keys.Enter or Keys.Space && dgvTabla.CurrentCell is { } celda)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                MostrarMenuAcciones(celda.RowIndex, celda.ColumnIndex);
+            }
+        }
+
+        // Menu con las acciones de la fila, cada una con su icono; la peligrosa (eliminar) va en rojo.
+        private void MostrarMenuAcciones(int fila, int columna)
+        {
+            if (_vista is null || !_vista.TieneAcciones || dgvTabla.Columns[columna].Name != ColumnaAcciones)
+            {
+                return;
+            }
+
+            var acciones = _vista.AccionesDe(dgvTabla.Rows[fila].Tag!);
+            if (acciones.Count == 0)
+            {
+                return;
+            }
+
+            var menu = new ContextMenuStrip
+            {
+                Font = Tema.Fuente(9F),
+                ImageScalingSize = new Size(18, 18),
+                Renderer = new ToolStripProfessionalRenderer(new ColoresMenuAcciones()) { RoundedEdges = false }
+            };
+
+            foreach (var (accion, ejecutar) in acciones)
+            {
+                var (nombre, icono) = PresentacionAccion.De(accion);
+                var color = PresentacionAccion.EsPeligrosa(accion) ? Tema.Error : Tema.Titanio;
+                var item = new ToolStripMenuItem(nombre, Iconos.Obtener(icono, 18, color))
+                {
+                    ForeColor = color,
+                    Padding = new Padding(4, 6, 4, 6)
+                };
+                item.Click += (_, _) => ejecutar();
+                menu.Items.Add(item);
+            }
+
+            // Se libera despues de terminar el evento actual, para no destruirlo mientras atiende el clic.
+            menu.Closed += (_, _) => BeginInvoke(() => menu.Dispose());
+
+            var celda = dgvTabla.GetCellDisplayRectangle(columna, fila, false);
+            menu.Show(dgvTabla, new Point(celda.X + 8, celda.Bottom));
+        }
+
         private void btnAtras_Click(object? sender, EventArgs e)
         {
             _vista?.PaginaAnterior();
@@ -203,17 +280,51 @@ namespace GestorTaller
             void PaginaAnterior();
             void PaginaSiguiente();
             void Ver(object fila);
+            bool TieneAcciones { get; }
+            IReadOnlyList<(AccionTabla Accion, Action Ejecutar)> AccionesDe(object fila);
+        }
+
+        private sealed class ColoresMenuAcciones : ProfessionalColorTable
+        {
+            public override Color MenuItemSelected => Tema.SecundarioPresionado;
+            public override Color MenuItemSelectedGradientBegin => Tema.SecundarioPresionado;
+            public override Color MenuItemSelectedGradientEnd => Tema.SecundarioPresionado;
+            public override Color MenuItemBorder => Tema.SecundarioPresionado;
+            public override Color MenuBorder => Tema.Aluminio;
+            public override Color ToolStripDropDownBackground => Tema.Blanco;
+            public override Color ImageMarginGradientBegin => Tema.Blanco;
+            public override Color ImageMarginGradientMiddle => Tema.Blanco;
+            public override Color ImageMarginGradientEnd => Tema.Blanco;
         }
 
         private sealed class VistaTabla<T> : IVistaTabla
         {
             private readonly ConsultaTabla<T> _consulta;
             private readonly Action<T>? _ver;
+            private readonly IReadOnlyList<AccionFila<T>>? _acciones;
 
-            public VistaTabla(ConsultaTabla<T> consulta, Action<T>? ver)
+            public VistaTabla(ConsultaTabla<T> consulta, Action<T>? ver, IReadOnlyList<AccionFila<T>>? acciones)
             {
                 _consulta = consulta;
                 _ver = ver;
+                _acciones = acciones;
+            }
+
+            public bool TieneAcciones => _acciones is { Count: > 0 };
+
+            public IReadOnlyList<(AccionTabla Accion, Action Ejecutar)> AccionesDe(object fila)
+            {
+                if (_acciones is null)
+                {
+                    return Array.Empty<(AccionTabla, Action)>();
+                }
+
+                var dato = (T)fila;
+
+                return _acciones
+                    .Where(a => a.Disponible?.Invoke(dato) ?? true)
+                    .Select(a => (a.Accion, (Action)(() => a.Ejecutar(dato))))
+                    .ToList();
             }
 
             public IReadOnlyList<string> Titulos => _consulta.Columnas.Select(c => c.Titulo).ToList();
