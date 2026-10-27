@@ -4,7 +4,7 @@ namespace GestorTaller
 {
     /// <summary>
     /// Seccion de "Ordenes registradas" dentro de la ventana principal (menu lateral).
-    /// Usa la tabla generica; el boton Ver de cada fila abre el seguimiento de la orden.
+    /// Usa la tabla generica; la accion "Ver pasos" de cada fila abre el seguimiento de la orden.
     /// </summary>
     public partial class ListadoOrdenesControl : UserControl
     {
@@ -44,12 +44,17 @@ namespace GestorTaller
                 new("Fecha de recepcion", f => f.Orden.FechaRecepcion, f => f.Orden.FechaRecepcion.ToString("dd/MM/yyyy HH:mm"))
             };
 
+            var acciones = new List<AccionFila<FilaOrden>>
+            {
+                new(AccionTabla.VerPasos, fila => _abrirSeguimiento(fila.Orden.Id))
+            };
+
             tablaOrdenes.Cargar(
                 columnas,
                 filas,
-                fila => _abrirSeguimiento(fila.Orden.Id),
-                columnas[0],
-                DireccionOrden.Descendente);
+                ordenInicial: columnas[0],
+                direccion: DireccionOrden.Descendente,
+                acciones: acciones);
         }
     }
 }
