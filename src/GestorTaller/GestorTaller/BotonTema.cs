@@ -77,7 +77,7 @@ namespace GestorTaller
 
             var (fondo, texto, borde) = Colores();
             var area = new Rectangle(0, 0, Width - 1, Height - 1);
-            using var ruta = RectanguloRedondeado(area, Escala(Tema.RadioControl));
+            using var ruta = Dibujo.RectanguloRedondeado(area, Escala(Tema.RadioControl));
 
             if (fondo != Color.Transparent)
             {
@@ -95,7 +95,7 @@ namespace GestorTaller
             {
                 var anillo = _variante is VarianteBoton.Primario or VarianteBoton.Peligro ? Tema.Cobre : Tema.Pizarra;
                 var interior = Rectangle.Inflate(area, -Escala(3), -Escala(3));
-                using var rutaAnillo = RectanguloRedondeado(interior, Escala(Tema.RadioControl - 2));
+                using var rutaAnillo = Dibujo.RectanguloRedondeado(interior, Escala(Tema.RadioControl - 2));
                 using var lapizAnillo = new Pen(anillo, 2);
                 g.DrawPath(lapizAnillo, rutaAnillo);
             }
@@ -148,18 +148,5 @@ namespace GestorTaller
             _presionado ? presionado : _hover ? hover : normal;
 
         private int Escala(int valor) => (int)Math.Round(valor * DeviceDpi / 96.0);
-
-        private static GraphicsPath RectanguloRedondeado(Rectangle area, int radio)
-        {
-            var diametro = radio * 2;
-            var ruta = new GraphicsPath();
-            ruta.AddArc(area.Left, area.Top, diametro, diametro, 180, 90);
-            ruta.AddArc(area.Right - diametro, area.Top, diametro, diametro, 270, 90);
-            ruta.AddArc(area.Right - diametro, area.Bottom - diametro, diametro, diametro, 0, 90);
-            ruta.AddArc(area.Left, area.Bottom - diametro, diametro, diametro, 90, 90);
-            ruta.CloseFigure();
-
-            return ruta;
-        }
     }
 }
