@@ -18,6 +18,7 @@ namespace GestorTaller
         {
             InitializeComponent();
             Tema.Aplicar(this);
+            avisoMensaje.Limpiar();
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;
@@ -27,11 +28,11 @@ namespace GestorTaller
 
         private void btnEntrar_Click(object? sender, EventArgs e)
         {
-            lblMensaje.Text = "";
+            avisoMensaje.Limpiar();
 
             if (string.IsNullOrWhiteSpace(txtUsuario.Text) || string.IsNullOrWhiteSpace(txtContrasena.Text))
             {
-                lblMensaje.Text = "Ingresa usuario y contrasena.";
+                avisoMensaje.Mostrar(TipoAviso.Error, "Ingresa usuario y contrasena.");
                 return;
             }
 
@@ -39,7 +40,7 @@ namespace GestorTaller
 
             if (usuario is null)
             {
-                lblMensaje.Text = "Usuario o contrasena incorrectos.";
+                avisoMensaje.Mostrar(TipoAviso.Error, "Usuario o contrasena incorrectos.");
                 return;
             }
 
@@ -58,7 +59,7 @@ namespace GestorTaller
         {
             txtUsuario.Clear();
             txtContrasena.Clear();
-            lblMensaje.Text = "";
+            avisoMensaje.Limpiar();
             Show();
         }
 

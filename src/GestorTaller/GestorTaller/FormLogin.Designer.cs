@@ -12,7 +12,7 @@ namespace GestorTaller
         private System.Windows.Forms.TextBox txtContrasena;
         private BotonTema btnEntrar;
         private BotonTema btnSalir;
-        private System.Windows.Forms.Label lblMensaje;
+        private AvisoControl avisoMensaje;
 
         protected override void Dispose(bool disposing)
         {
@@ -35,7 +35,7 @@ namespace GestorTaller
             txtContrasena = new TextBox();
             btnEntrar = new BotonTema();
             btnSalir = new BotonTema();
-            lblMensaje = new Label();
+            avisoMensaje = new AvisoControl();
             SuspendLayout();
             // 
             // lnkAyuda
@@ -111,15 +111,12 @@ namespace GestorTaller
             btnSalir.Text = "Salir";
             btnSalir.Click += btnSalir_Click;
             // 
-            // lblMensaje
+            // avisoMensaje
             // 
-            lblMensaje.AutoSize = true;
-            lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(60, 305);
-            lblMensaje.MaximumSize = new Size(240, 0);
-            lblMensaje.Name = "lblMensaje";
-            lblMensaje.Size = new Size(0, 20);
-            lblMensaje.TabIndex = 7;
+            avisoMensaje.Location = new Point(60, 305);
+            avisoMensaje.Name = "avisoMensaje";
+            avisoMensaje.Size = new Size(240, 40);
+            avisoMensaje.TabIndex = 7;
             // 
             // FormLogin
             // 
@@ -133,7 +130,7 @@ namespace GestorTaller
             Controls.Add(lblContrasena);
             Controls.Add(txtContrasena);
             Controls.Add(btnEntrar);
-            Controls.Add(lblMensaje);
+            Controls.Add(avisoMensaje);
             Controls.Add(btnSalir);
             Name = "FormLogin";
             Text = "GestorTaller - Iniciar sesion";

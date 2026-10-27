@@ -28,7 +28,7 @@ namespace GestorTaller
 
         public BotonTema()
         {
-            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInBackBuffer
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint
                 | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         }
 
