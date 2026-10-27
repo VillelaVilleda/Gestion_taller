@@ -19,6 +19,8 @@ namespace GestorTaller
             DropDownStyle = ComboBoxStyle.DropDown;
             AutoCompleteMode = AutoCompleteMode.None;
             FormattingEnabled = true;
+            FlatStyle = FlatStyle.Flat;
+            DrawMode = DrawMode.OwnerDrawFixed;
         }
 
         /// <summary>Elemento elegido de la lista, o null si no hay seleccion valida.</summary>
@@ -64,6 +66,34 @@ namespace GestorTaller
             Items.Clear();
             Items.AddRange(elementos.ToArray());
             EndUpdate();
+        }
+
+        // Fila de la lista con el estilo del tema: la opcion activa lleva fondo gris azulado y barra cobre.
+        protected override void OnDrawItem(DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            var activa = (e.State & DrawItemState.Selected) != 0 && (e.State & DrawItemState.ComboBoxEdit) == 0;
+            var g = e.Graphics;
+
+            using (var fondo = new SolidBrush(activa ? Tema.SecundarioPresionado : Tema.Blanco))
+            {
+                g.FillRectangle(fondo, e.Bounds);
+            }
+
+            if (activa)
+            {
+                using var barra = new SolidBrush(Tema.Cobre);
+                g.FillRectangle(barra, e.Bounds.X, e.Bounds.Y + 3, 3, e.Bounds.Height - 6);
+            }
+
+            var margen = (int)Math.Round(10 * DeviceDpi / 96.0);
+            var area = new Rectangle(e.Bounds.X + margen, e.Bounds.Y, e.Bounds.Width - margen, e.Bounds.Height);
+            TextRenderer.DrawText(g, GetItemText(Items[e.Index]), Font, area, Tema.Titanio,
+                TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         protected override void OnFormat(ListControlConvertEventArgs e)

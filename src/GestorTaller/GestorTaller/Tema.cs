@@ -23,6 +23,15 @@ namespace GestorTaller
         public static readonly Color BordeCampo = Convertir(PaletaTema.BordeCampo);
         public static readonly Color Cobre = Convertir(PaletaTema.Cobre);
         public static readonly Color CobreOscuro = Convertir(PaletaTema.CobreOscuro);
+        public static readonly Color PizarraPresionado = Convertir(PaletaTema.PizarraPresionado);
+        public static readonly Color CobreHover = Convertir(PaletaTema.CobreHover);
+        public static readonly Color CobrePresionado = Convertir(PaletaTema.CobrePresionado);
+        public static readonly Color ErrorHover = Convertir(PaletaTema.ErrorHover);
+        public static readonly Color ErrorPresionado = Convertir(PaletaTema.ErrorPresionado);
+        public static readonly Color SecundarioHover = Convertir(PaletaTema.SecundarioHover);
+        public static readonly Color SecundarioPresionado = Convertir(PaletaTema.SecundarioPresionado);
+        public static readonly Color TextoHover = Convertir(PaletaTema.TextoHover);
+        public static readonly Color TextoPresionado = Convertir(PaletaTema.TextoPresionado);
         public static readonly Color Exito = Convertir(PaletaTema.Exito);
         public static readonly Color Error = Convertir(PaletaTema.Error);
         public static readonly Color Advertencia = Convertir(PaletaTema.Advertencia);

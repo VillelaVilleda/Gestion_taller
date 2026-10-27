@@ -6,11 +6,11 @@ namespace GestorTaller
 
         private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.ComboBox cmbColumna;
-        private System.Windows.Forms.Button btnBuscar;
+        private BotonTema btnBuscar;
         private System.Windows.Forms.DataGridView dgvTabla;
-        private System.Windows.Forms.Button btnAtras;
+        private BotonTema btnAtras;
         private System.Windows.Forms.Label lblPagina;
-        private System.Windows.Forms.Button btnSiguiente;
+        private BotonTema btnSiguiente;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,11 +27,11 @@ namespace GestorTaller
         {
             txtBuscar = new TextBox();
             cmbColumna = new ComboBox();
-            btnBuscar = new Button();
+            btnBuscar = new BotonTema();
             dgvTabla = new DataGridView();
-            btnAtras = new Button();
+            btnAtras = new BotonTema();
             lblPagina = new Label();
-            btnSiguiente = new Button();
+            btnSiguiente = new BotonTema();
             ((System.ComponentModel.ISupportInitialize)dgvTabla).BeginInit();
             SuspendLayout();
             //
@@ -62,6 +62,7 @@ namespace GestorTaller
             btnBuscar.Size = new Size(110, 30);
             btnBuscar.TabIndex = 2;
             btnBuscar.Text = "Buscar";
+            btnBuscar.Variante = VarianteBoton.Primario;
             btnBuscar.Click += btnBuscar_Click;
             //
             // dgvTabla

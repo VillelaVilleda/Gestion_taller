@@ -17,6 +17,17 @@ public static class PaletaTema
     public const string Cobre = "#E67E22";
     public const string CobreOscuro = "#BA5210";
 
+    // Estados de los botones (pasar el mouse y presionar).
+    public const string PizarraPresionado = "#22303F";
+    public const string CobreHover = "#EE8B3A";
+    public const string CobrePresionado = "#F29A55";
+    public const string ErrorHover = "#9E2A20";
+    public const string ErrorPresionado = "#86221A";
+    public const string SecundarioHover = "#F1F4F8";
+    public const string SecundarioPresionado = "#E3E9F0";
+    public const string TextoHover = "#E3E9F0";
+    public const string TextoPresionado = "#D3DCE6";
+
     public const string Exito = "#276749";
     public const string ExitoClaro = "#E3F4EA";
     public const string Error = "#B83227";

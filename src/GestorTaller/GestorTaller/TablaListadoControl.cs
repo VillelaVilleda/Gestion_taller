@@ -17,6 +17,46 @@ namespace GestorTaller
         public TablaListadoControl()
         {
             InitializeComponent();
+            AplicarEstilo();
+        }
+
+        // Se aplica aqui y no en el Designer: el diseñador no entiende las llamadas a Tema.
+        private void AplicarEstilo()
+        {
+            dgvTabla.BackgroundColor = Tema.Blanco;
+            dgvTabla.BorderStyle = BorderStyle.None;
+            dgvTabla.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvTabla.GridColor = Tema.Aluminio;
+            dgvTabla.EnableHeadersVisualStyles = false;
+            dgvTabla.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvTabla.ColumnHeadersHeight = 36;
+            dgvTabla.RowTemplate.Height = 34;
+
+            dgvTabla.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Tema.Pizarra,
+                ForeColor = Tema.Blanco,
+                SelectionBackColor = Tema.Pizarra,
+                SelectionForeColor = Tema.Blanco,
+                Font = new Font("Segoe UI Semibold", 9F),
+                Padding = new Padding(6, 0, 6, 0)
+            };
+
+            dgvTabla.DefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Tema.Blanco,
+                ForeColor = Tema.Titanio,
+                SelectionBackColor = Tema.SecundarioPresionado,
+                SelectionForeColor = Tema.Titanio,
+                Padding = new Padding(6, 0, 6, 0)
+            };
+
+            dgvTabla.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Color.FromArgb(248, 250, 251),
+                SelectionBackColor = Tema.SecundarioPresionado,
+                SelectionForeColor = Tema.Titanio
+            };
         }
 
         /// <summary>
@@ -64,6 +104,7 @@ namespace GestorTaller
                     HeaderText = ColumnaAcciones,
                     Text = "Ver",
                     UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Flat,
                     SortMode = DataGridViewColumnSortMode.NotSortable
                 });
             }
