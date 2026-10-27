@@ -15,6 +15,8 @@ public class PermisosUsuario
         _empleado = empleado ?? throw new ArgumentException("Se requiere un empleado.", nameof(empleado));
     }
 
+    public bool EsAdministrador => _empleado.EsAdministrador;
+
     public bool PuedeAdministrarEmpleados => _empleado.EsAdministrador;
 
     public bool PuedeEditar => _empleado.EsAdministrador;
