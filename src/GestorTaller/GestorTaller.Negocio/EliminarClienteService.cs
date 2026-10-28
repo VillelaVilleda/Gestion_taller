@@ -33,9 +33,13 @@ public class EliminarClienteService
             throw new InvalidOperationException("Solo un administrador puede eliminar clientes.");
         }
 
-        if (_ordenRepository.ObtenerTodas().Any(o => o.Cliente.Id == cliente.Id))
+        var cantidadOrdenes = _ordenRepository.ObtenerTodas().Count(o => o.Cliente.Id == cliente.Id);
+
+        if (cantidadOrdenes > 0)
         {
-            throw new InvalidOperationException("No se puede eliminar el cliente porque tiene ordenes.");
+            var ordenes = cantidadOrdenes == 1 ? "1 orden" : $"{cantidadOrdenes} órdenes";
+
+            throw new InvalidOperationException($"No se puede eliminar el cliente porque tiene {ordenes}.");
         }
 
         _clienteRepository.Eliminar(cliente);

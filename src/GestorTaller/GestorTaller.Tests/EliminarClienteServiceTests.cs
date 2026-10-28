@@ -52,8 +52,21 @@ public class EliminarClienteServiceTests
 
         var error = Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, juan));
 
-        Assert.Contains("ordenes", error.Message);
+        Assert.Contains("1 orden", error.Message);
         Assert.Single(clientes.Guardados);
+    }
+
+    [Fact]
+    public void Ejecutar_ConVariasOrdenes_IndicaCuantasTiene()
+    {
+        var juan = CrearCliente("Juan Perez");
+        var (servicio, _, ordenes) = Crear(juan);
+        ordenes.Agregar(CrearOrdenDe(juan));
+        ordenes.Agregar(CrearOrdenDe(juan));
+
+        var error = Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, juan));
+
+        Assert.Contains("2 órdenes", error.Message);
     }
 
     [Fact]

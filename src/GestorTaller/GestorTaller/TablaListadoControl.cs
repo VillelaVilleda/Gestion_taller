@@ -31,8 +31,8 @@ namespace GestorTaller
             dgvTabla.GridColor = Tema.Aluminio;
             dgvTabla.EnableHeadersVisualStyles = false;
             dgvTabla.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvTabla.ColumnHeadersHeight = 36;
-            dgvTabla.RowTemplate.Height = 34;
+            dgvTabla.ColumnHeadersHeight = dgvTabla.LogicalToDeviceUnits(36);
+            dgvTabla.RowTemplate.Height = dgvTabla.LogicalToDeviceUnits(34);
 
             dgvTabla.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
@@ -106,7 +106,8 @@ namespace GestorTaller
                 {
                     Name = ColumnaAcciones,
                     HeaderText = ColumnaAcciones,
-                    FillWeight = 60,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                    Width = dgvTabla.LogicalToDeviceUnits(156),
                     SortMode = DataGridViewColumnSortMode.NotSortable
                 });
             }
@@ -225,20 +226,24 @@ namespace GestorTaller
                 return;
             }
 
+            var tamanoIcono = dgvTabla.LogicalToDeviceUnits(18);
             var menu = new ContextMenuStrip
             {
                 Font = Tema.Fuente(9F),
-                ImageScalingSize = new Size(18, 18),
-                Renderer = new ToolStripProfessionalRenderer(new ColoresMenuAcciones()) { RoundedEdges = false }
+                ImageScalingSize = new Size(tamanoIcono, tamanoIcono),
+                Renderer = new RendererMenuAcciones()
             };
 
             foreach (var (accion, ejecutar) in acciones)
             {
                 var (nombre, icono) = PresentacionAccion.De(accion);
                 var color = PresentacionAccion.EsPeligrosa(accion) ? Tema.Error : Tema.Titanio;
-                var item = new ToolStripMenuItem(nombre, Iconos.Obtener(icono, 18, color))
+                var item = new ToolStripMenuItem(nombre, Iconos.Obtener(icono, tamanoIcono, color))
                 {
                     ForeColor = color,
+                    ImageScaling = ToolStripItemImageScaling.None,
+                    ImageAlign = ContentAlignment.MiddleLeft,
+                    TextAlign = ContentAlignment.MiddleLeft,
                     Padding = new Padding(4, 6, 4, 6)
                 };
                 item.Click += (_, _) => ejecutar();
@@ -282,6 +287,31 @@ namespace GestorTaller
             void Ver(object fila);
             bool TieneAcciones { get; }
             IReadOnlyList<(AccionTabla Accion, Action Ejecutar)> AccionesDe(object fila);
+        }
+
+        private sealed class RendererMenuAcciones : ToolStripProfessionalRenderer
+        {
+            public RendererMenuAcciones() : base(new ColoresMenuAcciones())
+            {
+                RoundedEdges = false;
+            }
+
+            // Icono y texto centrados en el mismo eje vertical de la fila.
+            protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
+            {
+                var imagen = e.ImageRectangle;
+                var centrada = new Rectangle(imagen.X, (e.Item.Height - imagen.Height) / 2, imagen.Width, imagen.Height);
+
+                base.OnRenderItemImage(new ToolStripItemImageRenderEventArgs(e.Graphics, e.Item, e.Image, centrada));
+            }
+
+            protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+            {
+                e.TextFormat |= TextFormatFlags.VerticalCenter;
+                e.TextRectangle = new Rectangle(e.TextRectangle.X, 0, e.TextRectangle.Width, e.Item.Height);
+
+                base.OnRenderItemText(e);
+            }
         }
 
         private sealed class ColoresMenuAcciones : ProfessionalColorTable
