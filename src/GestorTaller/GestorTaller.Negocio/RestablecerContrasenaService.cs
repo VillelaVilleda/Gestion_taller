@@ -30,7 +30,7 @@ public class RestablecerContrasenaService
 
         if (!permisos.PuedeAdministrarEmpleados)
         {
-            throw new InvalidOperationException("Solo un administrador puede restablecer contrasenas.");
+            throw new InvalidOperationException("Solo un administrador puede restablecer contraseñas.");
         }
 
         var password = GeneradorContrasena.Generar();
