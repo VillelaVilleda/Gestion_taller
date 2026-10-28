@@ -30,7 +30,7 @@ public class CrearRepuestoService
 
         if (nombreLimpio.Length > LongitudMaximaNombre)
         {
-            throw new ArgumentException($"El nombre no puede tener mas de {LongitudMaximaNombre} caracteres.", nameof(nombre));
+            throw new ArgumentException($"El nombre no puede tener más de {LongitudMaximaNombre} caracteres.", nameof(nombre));
         }
 
         if (existencia < 0)

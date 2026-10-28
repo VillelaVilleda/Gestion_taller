@@ -35,7 +35,7 @@ public class EliminarRepuestoService
 
         if (_ordenRepository.ObtenerTodas().Any(o => o.Repuestos.Any(r => r.RepuestoId == repuesto.Id)))
         {
-            throw new InvalidOperationException("No se puede eliminar el repuesto porque esta en una o mas ordenes.");
+            throw new InvalidOperationException("No se puede eliminar el repuesto porque está en una o más órdenes.");
         }
 
         _repuestoRepository.Eliminar(repuesto);

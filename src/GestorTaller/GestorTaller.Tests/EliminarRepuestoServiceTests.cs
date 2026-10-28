@@ -53,7 +53,7 @@ public class EliminarRepuestoServiceTests
 
         var error = Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, bujia));
 
-        Assert.Contains("ordenes", error.Message);
+        Assert.Contains("órdenes", error.Message);
         Assert.Single(repuestos.Guardados);
     }
 

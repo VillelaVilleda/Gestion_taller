@@ -3,16 +3,16 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Seccion de "Repuestos" dentro de la ventana principal (menu lateral).
-    /// Lista los repuestos y permite a cualquier usuario crear uno nuevo
-    /// (nombre, existencia y precio). Solo el administrador puede editar y eliminar.
+    /// Sección de "Repuestos" dentro de la ventana principal (menú lateral).
+    /// Tabla con una columna de acciones según el rol (ver AccionesPermitidas): todos pueden registrar
+    /// repuestos e incrementar la existencia; el administrador también decrementarla, modificar y
+    /// eliminar (si el repuesto no está en ninguna orden). Cada acción abre un diálogo o pide confirmación.
     /// </summary>
     public partial class RepuestosControl : UserControl
     {
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly PermisosUsuario _permisos;
-        private readonly CrearRepuestoService _crearRepuestoService;
-        private readonly ModificarRepuestoService _modificarRepuestoService;
+        private readonly AccionesPermitidas _accionesPermitidas;
         private readonly EliminarRepuestoService _eliminarRepuestoService;
 
         public RepuestosControl(IRepuestoRepository repuestoRepository, IOrdenRepository ordenRepository, Empleado usuarioActual)
@@ -20,23 +20,11 @@ namespace GestorTaller
             InitializeComponent();
             _repuestoRepository = repuestoRepository;
             _permisos = new PermisosUsuario(usuarioActual);
-            _crearRepuestoService = new CrearRepuestoService(repuestoRepository);
-            _modificarRepuestoService = new ModificarRepuestoService(repuestoRepository);
+            _accionesPermitidas = new AccionesPermitidas(_permisos);
             _eliminarRepuestoService = new EliminarRepuestoService(repuestoRepository, ordenRepository);
-            cmbRepuesto.SelectedIndexChanged += (_, _) => MostrarDatosDelSeleccionado();
 
-            btnGuardarCambios.Visible = _permisos.PuedeEditar;
-            btnEliminar.Visible = _permisos.PuedeEliminar;
-            panelEdicion.Visible = _permisos.PuedeEditar || _permisos.PuedeEliminar;
-
-            if (!panelEdicion.Visible)
-            {
-                var alto = panelEdicion.Height;
-                lblMensaje.Top -= alto;
-                tablaRepuestos.Top -= alto;
-                tablaRepuestos.Height += alto;
-            }
-
+            btnNuevo.Visible = _accionesPermitidas.Permite(ModuloTabla.Repuestos, AccionTabla.Insertar);
+            avisoMensaje.Limpiar();
             Load += RepuestosControl_Load;
         }
 
@@ -54,63 +42,78 @@ namespace GestorTaller
                 new("Precio", r => r.Precio, r => $"Q {r.Precio:N2}")
             };
 
-            var repuestos = _repuestoRepository.ObtenerTodos();
-            tablaRepuestos.Cargar(columnas, repuestos, ordenInicial: columnas[0]);
-            cmbRepuesto.CargarElementos(repuestos.OrderBy(r => r.Nombre).ToList(), r => r.Nombre);
-            MostrarDatosDelSeleccionado();
-        }
-
-        private void MostrarDatosDelSeleccionado()
-        {
-            var repuesto = cmbRepuesto.ElementoSeleccionado as Repuesto;
-
-            txtEditarNombre.Text = repuesto?.Nombre ?? string.Empty;
-            numEditarExistencia.Value = repuesto?.Existencia ?? 0;
-            numEditarPrecio.Value = repuesto?.Precio ?? 0;
-        }
-
-        private void btnGuardarCambios_Click(object? sender, EventArgs e)
-        {
-            lblMensaje.ForeColor = Color.DarkRed;
-
-            if (cmbRepuesto.ElementoSeleccionado is not Repuesto repuesto)
+            var acciones = new List<AccionFila<Repuesto>>();
+            foreach (var accion in _accionesPermitidas.Para(ModuloTabla.Repuestos))
             {
-                lblMensaje.Text = "Selecciona un repuesto de la lista.";
-                return;
+                switch (accion)
+                {
+                    case AccionTabla.Incrementar:
+                        acciones.Add(new AccionFila<Repuesto>(accion, r => AjustarExistencia(r, incrementar: true)));
+                        break;
+                    case AccionTabla.Decrementar:
+                        acciones.Add(new AccionFila<Repuesto>(accion, r => AjustarExistencia(r, incrementar: false)));
+                        break;
+                    case AccionTabla.Modificar:
+                        acciones.Add(new AccionFila<Repuesto>(accion, ModificarRepuesto));
+                        break;
+                    case AccionTabla.Eliminar:
+                        acciones.Add(new AccionFila<Repuesto>(accion, EliminarRepuesto));
+                        break;
+                }
             }
 
-            try
+            tablaRepuestos.Cargar(columnas, _repuestoRepository.ObtenerTodos(), ordenInicial: columnas[0], acciones: acciones);
+        }
+
+        private void btnNuevo_Click(object? sender, EventArgs e)
+        {
+            avisoMensaje.Limpiar();
+
+            using var dialogo = new FormRepuesto(_repuestoRepository, _permisos);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
-                _modificarRepuestoService.Ejecutar(_permisos, repuesto, txtEditarNombre.Text, (int)numEditarExistencia.Value, numEditarPrecio.Value);
-
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = $"Repuesto \"{repuesto.Nombre}\" actualizado.";
-
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Repuesto \"{dialogo.Resultado!.Nombre}\" registrado.");
                 CargarRepuestos();
             }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+        }
+
+        private void AjustarExistencia(Repuesto repuesto, bool incrementar)
+        {
+            avisoMensaje.Limpiar();
+
+            using var dialogo = new FormAjusteExistencia(_repuestoRepository, _permisos, repuesto, incrementar);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Existencia de \"{repuesto.Nombre}\": {repuesto.Existencia}.");
+                CargarRepuestos();
             }
         }
 
-        private void btnEliminar_Click(object? sender, EventArgs e)
+        private void ModificarRepuesto(Repuesto repuesto)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
-            if (cmbRepuesto.ElementoSeleccionado is not Repuesto repuesto)
+            using var dialogo = new FormRepuesto(_repuestoRepository, _permisos, repuesto);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
-                lblMensaje.Text = "Selecciona un repuesto de la lista.";
-                return;
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Repuesto \"{repuesto.Nombre}\" actualizado.");
+                CargarRepuestos();
             }
+        }
 
-            var confirmar = MessageBox.Show(
-                $"Se eliminara el repuesto \"{repuesto.Nombre}\". Continuar?",
+        private void EliminarRepuesto(Repuesto repuesto)
+        {
+            avisoMensaje.Limpiar();
+
+            var confirmar = DialogoConfirmacion.Confirmar(
+                this,
                 "Eliminar repuesto",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                $"Se eliminará el repuesto \"{repuesto.Nombre}\". ¿Continuar?");
 
-            if (confirmar != DialogResult.Yes)
+            if (!confirmar)
             {
                 return;
             }
@@ -119,36 +122,12 @@ namespace GestorTaller
             {
                 _eliminarRepuestoService.Ejecutar(_permisos, repuesto);
 
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = $"Repuesto \"{repuesto.Nombre}\" eliminado.";
-
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Repuesto \"{repuesto.Nombre}\" eliminado.");
                 CargarRepuestos();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
-            }
-        }
-
-        private void btnAgregarRepuesto_Click(object? sender, EventArgs e)
-        {
-            lblMensaje.ForeColor = Color.DarkRed;
-
-            try
-            {
-                var repuesto = _crearRepuestoService.Ejecutar(txtNombre.Text, (int)numExistencia.Value, numPrecio.Value);
-
-                txtNombre.Clear();
-                numExistencia.Value = 0;
-                numPrecio.Value = 0;
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = $"Repuesto \"{repuesto.Nombre}\" agregado.";
-
-                CargarRepuestos();
-            }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
-            {
-                lblMensaje.Text = ex.Message;
+                DialogoConfirmacion.Informar(this, "No se pudo eliminar el repuesto", ex.Message);
             }
         }
     }
