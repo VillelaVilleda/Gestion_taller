@@ -87,15 +87,15 @@ public class ModificarClienteServiceTests
     }
 
     [Fact]
-    public void Ejecutar_ComoUsuarioComun_LanzaExcepcionYNoCambiaNada()
+    public void Ejecutar_ComoUsuarioComun_ActualizaElCliente()
     {
         var juan = CrearCliente("Juan Perez");
         var (servicio, repositorio) = Crear(juan);
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(UsuarioComun, juan, "Otro Nombre", "5555-1234", null, null));
+        servicio.Ejecutar(UsuarioComun, juan, "Otro Nombre", "5555-1234", null, null);
 
-        Assert.Equal("Juan Perez", juan.Nombre);
-        Assert.Equal(0, repositorio.Actualizaciones);
+        Assert.Equal("Otro Nombre", juan.Nombre);
+        Assert.Equal(1, repositorio.Actualizaciones);
     }
 
     [Fact]

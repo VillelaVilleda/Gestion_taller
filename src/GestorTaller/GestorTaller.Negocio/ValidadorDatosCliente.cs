@@ -36,12 +36,12 @@ public static partial class ValidadorDatosCliente
 
         if (nombreLimpio.Length > LongitudMaximaNombre)
         {
-            throw new ArgumentException($"El nombre no puede tener mas de {LongitudMaximaNombre} caracteres.", nameof(nombre));
+            throw new ArgumentException($"El nombre no puede tener más de {LongitudMaximaNombre} caracteres.", nameof(nombre));
         }
 
         if (telefonoLimpio is null && correoLimpio is null)
         {
-            throw new ArgumentException("Se requiere al menos un contacto: telefono o correo.", nameof(telefono));
+            throw new ArgumentException("Se requiere al menos un contacto: teléfono o correo.", nameof(telefono));
         }
 
         if (telefonoLimpio is not null)
@@ -56,7 +56,7 @@ public static partial class ValidadorDatosCliente
 
         if (direccionLimpia is not null && direccionLimpia.Length > LongitudMaximaDireccion)
         {
-            throw new ArgumentException($"La direccion no puede tener mas de {LongitudMaximaDireccion} caracteres.", nameof(direccion));
+            throw new ArgumentException($"La dirección no puede tener más de {LongitudMaximaDireccion} caracteres.", nameof(direccion));
         }
 
         return new DatosCliente(nombreLimpio, telefonoLimpio, correoLimpio, direccionLimpia);
@@ -66,13 +66,13 @@ public static partial class ValidadorDatosCliente
     {
         if (telefono.Length > LongitudMaximaTelefono)
         {
-            throw new ArgumentException($"El telefono no puede tener mas de {LongitudMaximaTelefono} caracteres.", nameof(telefono));
+            throw new ArgumentException($"El teléfono no puede tener más de {LongitudMaximaTelefono} caracteres.", nameof(telefono));
         }
 
         if (!FormatoTelefono().IsMatch(telefono) || telefono.Count(char.IsDigit) < MinimoDigitosTelefono)
         {
             throw new ArgumentException(
-                $"El telefono solo puede tener digitos, espacios, +, - y parentesis, con al menos {MinimoDigitosTelefono} digitos.", nameof(telefono));
+                $"El teléfono solo puede tener dígitos, espacios, +, - y paréntesis, con al menos {MinimoDigitosTelefono} dígitos.", nameof(telefono));
         }
     }
 
@@ -80,12 +80,12 @@ public static partial class ValidadorDatosCliente
     {
         if (correo.Length > LongitudMaximaCorreo)
         {
-            throw new ArgumentException($"El correo no puede tener mas de {LongitudMaximaCorreo} caracteres.", nameof(correo));
+            throw new ArgumentException($"El correo no puede tener más de {LongitudMaximaCorreo} caracteres.", nameof(correo));
         }
 
         if (!FormatoCorreo().IsMatch(correo))
         {
-            throw new ArgumentException("El correo no tiene un formato valido (ejemplo: nombre@dominio.com).", nameof(correo));
+            throw new ArgumentException("El correo no tiene un formato válido (ejemplo: nombre@dominio.com).", nameof(correo));
         }
     }
 

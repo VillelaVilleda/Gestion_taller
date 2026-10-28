@@ -27,7 +27,7 @@ public class CrearClienteService
 
         if (yaExiste)
         {
-            throw new InvalidOperationException("Ya existe un cliente con ese nombre. Seleccionalo de la lista.");
+            throw new InvalidOperationException("Ya existe un cliente con ese nombre. Selecciónalo de la lista.");
         }
 
         return new Cliente
