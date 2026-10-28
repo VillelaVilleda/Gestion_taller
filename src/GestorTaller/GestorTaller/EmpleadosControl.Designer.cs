@@ -4,20 +4,11 @@ namespace GestorTaller
     {
         private System.ComponentModel.IContainer components = null;
 
+        private System.Windows.Forms.TableLayoutPanel layout;
+        private System.Windows.Forms.TableLayoutPanel encabezado;
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.CheckBox chkAdministrador;
-        private System.Windows.Forms.Button btnCrearEmpleado;
-        private System.Windows.Forms.Label lblRestablecer;
-        private GestorTaller.ComboBoxFiltrable cmbEmpleado;
-        private System.Windows.Forms.TextBox txtEditarNombre;
-        private System.Windows.Forms.TextBox txtEditarUsuario;
-        private System.Windows.Forms.CheckBox chkEditarAdministrador;
-        private System.Windows.Forms.Button btnGuardarCambios;
-        private System.Windows.Forms.Button btnRestablecer;
-        private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.Label lblMensaje;
+        private BotonTema btnNuevo;
+        private AvisoControl avisoMensaje;
         private GestorTaller.TablaListadoControl tablaEmpleados;
 
         protected override void Dispose(bool disposing)
@@ -33,180 +24,101 @@ namespace GestorTaller
 
         private void InitializeComponent()
         {
+            layout = new TableLayoutPanel();
+            encabezado = new TableLayoutPanel();
             lblTitulo = new Label();
-            lblNombre = new Label();
-            txtNombre = new TextBox();
-            chkAdministrador = new CheckBox();
-            btnCrearEmpleado = new Button();
-            lblRestablecer = new Label();
-            cmbEmpleado = new ComboBoxFiltrable();
-            txtEditarNombre = new TextBox();
-            txtEditarUsuario = new TextBox();
-            chkEditarAdministrador = new CheckBox();
-            btnGuardarCambios = new Button();
-            btnRestablecer = new Button();
-            btnEliminar = new Button();
-            lblMensaje = new Label();
+            btnNuevo = new BotonTema();
+            avisoMensaje = new AvisoControl();
             tablaEmpleados = new TablaListadoControl();
+            layout.SuspendLayout();
+            encabezado.SuspendLayout();
             SuspendLayout();
+            //
+            // layout
+            //
+            layout.ColumnCount = 1;
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layout.Controls.Add(encabezado, 0, 0);
+            layout.Controls.Add(avisoMensaje, 0, 1);
+            layout.Controls.Add(tablaEmpleados, 0, 2);
+            layout.Dock = DockStyle.Fill;
+            layout.Location = new Point(0, 0);
+            layout.Name = "layout";
+            layout.Padding = new Padding(24);
+            layout.RowCount = 3;
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.Size = new Size(680, 460);
+            layout.TabIndex = 0;
+            //
+            // encabezado
+            //
+            encabezado.AutoSize = true;
+            encabezado.ColumnCount = 2;
+            encabezado.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            encabezado.ColumnStyles.Add(new ColumnStyle());
+            encabezado.Controls.Add(lblTitulo, 0, 0);
+            encabezado.Controls.Add(btnNuevo, 1, 0);
+            encabezado.Dock = DockStyle.Fill;
+            encabezado.Margin = new Padding(0);
+            encabezado.Name = "encabezado";
+            encabezado.RowCount = 1;
+            encabezado.RowStyles.Add(new RowStyle());
+            encabezado.Size = new Size(632, 40);
+            encabezado.TabIndex = 0;
             //
             // lblTitulo
             //
+            lblTitulo.Anchor = AnchorStyles.Left;
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTitulo.Location = new Point(20, 15);
+            lblTitulo.Margin = new Padding(0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(160, 32);
+            lblTitulo.Size = new Size(113, 32);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Empleados";
             //
-            // lblNombre
+            // btnNuevo
             //
-            lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(20, 55);
-            lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(120, 20);
-            lblNombre.TabIndex = 1;
-            lblNombre.Text = "Nuevo empleado";
+            btnNuevo.Anchor = AnchorStyles.Right;
+            btnNuevo.Margin = new Padding(0);
+            btnNuevo.Name = "btnNuevo";
+            btnNuevo.NombreIcono = "plus";
+            btnNuevo.Size = new Size(160, 36);
+            btnNuevo.TabIndex = 1;
+            btnNuevo.Text = "Nuevo empleado";
+            btnNuevo.Variante = VarianteBoton.Primario;
+            btnNuevo.Click += btnNuevo_Click;
             //
-            // txtNombre
+            // avisoMensaje
             //
-            txtNombre.Location = new Point(20, 77);
-            txtNombre.MaxLength = 150;
-            txtNombre.Name = "txtNombre";
-            txtNombre.PlaceholderText = "Nombre completo";
-            txtNombre.Size = new Size(250, 27);
-            txtNombre.TabIndex = 2;
-            //
-            // chkAdministrador
-            //
-            chkAdministrador.AutoSize = true;
-            chkAdministrador.Location = new Point(285, 79);
-            chkAdministrador.Name = "chkAdministrador";
-            chkAdministrador.Size = new Size(120, 24);
-            chkAdministrador.TabIndex = 3;
-            chkAdministrador.Text = "Administrador";
-            //
-            // btnCrearEmpleado
-            //
-            btnCrearEmpleado.Location = new Point(420, 75);
-            btnCrearEmpleado.Name = "btnCrearEmpleado";
-            btnCrearEmpleado.Size = new Size(150, 30);
-            btnCrearEmpleado.TabIndex = 4;
-            btnCrearEmpleado.Text = "Crear empleado";
-            btnCrearEmpleado.Click += btnCrearEmpleado_Click;
-            //
-            // lblRestablecer
-            //
-            lblRestablecer.AutoSize = true;
-            lblRestablecer.Location = new Point(20, 118);
-            lblRestablecer.Name = "lblRestablecer";
-            lblRestablecer.Size = new Size(200, 20);
-            lblRestablecer.TabIndex = 5;
-            lblRestablecer.Text = "Empleado seleccionado";
-            //
-            // cmbEmpleado
-            //
-            cmbEmpleado.Location = new Point(20, 140);
-            cmbEmpleado.Name = "cmbEmpleado";
-            cmbEmpleado.Size = new Size(190, 28);
-            cmbEmpleado.TabIndex = 6;
-            //
-            // txtEditarNombre
-            //
-            txtEditarNombre.Location = new Point(220, 140);
-            txtEditarNombre.MaxLength = 150;
-            txtEditarNombre.Name = "txtEditarNombre";
-            txtEditarNombre.PlaceholderText = "Nombre";
-            txtEditarNombre.Size = new Size(170, 27);
-            txtEditarNombre.TabIndex = 10;
-            //
-            // txtEditarUsuario
-            //
-            txtEditarUsuario.Location = new Point(400, 140);
-            txtEditarUsuario.MaxLength = 50;
-            txtEditarUsuario.Name = "txtEditarUsuario";
-            txtEditarUsuario.PlaceholderText = "Usuario";
-            txtEditarUsuario.Size = new Size(130, 27);
-            txtEditarUsuario.TabIndex = 13;
-            //
-            // chkEditarAdministrador
-            //
-            chkEditarAdministrador.AutoSize = true;
-            chkEditarAdministrador.Location = new Point(540, 142);
-            chkEditarAdministrador.Name = "chkEditarAdministrador";
-            chkEditarAdministrador.Size = new Size(120, 24);
-            chkEditarAdministrador.TabIndex = 11;
-            chkEditarAdministrador.Text = "Administrador";
-            //
-            // btnGuardarCambios
-            //
-            btnGuardarCambios.Location = new Point(20, 178);
-            btnGuardarCambios.Name = "btnGuardarCambios";
-            btnGuardarCambios.Size = new Size(160, 30);
-            btnGuardarCambios.TabIndex = 12;
-            btnGuardarCambios.Text = "Guardar cambios";
-            btnGuardarCambios.Click += btnGuardarCambios_Click;
-            //
-            // btnRestablecer
-            //
-            btnRestablecer.Location = new Point(190, 178);
-            btnRestablecer.Name = "btnRestablecer";
-            btnRestablecer.Size = new Size(190, 30);
-            btnRestablecer.TabIndex = 7;
-            btnRestablecer.Text = "Restablecer contrasena";
-            btnRestablecer.Click += btnRestablecer_Click;
-            //
-            // btnEliminar
-            //
-            btnEliminar.Location = new Point(390, 178);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(170, 30);
-            btnEliminar.TabIndex = 14;
-            btnEliminar.Text = "Eliminar empleado";
-            btnEliminar.Click += btnEliminar_Click;
-            //
-            // lblMensaje
-            //
-            lblMensaje.AutoSize = true;
-            lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 215);
-            lblMensaje.MaximumSize = new Size(640, 0);
-            lblMensaje.Name = "lblMensaje";
-            lblMensaje.Size = new Size(0, 20);
-            lblMensaje.TabIndex = 8;
+            avisoMensaje.Dock = DockStyle.Fill;
+            avisoMensaje.Margin = new Padding(0, 12, 0, 0);
+            avisoMensaje.Name = "avisoMensaje";
+            avisoMensaje.Size = new Size(632, 40);
+            avisoMensaje.TabIndex = 1;
             //
             // tablaEmpleados
             //
-            tablaEmpleados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tablaEmpleados.Location = new Point(0, 245);
+            tablaEmpleados.Dock = DockStyle.Fill;
+            tablaEmpleados.Margin = new Padding(0, 12, 0, 0);
             tablaEmpleados.Name = "tablaEmpleados";
-            tablaEmpleados.Size = new Size(680, 215);
-            tablaEmpleados.TabIndex = 9;
+            tablaEmpleados.Size = new Size(632, 350);
+            tablaEmpleados.TabIndex = 2;
             //
             // EmpleadosControl
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(lblTitulo);
-            Controls.Add(lblNombre);
-            Controls.Add(txtNombre);
-            Controls.Add(chkAdministrador);
-            Controls.Add(btnCrearEmpleado);
-            Controls.Add(lblRestablecer);
-            Controls.Add(cmbEmpleado);
-            Controls.Add(txtEditarNombre);
-            Controls.Add(txtEditarUsuario);
-            Controls.Add(chkEditarAdministrador);
-            Controls.Add(btnGuardarCambios);
-            Controls.Add(btnRestablecer);
-            Controls.Add(btnEliminar);
-            Controls.Add(lblMensaje);
-            Controls.Add(tablaEmpleados);
+            Controls.Add(layout);
             Name = "EmpleadosControl";
             Size = new Size(680, 460);
+            layout.ResumeLayout(false);
+            layout.PerformLayout();
+            encabezado.ResumeLayout(false);
+            encabezado.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
