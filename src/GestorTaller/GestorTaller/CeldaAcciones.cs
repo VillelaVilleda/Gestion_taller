@@ -35,7 +35,8 @@ namespace GestorTaller
             var dpi = DataGridView?.DeviceDpi ?? 96;
             int Escala(int valor) => (int)Math.Round(valor * dpi / 96.0);
 
-            var alto = Escala(28);
+            // La caja nunca es mas alta que la fila, para que no se salga al cambiar la escala de pantalla.
+            var alto = Math.Min(Escala(28), cellBounds.Height - Escala(8));
             var ancho = Math.Min(cellBounds.Width - Escala(16), Escala(140));
             var caja = new Rectangle(cellBounds.X + Escala(8), cellBounds.Y + (cellBounds.Height - alto) / 2, ancho, alto);
 
@@ -56,9 +57,11 @@ namespace GestorTaller
             graphics.DrawImage(Iconos.Obtener("chevron-down", tamanoFlecha, Tema.TextoSecundario),
                 caja.Right - tamanoFlecha - Escala(6), caja.Y + (caja.Height - tamanoFlecha) / 2, tamanoFlecha, tamanoFlecha);
 
-            var areaTexto = new Rectangle(caja.X + Escala(10), caja.Y, caja.Width - Escala(10) - tamanoFlecha - Escala(8), caja.Height);
-            TextRenderer.DrawText(graphics, texto, Tema.Fuente(9F), areaTexto, Tema.Titanio,
-                TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            var areaTexto = new Rectangle(caja.X + Escala(10), caja.Y, caja.Width - Escala(10) - tamanoFlecha - Escala(10), caja.Height);
+            using var fuente = Tema.Fuente(9F);
+            TextRenderer.DrawText(graphics, texto, fuente, areaTexto, Tema.Titanio,
+                TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis
+                | TextFormatFlags.NoPrefix | TextFormatFlags.NoPadding);
         }
     }
 }

@@ -1,17 +1,18 @@
-﻿using GestorTaller.Negocio;
+using GestorTaller.Negocio;
 
 namespace GestorTaller
 {
     /// <summary>
     /// Seccion de "Clientes" dentro de la ventana principal (menu lateral).
-    /// Lista los clientes; los clientes nuevos se crean al registrar una orden.
-    /// Solo el administrador puede editar sus datos o eliminarlos (si no tienen ordenes).
+    /// Tabla con una columna de acciones segun el rol (ver AccionesPermitidas): todos pueden modificar
+    /// y registrar clientes; solo el administrador puede eliminarlos (si no tienen ordenes).
+    /// Registrar y modificar abren el dialogo FormCliente; eliminar pide confirmacion.
     /// </summary>
     public partial class ClientesControl : UserControl
     {
         private readonly IClienteRepository _clienteRepository;
         private readonly PermisosUsuario _permisos;
-        private readonly ModificarClienteService _modificarClienteService;
+        private readonly AccionesPermitidas _accionesPermitidas;
         private readonly EliminarClienteService _eliminarClienteService;
 
         public ClientesControl(IClienteRepository clienteRepository, IOrdenRepository ordenRepository, Empleado usuarioActual)
@@ -19,22 +20,11 @@ namespace GestorTaller
             InitializeComponent();
             _clienteRepository = clienteRepository;
             _permisos = new PermisosUsuario(usuarioActual);
-            _modificarClienteService = new ModificarClienteService(clienteRepository);
+            _accionesPermitidas = new AccionesPermitidas(_permisos);
             _eliminarClienteService = new EliminarClienteService(clienteRepository, ordenRepository);
-            cmbCliente.SelectedIndexChanged += (_, _) => MostrarDatosDelSeleccionado();
 
-            btnGuardarCambios.Visible = _permisos.PuedeEditar;
-            btnEliminar.Visible = _permisos.PuedeEliminar;
-            panelEdicion.Visible = _permisos.PuedeEditar || _permisos.PuedeEliminar;
-
-            if (!panelEdicion.Visible)
-            {
-                var alto = panelEdicion.Height;
-                lblMensaje.Top -= alto;
-                tablaClientes.Top -= alto;
-                tablaClientes.Height += alto;
-            }
-
+            btnNuevo.Visible = _accionesPermitidas.Permite(ModuloTabla.Clientes, AccionTabla.Insertar);
+            avisoMensaje.Limpiar();
             Load += ClientesControl_Load;
         }
 
@@ -48,69 +38,64 @@ namespace GestorTaller
             var columnas = new List<ColumnaTabla<Cliente>>
             {
                 new("Nombre", c => c.Nombre),
-                new("Telefono", c => c.Telefono),
+                new("Teléfono", c => c.Telefono),
                 new("Correo", c => c.Correo),
-                new("Direccion", c => c.Direccion)
+                new("Dirección", c => c.Direccion)
             };
 
-            var clientes = _clienteRepository.ObtenerTodos();
-            tablaClientes.Cargar(columnas, clientes, ordenInicial: columnas[0]);
-            cmbCliente.CargarElementos(clientes.OrderBy(c => c.Nombre).ToList(), c => c.Nombre);
-            MostrarDatosDelSeleccionado();
-        }
-
-        private void MostrarDatosDelSeleccionado()
-        {
-            var cliente = cmbCliente.ElementoSeleccionado as Cliente;
-
-            txtEditarNombre.Text = cliente?.Nombre ?? string.Empty;
-            txtEditarTelefono.Text = cliente?.Telefono ?? string.Empty;
-            txtEditarCorreo.Text = cliente?.Correo ?? string.Empty;
-            txtEditarDireccion.Text = cliente?.Direccion ?? string.Empty;
-        }
-
-        private void btnGuardarCambios_Click(object? sender, EventArgs e)
-        {
-            lblMensaje.ForeColor = Color.DarkRed;
-
-            if (cmbCliente.ElementoSeleccionado is not Cliente cliente)
+            var acciones = new List<AccionFila<Cliente>>();
+            foreach (var accion in _accionesPermitidas.Para(ModuloTabla.Clientes))
             {
-                lblMensaje.Text = "Selecciona un cliente de la lista.";
-                return;
+                switch (accion)
+                {
+                    case AccionTabla.Modificar:
+                        acciones.Add(new AccionFila<Cliente>(accion, ModificarCliente));
+                        break;
+                    case AccionTabla.Eliminar:
+                        acciones.Add(new AccionFila<Cliente>(accion, EliminarCliente));
+                        break;
+                }
             }
 
-            try
+            tablaClientes.Cargar(columnas, _clienteRepository.ObtenerTodos(), ordenInicial: columnas[0], acciones: acciones);
+        }
+
+        private void btnNuevo_Click(object? sender, EventArgs e)
+        {
+            avisoMensaje.Limpiar();
+
+            using var dialogo = new FormCliente(_clienteRepository, _permisos);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
-                _modificarClienteService.Ejecutar(_permisos, cliente, txtEditarNombre.Text, txtEditarTelefono.Text, txtEditarCorreo.Text, txtEditarDireccion.Text);
-
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = $"Cliente \"{cliente.Nombre}\" actualizado.";
-
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Cliente \"{dialogo.Resultado!.Nombre}\" registrado.");
                 CargarClientes();
             }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+        }
+
+        private void ModificarCliente(Cliente cliente)
+        {
+            avisoMensaje.Limpiar();
+
+            using var dialogo = new FormCliente(_clienteRepository, _permisos, cliente);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Cliente \"{cliente.Nombre}\" actualizado.");
+                CargarClientes();
             }
         }
 
-        private void btnEliminar_Click(object? sender, EventArgs e)
+        private void EliminarCliente(Cliente cliente)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
-            if (cmbCliente.ElementoSeleccionado is not Cliente cliente)
-            {
-                lblMensaje.Text = "Selecciona un cliente de la lista.";
-                return;
-            }
-
-            var confirmar = MessageBox.Show(
-                $"Se eliminara el cliente \"{cliente.Nombre}\". Continuar?",
+            var confirmar = DialogoConfirmacion.Confirmar(
+                this,
                 "Eliminar cliente",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                $"Se eliminará el cliente \"{cliente.Nombre}\". ¿Continuar?");
 
-            if (confirmar != DialogResult.Yes)
+            if (!confirmar)
             {
                 return;
             }
@@ -119,14 +104,12 @@ namespace GestorTaller
             {
                 _eliminarClienteService.Ejecutar(_permisos, cliente);
 
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = $"Cliente \"{cliente.Nombre}\" eliminado.";
-
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Cliente \"{cliente.Nombre}\" eliminado.");
                 CargarClientes();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                DialogoConfirmacion.Informar(this, "No se pudo eliminar el cliente", ex.Message);
             }
         }
     }
