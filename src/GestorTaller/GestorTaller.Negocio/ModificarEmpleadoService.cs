@@ -47,7 +47,7 @@ public class ModificarEmpleadoService
 
         if (nombreLimpio.Length > CrearEmpleadoService.LongitudMaximaNombre)
         {
-            throw new ArgumentException($"El nombre no puede tener mas de {CrearEmpleadoService.LongitudMaximaNombre} caracteres.", nameof(nombre));
+            throw new ArgumentException($"El nombre no puede tener más de {CrearEmpleadoService.LongitudMaximaNombre} caracteres.", nameof(nombre));
         }
 
         if (string.IsNullOrWhiteSpace(nombreUsuario))
@@ -64,7 +64,7 @@ public class ModificarEmpleadoService
 
         if (usuarioLimpio.Length > LongitudMaximaUsuario)
         {
-            throw new ArgumentException($"El usuario no puede tener mas de {LongitudMaximaUsuario} caracteres.", nameof(nombreUsuario));
+            throw new ArgumentException($"El usuario no puede tener más de {LongitudMaximaUsuario} caracteres.", nameof(nombreUsuario));
         }
 
         if (_empleadoRepository.ObtenerTodos().Any(e => e.Id != empleado.Id && e.NombreUsuario.ToLowerInvariant() == usuarioLimpio))
