@@ -4,7 +4,7 @@ namespace GestorTaller
 {
     /// <summary>
     /// Ventana para registrar un repuesto nuevo (nombre, existencia inicial y precio) o modificar uno
-    /// existente (nombre y precio; la existencia se ajusta con incrementar/decrementar).
+    /// existente (nombre, existencia y precio; solo el administrador puede modificar).
     /// Al cerrar con OK, <see cref="Resultado"/> tiene el repuesto guardado.
     /// </summary>
     public class FormRepuesto : FormDialogo
@@ -28,16 +28,13 @@ namespace GestorTaller
 
             AgregarCampo("Nombre", _txtNombre);
 
-            if (repuesto is null)
-            {
-                AgregarCampo("Existencia inicial", _numExistencia);
-            }
-
+            AgregarCampo(repuesto is null ? "Existencia inicial" : "Existencia", _numExistencia);
             AgregarCampo("Precio (Q)", _numPrecio);
 
             if (repuesto is not null)
             {
                 _txtNombre.Text = repuesto.Nombre;
+                _numExistencia.Value = repuesto.Existencia;
                 _numPrecio.Value = repuesto.Precio;
             }
         }
@@ -53,7 +50,7 @@ namespace GestorTaller
             }
             else
             {
-                _modificarRepuestoService.Ejecutar(_permisos, _repuesto, _txtNombre.Text, _repuesto.Existencia, _numPrecio.Value);
+                _modificarRepuestoService.Ejecutar(_permisos, _repuesto, _txtNombre.Text, (int)_numExistencia.Value, _numPrecio.Value);
                 Resultado = _repuesto;
             }
 
