@@ -65,7 +65,8 @@ namespace GestorTaller
         /// Muestra los datos. Si se indica <paramref name="acciones"/>, se agrega la columna Acciones
         /// con un combobox por fila que ofrece las acciones disponibles para esa fila; si solo se indica
         /// <paramref name="ver"/>, la columna lleva un boton Ver. <paramref name="ordenInicial"/>
-        /// permite arrancar ordenada (por ejemplo, codigo descendente).
+        /// permite arrancar ordenada (por ejemplo, codigo descendente). <paramref name="columnaChipEtapa"/>
+        /// es el titulo de la columna cuyo texto es una etapa de la orden y se muestra como chip.
         /// </summary>
         public void Cargar<T>(
             IReadOnlyList<ColumnaTabla<T>> columnas,
@@ -73,7 +74,8 @@ namespace GestorTaller
             Action<T>? ver = null,
             ColumnaTabla<T>? ordenInicial = null,
             DireccionOrden direccion = DireccionOrden.Ascendente,
-            IReadOnlyList<AccionFila<T>>? acciones = null)
+            IReadOnlyList<AccionFila<T>>? acciones = null,
+            string? columnaChipEtapa = null)
         {
             var consulta = new ConsultaTabla<T>(columnas, datos);
 
@@ -97,6 +99,11 @@ namespace GestorTaller
             foreach (var columna in columnas)
             {
                 var nueva = new DataGridViewTextBoxColumn { Name = columna.Titulo, SortMode = DataGridViewColumnSortMode.Programmatic };
+                if (columna.Titulo == columnaChipEtapa)
+                {
+                    nueva.CellTemplate = new CeldaChipEtapa();
+                }
+
                 dgvTabla.Columns.Add(nueva);
             }
 

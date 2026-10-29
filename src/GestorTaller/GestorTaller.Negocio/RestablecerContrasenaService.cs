@@ -4,8 +4,9 @@ namespace GestorTaller.Negocio;
 /// Caso de uso: restablecer la contrasena de un empleado (DERCAS 6.4.1).
 /// Reglas (ver RestablecerContrasenaServiceTests):
 ///   - solo un usuario con permiso para administrar empleados puede hacerlo
-///   - se genera una contrasena temporal nueva, que se guarda solo con hash
-///   - se devuelve la contrasena temporal en texto, que solo se conoce en este momento
+///   - se usa la contrasena elegida (de 6 a 50 caracteres) o, si no se elige, una temporal generada
+///   - se guarda solo con hash
+///   - se devuelve la contrasena en texto, que solo se conoce en este momento
 /// </summary>
 public class RestablecerContrasenaService
 {
@@ -16,7 +17,7 @@ public class RestablecerContrasenaService
         _empleadoRepository = empleadoRepository;
     }
 
-    public string Ejecutar(PermisosUsuario permisos, Empleado empleado)
+    public string Ejecutar(PermisosUsuario permisos, Empleado empleado, string? passwordElegida = null)
     {
         if (permisos is null)
         {
@@ -33,7 +34,13 @@ public class RestablecerContrasenaService
             throw new InvalidOperationException("Solo un administrador puede restablecer contraseñas.");
         }
 
-        var password = GeneradorContrasena.Generar();
+        // Si no se elige una contraseña, se genera una temporal aleatoria.
+        if (passwordElegida is not null)
+        {
+            ValidadorContrasena.Validar(passwordElegida);
+        }
+
+        var password = passwordElegida ?? GeneradorContrasena.Generar();
 
         empleado.PasswordUsuario = PasswordHasher.Hash(password);
         _empleadoRepository.Actualizar(empleado);

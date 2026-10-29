@@ -14,7 +14,6 @@ namespace GestorTaller
         private readonly Empleado _usuarioActual;
         private readonly PermisosUsuario _permisos;
         private readonly AccionesPermitidas _accionesPermitidas;
-        private readonly RestablecerContrasenaService _restablecerContrasenaService;
         private readonly EliminarEmpleadoService _eliminarEmpleadoService;
 
         public EmpleadosControl(IEmpleadoRepository empleadoRepository, IOrdenRepository ordenRepository, Empleado usuarioActual)
@@ -24,7 +23,6 @@ namespace GestorTaller
             _usuarioActual = usuarioActual;
             _permisos = new PermisosUsuario(usuarioActual);
             _accionesPermitidas = new AccionesPermitidas(_permisos);
-            _restablecerContrasenaService = new RestablecerContrasenaService(empleadoRepository);
             _eliminarEmpleadoService = new EliminarEmpleadoService(empleadoRepository, ordenRepository);
 
             btnNuevo.Visible = _accionesPermitidas.Permite(ModuloTabla.Empleados, AccionTabla.Insertar);
@@ -102,27 +100,19 @@ namespace GestorTaller
         {
             avisoMensaje.Limpiar();
 
-            var confirmar = DialogoConfirmacion.Confirmar(
-                this,
-                "Restablecer contraseña",
-                $"Se generará una contraseña temporal nueva para {empleado.Nombre}. La actual dejará de funcionar. ¿Continuar?",
-                "Restablecer");
+            using var dialogo = new FormRestablecerContrasena(_empleadoRepository, _permisos, empleado);
 
-            if (!confirmar)
+            if (dialogo.ShowDialog(this) != DialogResult.OK)
             {
                 return;
             }
 
-            try
-            {
-                var password = _restablecerContrasenaService.Ejecutar(_permisos, empleado);
+            avisoMensaje.Mostrar(TipoAviso.Exito, $"Contraseña de \"{empleado.Nombre}\" restablecida.");
 
-                avisoMensaje.Mostrar(TipoAviso.Exito, $"Contraseña de \"{empleado.Nombre}\" restablecida.");
-                MostrarCredenciales(empleado.NombreUsuario, password);
-            }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+            // Solo la contraseña generada se muestra: la elegida ya la conoce quien la escribió.
+            if (dialogo.FueGenerada)
             {
-                DialogoConfirmacion.Informar(this, "No se pudo restablecer la contraseña", ex.Message);
+                MostrarCredenciales(empleado.NombreUsuario, dialogo.Contrasena!);
             }
         }
 
