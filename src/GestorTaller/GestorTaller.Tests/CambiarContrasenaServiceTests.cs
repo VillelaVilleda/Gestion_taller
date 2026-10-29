@@ -55,6 +55,18 @@ public class CambiarContrasenaServiceTests
     }
 
     [Fact]
+    public void Ejecutar_ConContrasenaNuevaDemasiadoLarga_LanzaYNoCambiaNada()
+    {
+        var repositorio = new EmpleadoRepositoryFalso();
+        var empleado = CrearEmpleado();
+
+        Assert.Throws<ArgumentException>(() => new CambiarContrasenaService(repositorio).Ejecutar(empleado, "vieja123", new string('a', ValidadorContrasena.LongitudMaxima + 1)));
+
+        Assert.True(PasswordHasher.Verificar("vieja123", empleado.PasswordUsuario));
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
+
+    [Fact]
     public void Ejecutar_SinEmpleado_LanzaExcepcion()
     {
         var servicio = new CambiarContrasenaService(new EmpleadoRepositoryFalso());

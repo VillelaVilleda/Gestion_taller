@@ -51,4 +51,60 @@ public class RestablecerContrasenaServiceTests
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(new PermisosUsuario(CrearEmpleado(true)), null!));
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, CrearEmpleado()));
     }
+
+    [Fact]
+    public void Ejecutar_ConContrasenaElegida_LaGuardaConHashYLaDevuelve()
+    {
+        var repositorio = new EmpleadoRepositoryFalso();
+        var servicio = new RestablecerContrasenaService(repositorio);
+        var empleado = CrearEmpleado();
+
+        var password = servicio.Ejecutar(new PermisosUsuario(CrearEmpleado(esAdministrador: true)), empleado, "Clave-nueva-1");
+
+        Assert.Equal("Clave-nueva-1", password);
+        Assert.NotEqual("Clave-nueva-1", empleado.PasswordUsuario);
+        Assert.True(PasswordHasher.Verificar("Clave-nueva-1", empleado.PasswordUsuario));
+        Assert.False(PasswordHasher.Verificar("vieja123", empleado.PasswordUsuario));
+        Assert.Equal(1, repositorio.Actualizaciones);
+    }
+
+    [Theory]
+    [InlineData("corta")]
+    [InlineData("   ")]
+    public void Ejecutar_ConContrasenaElegidaInvalida_LanzaYNoCambiaNada(string elegida)
+    {
+        var repositorio = new EmpleadoRepositoryFalso();
+        var servicio = new RestablecerContrasenaService(repositorio);
+        var empleado = CrearEmpleado();
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(new PermisosUsuario(CrearEmpleado(true)), empleado, elegida));
+
+        Assert.True(PasswordHasher.Verificar("vieja123", empleado.PasswordUsuario));
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
+
+    [Fact]
+    public void Ejecutar_ConContrasenaElegidaDemasiadoLarga_LanzaYNoCambiaNada()
+    {
+        var repositorio = new EmpleadoRepositoryFalso();
+        var servicio = new RestablecerContrasenaService(repositorio);
+        var empleado = CrearEmpleado();
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(new PermisosUsuario(CrearEmpleado(true)), empleado, new string('a', ValidadorContrasena.LongitudMaxima + 1)));
+
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
+
+    [Fact]
+    public void Ejecutar_ContrasenaElegidaComoUsuarioComun_LanzaYNoCambiaNada()
+    {
+        var repositorio = new EmpleadoRepositoryFalso();
+        var servicio = new RestablecerContrasenaService(repositorio);
+        var empleado = CrearEmpleado();
+
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(new PermisosUsuario(CrearEmpleado()), empleado, "Clave-nueva-1"));
+
+        Assert.True(PasswordHasher.Verificar("vieja123", empleado.PasswordUsuario));
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
 }
