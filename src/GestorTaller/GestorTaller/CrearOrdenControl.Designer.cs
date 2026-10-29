@@ -71,11 +71,7 @@ namespace GestorTaller
             layout.Location = new Point(0, 0);
             layout.Name = "layout";
             layout.Padding = new Padding(24);
-            layout.RowCount = 12;
-            layout.RowStyles.Add(new RowStyle());
-            layout.RowStyles.Add(new RowStyle());
-            layout.RowStyles.Add(new RowStyle());
-            layout.RowStyles.Add(new RowStyle());
+            layout.RowCount = 11;
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
@@ -84,6 +80,9 @@ namespace GestorTaller
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
             layout.Size = new Size(680, 560);
             layout.TabIndex = 0;
             //
@@ -101,7 +100,6 @@ namespace GestorTaller
             //
             avisoMensaje.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             avisoMensaje.Margin = new Padding(0, 12, 0, 0);
-            avisoMensaje.MaximumSize = new Size(640, 0);
             avisoMensaje.Name = "avisoMensaje";
             avisoMensaje.Size = new Size(632, 40);
             avisoMensaje.TabIndex = 1;
@@ -125,7 +123,6 @@ namespace GestorTaller
             filaCliente.Controls.Add(cmbCliente, 0, 0);
             filaCliente.Controls.Add(btnNuevoCliente, 1, 0);
             filaCliente.Margin = new Padding(0);
-            filaCliente.MaximumSize = new Size(640, 0);
             filaCliente.Name = "filaCliente";
             filaCliente.RowCount = 1;
             filaCliente.RowStyles.Add(new RowStyle());
@@ -164,7 +161,6 @@ namespace GestorTaller
             //
             txtObjeto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtObjeto.Margin = new Padding(0);
-            txtObjeto.MaximumSize = new Size(640, 0);
             txtObjeto.Name = "txtObjeto";
             txtObjeto.Size = new Size(632, 27);
             txtObjeto.TabIndex = 5;
@@ -180,9 +176,9 @@ namespace GestorTaller
             //
             // txtDescripcion
             //
-            txtDescripcion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtDescripcion.Dock = DockStyle.Fill;
             txtDescripcion.Margin = new Padding(0);
-            txtDescripcion.MaximumSize = new Size(640, 0);
+            txtDescripcion.MinimumSize = new Size(0, 90);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(632, 90);

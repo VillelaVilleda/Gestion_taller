@@ -27,6 +27,7 @@ namespace GestorTaller
         {
             InitializeComponent();
             Tema.Aplicar(this);
+            WindowState = FormWindowState.Maximized;
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;
