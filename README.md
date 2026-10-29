@@ -63,7 +63,7 @@ Carga clientes, repuestos, órdenes en distintos estados y estos empleados:
 
 | Usuario | Nombre | Rol |
 |---|---|---|
-| `admin` | Administrador | Administrador |
+| `gerente` | Gerente | Administrador |
 | `mgonzalez` | Maria Gonzalez | Administrador |
 | `usuario` | Empleado de prueba | Usuario común |
 | `cmendez` | Carlos Mendez | Usuario común |
@@ -92,6 +92,8 @@ dotnet test
 
 - **Usuario común:** crea órdenes, clientes y repuestos, y avanza las órdenes por sus etapas.
 - **Administrador:** además gestiona empleados (crear, editar nombre, usuario y rol, restablecer contraseña y eliminar), edita y elimina repuestos y clientes, y edita y elimina órdenes no entregadas. Las órdenes entregadas no se editan ni se eliminan.
+
+Además existe un administrador oculto (usuario `admin`): puede hacer todo lo del administrador, pero no aparece en la lista de empleados, no se puede editar ni eliminar y no cambia su contraseña desde la aplicación. El usuario `admin` está reservado y no se puede asignar a ningún empleado.
 
 Los empleados nuevos reciben un usuario y una contraseña temporal generados por el sistema, que se muestra una sola vez. Las contraseñas se guardan con hash (BCrypt).
 
