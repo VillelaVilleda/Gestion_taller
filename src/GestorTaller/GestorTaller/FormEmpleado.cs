@@ -4,11 +4,11 @@ namespace GestorTaller
 {
     public enum ModoFormEmpleado
     {
-        /// <summary>Registrar un empleado nuevo: el sistema genera usuario y contraseña temporal.</summary>
+        /// <summary>Registrar un empleado nuevo (siempre usuario común): el sistema genera usuario y contraseña temporal.</summary>
         Nuevo,
-        /// <summary>Editar los datos del empleado: nombre y rol de administrador.</summary>
+        /// <summary>Editar los datos del empleado: solo el nombre.</summary>
         EditarEmpleado,
-        /// <summary>Editar solo el usuario (nombre de inicio de sesión).</summary>
+        /// <summary>Editar la cuenta: el usuario (inicio de sesión) y si es administrador.</summary>
         EditarUsuario
     }
 
@@ -43,7 +43,6 @@ namespace GestorTaller
             if (modo != ModoFormEmpleado.EditarUsuario)
             {
                 AgregarCampo("Nombre", _txtNombre);
-                AgregarCampo(null, _chkAdministrador);
             }
 
             if (modo == ModoFormEmpleado.EditarUsuario)
@@ -51,11 +50,16 @@ namespace GestorTaller
                 AgregarCampo("Usuario", _txtUsuario);
             }
 
+            if (modo == ModoFormEmpleado.EditarUsuario)
+            {
+                AgregarCampo(null, _chkAdministrador);
+            }
+
             if (modo == ModoFormEmpleado.Nuevo)
             {
                 AgregarCampo(null, new Label
                 {
-                    Text = "El usuario y la contraseña temporal los genera el sistema.",
+                    Text = "El usuario y la contraseña temporal los genera el sistema. Para hacerlo administrador, usa «Editar usuario».",
                     AutoSize = true,
                     ForeColor = Tema.TextoSecundario,
                     MaximumSize = new Size(380, 0)
@@ -84,7 +88,7 @@ namespace GestorTaller
         {
             if (_modo == ModoFormEmpleado.Nuevo)
             {
-                Creado = new CrearEmpleadoService(_empleadoRepository).Ejecutar(_txtNombre.Text, _chkAdministrador.Checked);
+                Creado = new CrearEmpleadoService(_empleadoRepository).Ejecutar(_txtNombre.Text, esAdministrador: false);
                 return true;
             }
 
@@ -93,11 +97,11 @@ namespace GestorTaller
 
             if (_modo == ModoFormEmpleado.EditarEmpleado)
             {
-                modificar.Ejecutar(_usuarioActual, empleado, _txtNombre.Text, empleado.NombreUsuario, _chkAdministrador.Checked);
+                modificar.Ejecutar(_usuarioActual, empleado, _txtNombre.Text, empleado.NombreUsuario, empleado.EsAdministrador);
             }
             else
             {
-                modificar.Ejecutar(_usuarioActual, empleado, empleado.Nombre, _txtUsuario.Text, empleado.EsAdministrador);
+                modificar.Ejecutar(_usuarioActual, empleado, empleado.Nombre, _txtUsuario.Text, _chkAdministrador.Checked);
             }
 
             return true;
