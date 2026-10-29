@@ -16,12 +16,14 @@ ON CONFLICT ("Id") DO NOTHING;
 
 -- ===================== EMPLEADOS =====================
 -- Contrasenas ya hasheadas con BCrypt (compatibles con PasswordHasher, issue #47):
---   admin      -> admin123
+--   gerente    -> admin123
+--   (el usuario 'admin' esta reservado para el administrador oculto y no se carga aqui;
+--    en una base ya cargada: UPDATE empleado SET nombre_usuario = 'gerente', nombre = 'Gerente' WHERE nombre_usuario = 'admin';)
 --   usuario    -> usuario123
 --   cmendez    -> carlos123
 --   mgonzalez  -> maria123
 INSERT INTO empleado ("Id", nombre, nombre_usuario, password_usuario, es_administrador) VALUES
-    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Administrador', 'admin', '$2b$11$cZ.ele80ckhfGLDD61TkHuPw/RfDKmKz10ISqRFmwSUt9avXXkQ/K', TRUE),
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Gerente', 'gerente', '$2b$11$cZ.ele80ckhfGLDD61TkHuPw/RfDKmKz10ISqRFmwSUt9avXXkQ/K', TRUE),
     ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Empleado de prueba', 'usuario', '$2b$11$Yy2R6NN.OKYw1L6M2oI2duy20VJ/ZqWuCODU5t14RdBtDLn1Op39G', FALSE),
     ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'Carlos Mendez', 'cmendez', '$2b$11$md9d4O3RfhHcZEy6g/QSi.QrGTnFrIwxrwX.TI/FTU63aixEClSeq', FALSE),
     ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'Maria Gonzalez', 'mgonzalez', '$2b$11$QMA27Kz5PLX.Bu9GPojGCupoxXUdzxwjsGhp4nNyXeNbodPocSude', TRUE)

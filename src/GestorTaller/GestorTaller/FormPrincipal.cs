@@ -37,6 +37,7 @@ namespace GestorTaller
 
             Text = $"GestorTaller - {usuarioActual.Nombre} ({(usuarioActual.EsAdministrador ? "Administrador" : "Usuario")})";
             btnEmpleados.Visible = _permisos.PuedeAdministrarEmpleados;
+            btnCambiarContrasena.Visible = !AdministradorOculto.EsEste(usuarioActual); // su contraseña no está en la base de datos
             _cerrarSesion = cerrarSesion;
         }
 
