@@ -3,32 +3,31 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Seccion de "Nueva orden" dentro de la ventana principal (menu lateral).
-    /// El cliente se elige de la lista (con busqueda) o se marca "Cliente nuevo"
-    /// para escribir su nombre y sus datos de contacto (telefono, correo y direccion).
-    /// Un cliente existente nunca se duplica: la orden
-    /// se asocia al ya registrado, y un cliente nuevo se guarda junto con la orden.
+    /// Sección de "Nueva orden" dentro de la ventana principal (menú lateral).
+    /// El cliente se elige de la lista (con búsqueda) o se registra con el botón "Nuevo cliente", que
+    /// abre el diálogo de cliente; al guardarlo queda seleccionado. Un cliente nunca se duplica: la
+    /// orden se asocia al cliente elegido.
     /// </summary>
     public partial class CrearOrdenControl : UserControl
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly PermisosUsuario _permisos;
         private readonly CrearOrdenService _crearOrdenService;
-        private readonly CrearClienteService _crearClienteService;
         private readonly Action _ordenRegistrada;
 
-        public CrearOrdenControl(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, Action ordenRegistrada)
+        public CrearOrdenControl(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, Empleado usuarioActual, Action ordenRegistrada)
         {
             InitializeComponent();
             _clienteRepository = clienteRepository;
+            _permisos = new PermisosUsuario(usuarioActual);
             _crearOrdenService = new CrearOrdenService(ordenRepository);
-            _crearClienteService = new CrearClienteService(clienteRepository);
             _ordenRegistrada = ordenRegistrada;
+            avisoMensaje.Limpiar();
         }
 
         private void CrearOrdenControl_Load(object? sender, EventArgs e)
         {
             CargarClientes();
-            AlternarClienteNuevo();
         }
 
         private void CargarClientes()
@@ -37,60 +36,48 @@ namespace GestorTaller
             cmbCliente.CargarElementos(clientes, c => c.Nombre);
         }
 
-        private void chkClienteNuevo_CheckedChanged(object? sender, EventArgs e) => AlternarClienteNuevo();
-
-        private void AlternarClienteNuevo()
+        private void btnNuevoCliente_Click(object? sender, EventArgs e)
         {
-            txtCliente.Visible = chkClienteNuevo.Checked;
-            panelContacto.Visible = chkClienteNuevo.Checked;
-            cmbCliente.Visible = !chkClienteNuevo.Checked;
-        }
+            avisoMensaje.Limpiar();
 
-        private Cliente? ObtenerCliente()
-        {
-            if (chkClienteNuevo.Checked)
+            using var dialogo = new FormCliente(_clienteRepository, _permisos);
+
+            if (dialogo.ShowDialog(this) == DialogResult.OK)
             {
-                return _crearClienteService.Ejecutar(txtCliente.Text, txtTelefono.Text, txtCorreo.Text, txtDireccion.Text);
-            }
+                var cliente = dialogo.Resultado!;
 
-            return cmbCliente.ElementoSeleccionado as Cliente;
+                CargarClientes();
+                cmbCliente.Seleccionar<Cliente>(c => c.Id == cliente.Id);
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Cliente \"{cliente.Nombre}\" registrado y seleccionado.");
+            }
         }
 
         private void btnRegistrar_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             try
             {
-                var cliente = ObtenerCliente();
-
-                if (cliente is null)
+                if (cmbCliente.ElementoSeleccionado is not Cliente cliente)
                 {
-                    lblMensaje.Text = "Selecciona un cliente de la lista o marca \"Cliente nuevo\".";
+                    avisoMensaje.Mostrar(TipoAviso.Error, "Selecciona un cliente de la lista o registra uno con \"Nuevo cliente\".");
                     return;
                 }
 
                 _crearOrdenService.Ejecutar(cliente, txtObjeto.Text, txtDescripcion.Text, numCostoDiagnostico.Value);
 
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = "Orden registrada correctamente.";
-
-                chkClienteNuevo.Checked = false;
-                txtCliente.Clear();
-                txtTelefono.Clear();
-                txtCorreo.Clear();
-                txtDireccion.Clear();
                 txtObjeto.Clear();
                 txtDescripcion.Clear();
                 numCostoDiagnostico.Value = 0;
                 CargarClientes();
                 cmbCliente.Focus();
+                avisoMensaje.Mostrar(TipoAviso.Exito, "Orden registrada correctamente.");
 
                 _ordenRegistrada();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
     }

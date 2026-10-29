@@ -52,6 +52,17 @@ namespace GestorTaller
             }
         }
 
+        /// <summary>Selecciona el primer elemento de tipo T que cumple la condición; si no hay, no cambia nada.</summary>
+        public void Seleccionar<T>(Func<T, bool> coincide) where T : class
+        {
+            var elemento = _todos.OfType<T>().FirstOrDefault(coincide);
+
+            if (elemento is not null)
+            {
+                SelectedItem = elemento;
+            }
+        }
+
         private void Rellenar(IEnumerable<object> elementos)
         {
             // Cambiar la lista con el desplegable abierto hace que WinForms pida el elemento 0

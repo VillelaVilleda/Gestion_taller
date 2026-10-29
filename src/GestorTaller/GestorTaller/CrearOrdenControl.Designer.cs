@@ -4,26 +4,20 @@ namespace GestorTaller
     {
         private System.ComponentModel.IContainer components = null;
 
+        private System.Windows.Forms.TableLayoutPanel layout;
         private System.Windows.Forms.Label lblTitulo;
+        private AvisoControl avisoMensaje;
         private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.TableLayoutPanel filaCliente;
         private GestorTaller.ComboBoxFiltrable cmbCliente;
-        private System.Windows.Forms.TextBox txtCliente;
-        private System.Windows.Forms.CheckBox chkClienteNuevo;
-        private System.Windows.Forms.Panel panelContacto;
-        private System.Windows.Forms.Label lblTelefono;
-        private System.Windows.Forms.TextBox txtTelefono;
-        private System.Windows.Forms.Label lblCorreo;
-        private System.Windows.Forms.TextBox txtCorreo;
-        private System.Windows.Forms.Label lblDireccion;
-        private System.Windows.Forms.TextBox txtDireccion;
+        private BotonTema btnNuevoCliente;
         private System.Windows.Forms.Label lblObjeto;
         private System.Windows.Forms.TextBox txtObjeto;
         private System.Windows.Forms.Label lblDescripcion;
         private System.Windows.Forms.TextBox txtDescripcion;
         private System.Windows.Forms.Label lblCosto;
         private System.Windows.Forms.NumericUpDown numCostoDiagnostico;
-        private System.Windows.Forms.Button btnRegistrar;
-        private System.Windows.Forms.Label lblMensaje;
+        private BotonTema btnRegistrar;
 
         protected override void Dispose(bool disposing)
         {
@@ -38,237 +32,205 @@ namespace GestorTaller
 
         private void InitializeComponent()
         {
+            layout = new TableLayoutPanel();
             lblTitulo = new Label();
+            avisoMensaje = new AvisoControl();
             lblCliente = new Label();
+            filaCliente = new TableLayoutPanel();
             cmbCliente = new ComboBoxFiltrable();
-            txtCliente = new TextBox();
-            chkClienteNuevo = new CheckBox();
-            panelContacto = new Panel();
-            lblTelefono = new Label();
-            txtTelefono = new TextBox();
-            lblCorreo = new Label();
-            txtCorreo = new TextBox();
-            lblDireccion = new Label();
-            txtDireccion = new TextBox();
+            btnNuevoCliente = new BotonTema();
             lblObjeto = new Label();
             txtObjeto = new TextBox();
             lblDescripcion = new Label();
             txtDescripcion = new TextBox();
             lblCosto = new Label();
             numCostoDiagnostico = new NumericUpDown();
-            btnRegistrar = new Button();
-            lblMensaje = new Label();
+            btnRegistrar = new BotonTema();
             ((System.ComponentModel.ISupportInitialize)numCostoDiagnostico).BeginInit();
+            layout.SuspendLayout();
+            filaCliente.SuspendLayout();
             SuspendLayout();
+            //
+            // layout
+            //
+            layout.AutoScroll = true;
+            layout.ColumnCount = 1;
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layout.Controls.Add(lblTitulo, 0, 0);
+            layout.Controls.Add(avisoMensaje, 0, 1);
+            layout.Controls.Add(lblCliente, 0, 2);
+            layout.Controls.Add(filaCliente, 0, 3);
+            layout.Controls.Add(lblObjeto, 0, 4);
+            layout.Controls.Add(txtObjeto, 0, 5);
+            layout.Controls.Add(lblDescripcion, 0, 6);
+            layout.Controls.Add(txtDescripcion, 0, 7);
+            layout.Controls.Add(lblCosto, 0, 8);
+            layout.Controls.Add(numCostoDiagnostico, 0, 9);
+            layout.Controls.Add(btnRegistrar, 0, 10);
+            layout.Dock = DockStyle.Fill;
+            layout.Location = new Point(0, 0);
+            layout.Name = "layout";
+            layout.Padding = new Padding(24);
+            layout.RowCount = 12;
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.Size = new Size(680, 560);
+            layout.TabIndex = 0;
             //
             // lblTitulo
             //
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTitulo.Location = new Point(20, 15);
+            lblTitulo.Margin = new Padding(0);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(286, 32);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Nueva orden de trabajo";
             //
+            // avisoMensaje
+            //
+            avisoMensaje.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            avisoMensaje.Margin = new Padding(0, 12, 0, 0);
+            avisoMensaje.MaximumSize = new Size(640, 0);
+            avisoMensaje.Name = "avisoMensaje";
+            avisoMensaje.Size = new Size(632, 40);
+            avisoMensaje.TabIndex = 1;
+            //
             // lblCliente
             //
             lblCliente.AutoSize = true;
-            lblCliente.Location = new Point(20, 65);
+            lblCliente.Margin = new Padding(0, 12, 0, 4);
             lblCliente.Name = "lblCliente";
             lblCliente.Size = new Size(55, 20);
-            lblCliente.TabIndex = 1;
+            lblCliente.TabIndex = 2;
             lblCliente.Text = "Cliente";
+            //
+            // filaCliente
+            //
+            filaCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            filaCliente.AutoSize = true;
+            filaCliente.ColumnCount = 2;
+            filaCliente.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            filaCliente.ColumnStyles.Add(new ColumnStyle());
+            filaCliente.Controls.Add(cmbCliente, 0, 0);
+            filaCliente.Controls.Add(btnNuevoCliente, 1, 0);
+            filaCliente.Margin = new Padding(0);
+            filaCliente.MaximumSize = new Size(640, 0);
+            filaCliente.Name = "filaCliente";
+            filaCliente.RowCount = 1;
+            filaCliente.RowStyles.Add(new RowStyle());
+            filaCliente.Size = new Size(632, 36);
+            filaCliente.TabIndex = 3;
             //
             // cmbCliente
             //
-            cmbCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            cmbCliente.Location = new Point(20, 85);
+            cmbCliente.Dock = DockStyle.Fill;
+            cmbCliente.Margin = new Padding(0, 0, 8, 0);
             cmbCliente.Name = "cmbCliente";
-            cmbCliente.Size = new Size(340, 28);
-            cmbCliente.TabIndex = 2;
+            cmbCliente.Size = new Size(466, 28);
+            cmbCliente.TabIndex = 0;
             //
-            // txtCliente
+            // btnNuevoCliente
             //
-            txtCliente.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtCliente.Location = new Point(20, 85);
-            txtCliente.Name = "txtCliente";
-            txtCliente.Size = new Size(340, 27);
-            txtCliente.TabIndex = 3;
-            txtCliente.Visible = false;
-            //
-            // chkClienteNuevo
-            //
-            chkClienteNuevo.AutoSize = true;
-            chkClienteNuevo.Location = new Point(20, 118);
-            chkClienteNuevo.Name = "chkClienteNuevo";
-            chkClienteNuevo.Size = new Size(120, 24);
-            chkClienteNuevo.TabIndex = 4;
-            chkClienteNuevo.Text = "Cliente nuevo";
-            chkClienteNuevo.CheckedChanged += chkClienteNuevo_CheckedChanged;
-            //
-            // panelContacto
-            //
-            panelContacto.Controls.Add(lblTelefono);
-            panelContacto.Controls.Add(txtTelefono);
-            panelContacto.Controls.Add(lblCorreo);
-            panelContacto.Controls.Add(txtCorreo);
-            panelContacto.Controls.Add(lblDireccion);
-            panelContacto.Controls.Add(txtDireccion);
-            panelContacto.Location = new Point(390, 62);
-            panelContacto.Name = "panelContacto";
-            panelContacto.Size = new Size(280, 190);
-            panelContacto.TabIndex = 13;
-            panelContacto.Visible = false;
-            //
-            // lblTelefono
-            //
-            lblTelefono.AutoSize = true;
-            lblTelefono.Location = new Point(0, 3);
-            lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(200, 20);
-            lblTelefono.TabIndex = 0;
-            lblTelefono.Text = "Telefono (o correo, al menos uno)";
-            //
-            // txtTelefono
-            //
-            txtTelefono.Location = new Point(0, 23);
-            txtTelefono.MaxLength = 20;
-            txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(260, 27);
-            txtTelefono.TabIndex = 1;
-            //
-            // lblCorreo
-            //
-            lblCorreo.AutoSize = true;
-            lblCorreo.Location = new Point(0, 63);
-            lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(120, 20);
-            lblCorreo.TabIndex = 2;
-            lblCorreo.Text = "Correo electronico";
-            //
-            // txtCorreo
-            //
-            txtCorreo.Location = new Point(0, 83);
-            txtCorreo.MaxLength = 150;
-            txtCorreo.Name = "txtCorreo";
-            txtCorreo.Size = new Size(260, 27);
-            txtCorreo.TabIndex = 3;
-            //
-            // lblDireccion
-            //
-            lblDireccion.AutoSize = true;
-            lblDireccion.Location = new Point(0, 123);
-            lblDireccion.Name = "lblDireccion";
-            lblDireccion.Size = new Size(150, 20);
-            lblDireccion.TabIndex = 4;
-            lblDireccion.Text = "Direccion (opcional)";
-            //
-            // txtDireccion
-            //
-            txtDireccion.Location = new Point(0, 143);
-            txtDireccion.MaxLength = 300;
-            txtDireccion.Name = "txtDireccion";
-            txtDireccion.Size = new Size(260, 27);
-            txtDireccion.TabIndex = 5;
+            btnNuevoCliente.Anchor = AnchorStyles.Right;
+            btnNuevoCliente.Margin = new Padding(0);
+            btnNuevoCliente.Name = "btnNuevoCliente";
+            btnNuevoCliente.NombreIcono = "plus";
+            btnNuevoCliente.Size = new Size(158, 36);
+            btnNuevoCliente.TabIndex = 1;
+            btnNuevoCliente.Text = "Nuevo cliente";
+            btnNuevoCliente.Click += btnNuevoCliente_Click;
             //
             // lblObjeto
             //
             lblObjeto.AutoSize = true;
-            lblObjeto.Location = new Point(20, 152);
+            lblObjeto.Margin = new Padding(0, 16, 0, 4);
             lblObjeto.Name = "lblObjeto";
             lblObjeto.Size = new Size(160, 20);
-            lblObjeto.TabIndex = 5;
-            lblObjeto.Text = "Descripcion del objeto";
+            lblObjeto.TabIndex = 4;
+            lblObjeto.Text = "Descripción del objeto";
             //
             // txtObjeto
             //
             txtObjeto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtObjeto.Location = new Point(20, 172);
+            txtObjeto.Margin = new Padding(0);
+            txtObjeto.MaximumSize = new Size(640, 0);
             txtObjeto.Name = "txtObjeto";
-            txtObjeto.Size = new Size(340, 27);
-            txtObjeto.TabIndex = 6;
+            txtObjeto.Size = new Size(632, 27);
+            txtObjeto.TabIndex = 5;
             //
             // lblDescripcion
             //
             lblDescripcion.AutoSize = true;
-            lblDescripcion.Location = new Point(20, 212);
+            lblDescripcion.Margin = new Padding(0, 16, 0, 4);
             lblDescripcion.Name = "lblDescripcion";
             lblDescripcion.Size = new Size(181, 20);
-            lblDescripcion.TabIndex = 7;
-            lblDescripcion.Text = "Descripcion del problema";
+            lblDescripcion.TabIndex = 6;
+            lblDescripcion.Text = "Descripción del problema";
             //
             // txtDescripcion
             //
             txtDescripcion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtDescripcion.Location = new Point(20, 232);
+            txtDescripcion.Margin = new Padding(0);
+            txtDescripcion.MaximumSize = new Size(640, 0);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(340, 80);
-            txtDescripcion.TabIndex = 8;
+            txtDescripcion.Size = new Size(632, 90);
+            txtDescripcion.TabIndex = 7;
             //
             // lblCosto
             //
             lblCosto.AutoSize = true;
-            lblCosto.Location = new Point(20, 327);
+            lblCosto.Margin = new Padding(0, 16, 0, 4);
             lblCosto.Name = "lblCosto";
             lblCosto.Size = new Size(150, 20);
-            lblCosto.TabIndex = 9;
-            lblCosto.Text = "Costo de diagnostico";
+            lblCosto.TabIndex = 8;
+            lblCosto.Text = "Costo de diagnóstico (Q)";
             //
             // numCostoDiagnostico
             //
             numCostoDiagnostico.DecimalPlaces = 2;
-            numCostoDiagnostico.Location = new Point(20, 347);
+            numCostoDiagnostico.Margin = new Padding(0);
             numCostoDiagnostico.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numCostoDiagnostico.Name = "numCostoDiagnostico";
-            numCostoDiagnostico.Size = new Size(150, 27);
-            numCostoDiagnostico.TabIndex = 10;
+            numCostoDiagnostico.Size = new Size(160, 27);
+            numCostoDiagnostico.TabIndex = 9;
             numCostoDiagnostico.ThousandsSeparator = true;
             //
             // btnRegistrar
             //
-            btnRegistrar.Location = new Point(20, 387);
+            btnRegistrar.Margin = new Padding(0, 24, 0, 0);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.Size = new Size(150, 32);
-            btnRegistrar.TabIndex = 11;
+            btnRegistrar.Size = new Size(170, 36);
+            btnRegistrar.TabIndex = 10;
             btnRegistrar.Text = "Registrar orden";
+            btnRegistrar.Variante = VarianteBoton.Primario;
             btnRegistrar.Click += btnRegistrar_Click;
-            //
-            // lblMensaje
-            //
-            lblMensaje.AutoSize = true;
-            lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 432);
-            lblMensaje.MaximumSize = new Size(340, 0);
-            lblMensaje.Name = "lblMensaje";
-            lblMensaje.Size = new Size(0, 20);
-            lblMensaje.TabIndex = 12;
             //
             // CrearOrdenControl
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(lblTitulo);
-            Controls.Add(lblCliente);
-            Controls.Add(cmbCliente);
-            Controls.Add(txtCliente);
-            Controls.Add(chkClienteNuevo);
-            Controls.Add(panelContacto);
-            Controls.Add(lblObjeto);
-            Controls.Add(txtObjeto);
-            Controls.Add(lblDescripcion);
-            Controls.Add(txtDescripcion);
-            Controls.Add(lblCosto);
-            Controls.Add(numCostoDiagnostico);
-            Controls.Add(btnRegistrar);
-            Controls.Add(lblMensaje);
+            Controls.Add(layout);
             Name = "CrearOrdenControl";
-            Size = new Size(400, 480);
+            Size = new Size(680, 560);
             Load += CrearOrdenControl_Load;
             ((System.ComponentModel.ISupportInitialize)numCostoDiagnostico).EndInit();
+            layout.ResumeLayout(false);
+            layout.PerformLayout();
+            filaCliente.ResumeLayout(false);
+            filaCliente.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
