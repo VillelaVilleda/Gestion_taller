@@ -28,17 +28,17 @@ public class CrearOrdenService
 
         if (string.IsNullOrWhiteSpace(descripcionObjeto))
         {
-            throw new ArgumentException("La orden requiere una descripcion del objeto.", nameof(descripcionObjeto));
+            throw new ArgumentException("La orden requiere una descripción del objeto.", nameof(descripcionObjeto));
         }
 
         if (string.IsNullOrWhiteSpace(descripcionProblema))
         {
-            throw new ArgumentException("La orden requiere una descripcion del problema.", nameof(descripcionProblema));
+            throw new ArgumentException("La orden requiere una descripción del problema.", nameof(descripcionProblema));
         }
 
         if (costoDiagnostico < 0)
         {
-            throw new ArgumentException("El costo de diagnostico no puede ser negativo.", nameof(costoDiagnostico));
+            throw new ArgumentException("El costo de diagnóstico no puede ser negativo.", nameof(costoDiagnostico));
         }
 
         var orden = new Orden

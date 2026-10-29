@@ -88,7 +88,7 @@ namespace GestorTaller
 
         private void btnEmpleados_Click(object? sender, EventArgs e) => MostrarSeccionEmpleados();
 
-        private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository, _clienteRepository, MostrarSeccionOrdenesRegistradas));
+        private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository, _clienteRepository, _usuarioActual!, MostrarSeccionOrdenesRegistradas));
 
         private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository, AbrirSeguimientoOrden));
 
