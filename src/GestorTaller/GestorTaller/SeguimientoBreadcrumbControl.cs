@@ -76,7 +76,7 @@ namespace GestorTaller
                     {
                         AutoSize = true,
                         Margin = new Padding(2, 10, 2, 4),
-                        ForeColor = Color.Gray,
+                        ForeColor = Tema.TextoSecundario,
                         Text = ">"
                     });
                 }
@@ -84,9 +84,10 @@ namespace GestorTaller
                 var chip = new Label
                 {
                     AutoSize = true,
-                    Padding = new Padding(8, 4, 8, 4),
+                    Padding = new Padding(10, 5, 10, 5),
                     Margin = new Padding(2, 4, 2, 4),
-                    Text = NombrePaso(paso)
+                    Font = Tema.Fuente(9F),
+                    Text = ChipEtapa.Nombre(paso)
                 };
 
                 var esElQueSeVe = paso == pasoQueSeVe;
@@ -95,30 +96,30 @@ namespace GestorTaller
 
                 if (esElQueSeVe && esPendiente)
                 {
-                    chip.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-                    chip.ForeColor = Color.White;
-                    chip.BackColor = Color.DarkOrange;
+                    chip.Font = Tema.Fuente(9F, FontStyle.Bold);
+                    chip.ForeColor = Tema.Titanio;
+                    chip.BackColor = Tema.Cobre;
                 }
                 else if (esElQueSeVe)
                 {
-                    chip.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-                    chip.ForeColor = Color.White;
-                    chip.BackColor = Color.SeaGreen;
+                    chip.Font = Tema.Fuente(9F, FontStyle.Bold);
+                    chip.ForeColor = Tema.Blanco;
+                    chip.BackColor = Tema.Pizarra;
                 }
                 else if (esPendiente)
                 {
-                    chip.ForeColor = Color.DarkOrange;
-                    chip.BackColor = Color.Cornsilk;
+                    chip.ForeColor = Tema.Titanio;
+                    chip.BackColor = Color.FromArgb(253, 235, 217);
                 }
                 else if (yaVisitado)
                 {
-                    chip.ForeColor = Color.SeaGreen;
-                    chip.BackColor = Color.Honeydew;
+                    chip.ForeColor = Tema.Titanio;
+                    chip.BackColor = Color.FromArgb(222, 233, 244);
                 }
                 else
                 {
-                    chip.ForeColor = Color.Gray;
-                    chip.BackColor = Color.WhiteSmoke;
+                    chip.ForeColor = Tema.TextoSecundario;
+                    chip.BackColor = Tema.Aluminio;
                 }
 
                 flowPasos.Controls.Add(chip);
@@ -127,16 +128,5 @@ namespace GestorTaller
             btnAtras.Enabled = _indiceVisto > 0;
             btnSiguiente.Enabled = _indiceVisto < _historial.Count - 1;
         }
-
-        private static string NombrePaso(EstadoOrden paso) => paso switch
-        {
-            EstadoOrden.Recepcion => "Recepcion",
-            EstadoOrden.Diagnostico => "Diagnostico",
-            EstadoOrden.Cotizacion => "Cotizacion",
-            EstadoOrden.EnReparacion => "Reparacion",
-            EstadoOrden.Terminado => "Terminado",
-            EstadoOrden.Entregado => "Entregado",
-            _ => paso.ToString()
-        };
     }
 }
