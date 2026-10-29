@@ -216,4 +216,21 @@ public class ModificarEmpleadoServiceTests
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, admin, "Admin Uno", "admin.uno", true));
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(admin, null!, "Admin Uno", "admin.uno", true));
     }
+
+    [Theory]
+    [InlineData("admin")]
+    [InlineData("ADMIN")]
+    [InlineData(" Admin ")]
+    public void Ejecutar_ConElUsuarioReservado_LanzaYNoCambiaNada(string usuario)
+    {
+        var admin = CrearEmpleado("Admin Uno", true);
+        var ana = CrearEmpleado("Ana Torres", false);
+        var (servicio, repositorio) = Crear(admin, ana);
+
+        var error = Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(admin, ana, "Ana Torres", usuario, false));
+
+        Assert.Equal("Ese usuario está reservado por el sistema.", error.Message);
+        Assert.Equal("ana.torres", ana.NombreUsuario);
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
 }

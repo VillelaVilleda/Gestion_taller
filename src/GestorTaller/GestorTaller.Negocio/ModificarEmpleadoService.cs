@@ -7,6 +7,7 @@ namespace GestorTaller.Negocio;
 ///   - el nombre es obligatorio, de hasta 150 caracteres (se recortan los espacios)
 ///   - el usuario es obligatorio, sin espacios, de hasta 50 caracteres y unico sin importar mayusculas
 ///   - el usuario se guarda en minusculas
+///   - el usuario reservado del administrador oculto no se puede usar
 ///   - nadie puede quitarse el rol de administrador a si mismo
 ///   - siempre debe quedar al menos un administrador
 /// </summary>
@@ -65,6 +66,11 @@ public class ModificarEmpleadoService
         if (usuarioLimpio.Length > LongitudMaximaUsuario)
         {
             throw new ArgumentException($"El usuario no puede tener más de {LongitudMaximaUsuario} caracteres.", nameof(nombreUsuario));
+        }
+
+        if (AdministradorOculto.EsReservado(usuarioLimpio))
+        {
+            throw new InvalidOperationException("Ese usuario está reservado por el sistema.");
         }
 
         if (_empleadoRepository.ObtenerTodos().Any(e => e.Id != empleado.Id && e.NombreUsuario.ToLowerInvariant() == usuarioLimpio))

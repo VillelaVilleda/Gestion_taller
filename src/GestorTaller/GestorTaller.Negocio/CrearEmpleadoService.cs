@@ -77,7 +77,7 @@ public class CrearEmpleadoService
 
         var usuario = baseUsuario;
 
-        for (var numero = 2; _empleadoRepository.ObtenerPorNombreUsuario(usuario) is not null; numero++)
+        for (var numero = 2; AdministradorOculto.EsReservado(usuario) || _empleadoRepository.ObtenerPorNombreUsuario(usuario) is not null; numero++)
         {
             usuario = baseUsuario + numero;
         }

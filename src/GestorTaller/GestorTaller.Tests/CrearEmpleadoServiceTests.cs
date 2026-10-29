@@ -96,4 +96,14 @@ public class CrearEmpleadoServiceTests
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(new string('a', 151), false));
     }
+
+    [Theory]
+    [InlineData("Admin")]
+    [InlineData("ADMIN")]
+    public void Ejecutar_CuandoElUsuarioGeneradoEsElReservado_AgregaUnNumero(string nombre)
+    {
+        var (servicio, _) = Crear();
+
+        Assert.Equal("admin2", servicio.Ejecutar(nombre, false).Empleado.NombreUsuario);
+    }
 }
