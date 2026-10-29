@@ -25,7 +25,7 @@ namespace GestorTaller
             AgregarCampo("Confirmar contraseña nueva", _txtConfirmacion);
         }
 
-        private static TextBox CrearCampoContrasena() => new() { UseSystemPasswordChar = true };
+        private static TextBox CrearCampoContrasena() => new() { UseSystemPasswordChar = true, MaxLength = ValidadorContrasena.LongitudMaxima };
 
         protected override bool AlGuardar()
         {
