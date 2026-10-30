@@ -37,7 +37,23 @@ namespace GestorTaller
                 return;
             }
 
-            var usuario = _iniciarSesionService.Autenticar(txtUsuario.Text, txtContrasena.Text);
+            Empleado? usuario;
+
+            try
+            {
+                UseWaitCursor = true;
+                usuario = _iniciarSesionService.Autenticar(txtUsuario.Text, txtContrasena.Text);
+            }
+            catch (Exception ex)
+            {
+                RegistroErrores.Registrar(ex);
+                avisoMensaje.Mostrar(TipoAviso.Error, "No se pudo conectar con la base de datos. Verifica que esté encendida e inténtalo de nuevo.");
+                return;
+            }
+            finally
+            {
+                UseWaitCursor = false;
+            }
 
             if (usuario is null)
             {
