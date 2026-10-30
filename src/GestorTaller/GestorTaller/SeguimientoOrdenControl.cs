@@ -2,6 +2,10 @@
 
 namespace GestorTaller
 {
+    /// <summary>
+    /// Seguimiento de una orden: botón para volver al listado, datos de la orden, miga de pasos y el
+    /// formulario del paso que se está viendo. Se adapta al tamaño de la ventana.
+    /// </summary>
     public partial class SeguimientoOrdenControl : UserControl
     {
         private readonly IOrdenRepository _ordenRepository;
@@ -9,15 +13,15 @@ namespace GestorTaller
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly PermisosUsuario _permisos;
         private readonly EliminarOrdenService _eliminarOrdenService;
-        private readonly Action _ordenEliminada;
+        private readonly Action _volverAlListado;
         private readonly Guid _ordenId;
 
-        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Guid ordenId, Action ordenEliminada)
+        public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Guid ordenId, Action volverAlListado)
         {
             InitializeComponent();
             _permisos = new PermisosUsuario(usuarioActual);
             _eliminarOrdenService = new EliminarOrdenService(ordenRepository);
-            _ordenEliminada = ordenEliminada;
+            _volverAlListado = volverAlListado;
             _ordenRepository = ordenRepository;
             _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
@@ -63,7 +67,7 @@ namespace GestorTaller
                 {
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Text = "No se encontro la orden."
+                    Text = "No se encontró la orden."
                 });
                 return;
             }
@@ -74,6 +78,8 @@ namespace GestorTaller
             breadcrumb.Mostrar(orden.HistorialEstados);
             MostrarPaso(orden.Estado);
         }
+
+        private void btnVolver_Click(object? sender, EventArgs e) => _volverAlListado();
 
         private void btnEditarOrden_Click(object? sender, EventArgs e)
         {
@@ -119,7 +125,7 @@ namespace GestorTaller
             try
             {
                 _eliminarOrdenService.Ejecutar(_permisos, orden);
-                _ordenEliminada();
+                _volverAlListado();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
@@ -148,7 +154,7 @@ namespace GestorTaller
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font("Segoe UI", 12F),
-                    Text = $"Formulario de {paso} - Proximamente"
+                    Text = $"Formulario de {paso} - Próximamente"
                 }
             };
 
