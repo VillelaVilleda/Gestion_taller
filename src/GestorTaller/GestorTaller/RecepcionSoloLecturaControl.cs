@@ -3,7 +3,7 @@
 namespace GestorTaller
 {
     /// <summary>
-    /// Muestra los datos de Recepcion de una orden en modo solo lectura,
+    /// Muestra los datos de Recepción de una orden en modo solo lectura,
     /// dentro de la pantalla de seguimiento. Estos datos ya se capturaron
     /// al crear la orden (CrearOrdenControl); aqui no se editan.
     /// </summary>

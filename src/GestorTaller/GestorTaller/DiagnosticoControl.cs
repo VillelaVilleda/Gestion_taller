@@ -3,7 +3,7 @@
 namespace GestorTaller
 {
     /// <summary>
-    /// Formulario del paso Diagnostico dentro del seguimiento. Mientras la
+    /// Formulario del paso Diagnóstico dentro del seguimiento. Mientras la
     /// orden esta en estado Diagnostico (el paso activo), permite capturarlo
     /// y avanza la orden a Cotizacion al guardar. Si la orden ya avanzo mas
     /// alla (se esta revisando este paso hacia atras), se muestra en modo
@@ -34,7 +34,7 @@ namespace GestorTaller
         public void Mostrar(Orden orden)
         {
             _orden = orden;
-            lblMensaje.Text = "";
+            avisoMensaje.Limpiar();
 
             var esPendiente = orden.Estado == EstadoOrden.Diagnostico;
 
@@ -57,7 +57,7 @@ namespace GestorTaller
 
         private void btnGuardarDiagnostico_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             try
             {
@@ -66,7 +66,7 @@ namespace GestorTaller
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
     }
