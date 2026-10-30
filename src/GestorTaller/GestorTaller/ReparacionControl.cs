@@ -3,7 +3,7 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Formulario de la reparacion realizada. Mientras la orden esta en EnReparacion
+    /// Formulario de la reparación realizada. Mientras la orden esta en EnReparacion
     /// permite registrar empleado y detalle; al guardar, la orden pasa a Terminado.
     /// Los repuestos se eligieron en la Cotizacion y aqui solo se muestran (solo
     /// lectura), de modo que el total nunca difiere de lo que el cliente acepto.
@@ -23,6 +23,8 @@ namespace GestorTaller
             _empleadoRepository = empleadoRepository;
             _registrarReparacionOrdenService = new RegistrarReparacionOrdenService(new AvanzarEstadoOrdenService());
 
+            Tema.EstilizarTablaSimple(dgvRepuestosAsignados);
+            lblSubtitulo.ForeColor = Tema.TextoSecundario;
             dgvRepuestosAsignados.Columns.Add("Repuesto", "Repuesto");
             dgvRepuestosAsignados.Columns.Add("Cantidad", "Cantidad");
             Load += (_, _) => BeginInvoke(() =>
@@ -37,7 +39,7 @@ namespace GestorTaller
         public void Mostrar(Orden orden)
         {
             _orden = orden;
-            lblMensaje.Text = "";
+            avisoMensaje.Limpiar();
 
             var esPendiente = orden.Estado == EstadoOrden.EnReparacion;
 
@@ -74,7 +76,7 @@ namespace GestorTaller
 
         private void btnGuardarReparacion_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             try
             {
@@ -83,7 +85,7 @@ namespace GestorTaller
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
     }

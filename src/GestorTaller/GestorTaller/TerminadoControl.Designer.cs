@@ -4,6 +4,7 @@ namespace GestorTaller
     {
         private System.ComponentModel.IContainer components = null;
 
+        private System.Windows.Forms.TableLayoutPanel layout;
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblSubtitulo;
         private System.Windows.Forms.Label lblEmpleado;
@@ -12,8 +13,8 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblMonto;
         private System.Windows.Forms.Label lblTotalAPagar;
         private System.Windows.Forms.Label lblFechaEntrega;
-        private System.Windows.Forms.Button btnConfirmarPago;
-        private System.Windows.Forms.Label lblMensaje;
+        private BotonTema btnConfirmarPago;
+        private AvisoControl avisoMensaje;
 
         protected override void Dispose(bool disposing)
         {
@@ -26,6 +27,7 @@ namespace GestorTaller
 
         private void InitializeComponent()
         {
+            layout = new TableLayoutPanel();
             lblTitulo = new Label();
             lblSubtitulo = new Label();
             lblEmpleado = new Label();
@@ -34,15 +36,48 @@ namespace GestorTaller
             lblMonto = new Label();
             lblTotalAPagar = new Label();
             lblFechaEntrega = new Label();
-            btnConfirmarPago = new Button();
-            lblMensaje = new Label();
+            btnConfirmarPago = new BotonTema();
+            avisoMensaje = new AvisoControl();
+            layout.SuspendLayout();
             SuspendLayout();
+            //
+            // layout
+            //
+            layout.ColumnCount = 1;
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layout.Controls.Add(lblTitulo, 0, 0);
+            layout.Controls.Add(lblSubtitulo, 0, 1);
+            layout.Controls.Add(lblEmpleado, 0, 2);
+            layout.Controls.Add(cmbEmpleado, 0, 3);
+            layout.Controls.Add(lblDesglose, 0, 4);
+            layout.Controls.Add(lblMonto, 0, 5);
+            layout.Controls.Add(lblTotalAPagar, 0, 6);
+            layout.Controls.Add(lblFechaEntrega, 0, 7);
+            layout.Controls.Add(btnConfirmarPago, 0, 8);
+            layout.Controls.Add(avisoMensaje, 0, 9);
+            layout.Dock = DockStyle.Fill;
+            layout.Location = new Point(0, 0);
+            layout.Name = "layout";
+            layout.RowCount = 11;
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle());
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.Size = new Size(460, 500);
+            layout.TabIndex = 0;
             //
             // lblTitulo
             //
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblTitulo.Location = new Point(20, 15);
+            lblTitulo.Margin = new Padding(0);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(150, 28);
             lblTitulo.TabIndex = 0;
@@ -52,7 +87,7 @@ namespace GestorTaller
             //
             lblSubtitulo.AutoSize = true;
             lblSubtitulo.ForeColor = Color.Gray;
-            lblSubtitulo.Location = new Point(20, 45);
+            lblSubtitulo.Margin = new Padding(0, 2, 0, 0);
             lblSubtitulo.Name = "lblSubtitulo";
             lblSubtitulo.Size = new Size(320, 20);
             lblSubtitulo.TabIndex = 1;
@@ -61,7 +96,7 @@ namespace GestorTaller
             // lblEmpleado
             //
             lblEmpleado.AutoSize = true;
-            lblEmpleado.Location = new Point(20, 80);
+            lblEmpleado.Margin = new Padding(0, 12, 0, 4);
             lblEmpleado.Name = "lblEmpleado";
             lblEmpleado.Size = new Size(160, 20);
             lblEmpleado.TabIndex = 2;
@@ -70,86 +105,78 @@ namespace GestorTaller
             // cmbEmpleado
             //
             cmbEmpleado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            cmbEmpleado.Location = new Point(20, 100);
+            cmbEmpleado.Margin = new Padding(0);
             cmbEmpleado.Name = "cmbEmpleado";
-            cmbEmpleado.Size = new Size(340, 27);
+            cmbEmpleado.Size = new Size(460, 27);
             cmbEmpleado.TabIndex = 3;
             //
             // lblDesglose
             //
             lblDesglose.AutoSize = true;
-            lblDesglose.Location = new Point(20, 135);
-            lblDesglose.MaximumSize = new Size(340, 0);
+            lblDesglose.Margin = new Padding(0, 20, 0, 0);
             lblDesglose.Name = "lblDesglose";
             lblDesglose.Size = new Size(300, 60);
-            lblDesglose.TabIndex = 9;
-            lblDesglose.Text = "Costo de diagnostico: Q 0.00";
+            lblDesglose.TabIndex = 4;
+            lblDesglose.Text = "Costo de diagnóstico: Q 0.00";
             //
             // lblMonto
             //
             lblMonto.AutoSize = true;
-            lblMonto.Location = new Point(20, 205);
+            lblMonto.Margin = new Padding(0, 16, 0, 0);
             lblMonto.Name = "lblMonto";
             lblMonto.Size = new Size(110, 20);
-            lblMonto.TabIndex = 4;
+            lblMonto.TabIndex = 5;
             lblMonto.Text = "Total a pagar";
             //
             // lblTotalAPagar
             //
             lblTotalAPagar.AutoSize = true;
             lblTotalAPagar.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTotalAPagar.Location = new Point(20, 225);
+            lblTotalAPagar.Margin = new Padding(0);
             lblTotalAPagar.Name = "lblTotalAPagar";
-            lblTotalAPagar.Size = new Size(100, 32);
-            lblTotalAPagar.TabIndex = 5;
+            lblTotalAPagar.Size = new Size(90, 32);
+            lblTotalAPagar.TabIndex = 6;
             lblTotalAPagar.Text = "Q 0.00";
             //
             // lblFechaEntrega
             //
             lblFechaEntrega.AutoSize = true;
             lblFechaEntrega.ForeColor = Color.Gray;
-            lblFechaEntrega.Location = new Point(20, 265);
+            lblFechaEntrega.Margin = new Padding(0, 4, 0, 0);
             lblFechaEntrega.Name = "lblFechaEntrega";
             lblFechaEntrega.Size = new Size(0, 20);
-            lblFechaEntrega.TabIndex = 6;
+            lblFechaEntrega.TabIndex = 7;
             //
             // btnConfirmarPago
             //
-            btnConfirmarPago.Location = new Point(20, 295);
+            btnConfirmarPago.Anchor = AnchorStyles.Left;
+            btnConfirmarPago.Margin = new Padding(0, 16, 0, 0);
             btnConfirmarPago.Name = "btnConfirmarPago";
-            btnConfirmarPago.Size = new Size(180, 32);
-            btnConfirmarPago.TabIndex = 7;
+            btnConfirmarPago.NombreIcono = "circle-check";
+            btnConfirmarPago.Size = new Size(200, 36);
+            btnConfirmarPago.TabIndex = 8;
             btnConfirmarPago.Text = "Pago confirmado";
+            btnConfirmarPago.Variante = VarianteBoton.Primario;
             btnConfirmarPago.Click += btnConfirmarPago_Click;
             //
-            // lblMensaje
+            // avisoMensaje
             //
-            lblMensaje.AutoSize = true;
-            lblMensaje.ForeColor = Color.DarkRed;
-            lblMensaje.Location = new Point(20, 340);
-            lblMensaje.MaximumSize = new Size(340, 0);
-            lblMensaje.Name = "lblMensaje";
-            lblMensaje.Size = new Size(0, 20);
-            lblMensaje.TabIndex = 8;
+            avisoMensaje.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            avisoMensaje.Margin = new Padding(0, 12, 0, 0);
+            avisoMensaje.Name = "avisoMensaje";
+            avisoMensaje.Size = new Size(460, 40);
+            avisoMensaje.TabIndex = 9;
             //
             // TerminadoControl
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(lblTitulo);
-            Controls.Add(lblSubtitulo);
-            Controls.Add(lblEmpleado);
-            Controls.Add(cmbEmpleado);
-            Controls.Add(lblDesglose);
-            Controls.Add(lblMonto);
-            Controls.Add(lblTotalAPagar);
-            Controls.Add(lblFechaEntrega);
-            Controls.Add(btnConfirmarPago);
-            Controls.Add(lblMensaje);
+            Controls.Add(layout);
             Name = "TerminadoControl";
-            Size = new Size(400, 390);
+            Size = new Size(460, 500);
+            layout.ResumeLayout(false);
+            layout.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
     }
 }

@@ -23,6 +23,8 @@ namespace GestorTaller
             InitializeComponent();
             _empleadoRepository = empleadoRepository;
             _registrarEntregaOrdenService = new RegistrarEntregaOrdenService(new AvanzarEstadoOrdenService());
+            lblSubtitulo.ForeColor = Tema.TextoSecundario;
+            lblFechaEntrega.ForeColor = Tema.TextoSecundario;
             Load += (_, _) => BeginInvoke(() =>
             {
                 if (!IsDisposed && cmbEmpleado.Enabled)
@@ -35,7 +37,7 @@ namespace GestorTaller
         public void Mostrar(Orden orden)
         {
             _orden = orden;
-            lblMensaje.Text = "";
+            avisoMensaje.Limpiar();
 
             var esPendiente = orden.Estado == EstadoOrden.Terminado;
 
@@ -47,7 +49,7 @@ namespace GestorTaller
 
             var desglose = _calcularTotalOrdenService.Calcular(orden);
             lblDesglose.Text =
-                $"Costo de diagnostico: Q {desglose.CostoDiagnostico:N2}\n" +
+                $"Costo de diagnóstico: Q {desglose.CostoDiagnostico:N2}\n" +
                 $"Costo de mano de obra: Q {desglose.ManoDeObra:N2}\n" +
                 $"Repuestos: Q {desglose.Repuestos:N2}";
 
@@ -69,7 +71,7 @@ namespace GestorTaller
 
         private void btnConfirmarPago_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             try
             {
@@ -78,7 +80,7 @@ namespace GestorTaller
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
     }
