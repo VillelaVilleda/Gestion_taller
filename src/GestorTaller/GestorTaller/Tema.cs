@@ -73,6 +73,42 @@ namespace GestorTaller
             }
         }
 
+        /// <summary>
+        /// Estilo del tema para una tabla pequeña dentro de un formulario (por ejemplo, los repuestos de
+        /// una orden): encabezado en pizarra, filas blancas separadas por líneas y sin cabecera de fila.
+        /// </summary>
+        public static void EstilizarTablaSimple(DataGridView tabla)
+        {
+            tabla.BackgroundColor = Blanco;
+            tabla.BorderStyle = BorderStyle.None;
+            tabla.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            tabla.GridColor = Aluminio;
+            tabla.RowHeadersVisible = false;
+            tabla.EnableHeadersVisualStyles = false;
+            tabla.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            tabla.ColumnHeadersHeight = tabla.LogicalToDeviceUnits(34);
+            tabla.RowTemplate.Height = tabla.LogicalToDeviceUnits(32);
+
+            tabla.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Pizarra,
+                ForeColor = Blanco,
+                SelectionBackColor = Pizarra,
+                SelectionForeColor = Blanco,
+                Font = new Font("Segoe UI Semibold", 9F),
+                Padding = new Padding(6, 0, 6, 0)
+            };
+
+            tabla.DefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Blanco,
+                ForeColor = Titanio,
+                SelectionBackColor = SecundarioPresionado,
+                SelectionForeColor = Titanio,
+                Padding = new Padding(6, 0, 6, 0)
+            };
+        }
+
         public static (Color Texto, Color Fondo) ColoresEtapa(EstadoOrden estado)
         {
             var (texto, fondo) = PaletaTema.ColoresEtapa(estado);

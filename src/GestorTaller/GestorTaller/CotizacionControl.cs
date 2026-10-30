@@ -3,8 +3,8 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Formulario del paso Cotizacion dentro del seguimiento. Mientras la
-    /// orden esta en estado Cotizacion (el paso activo), permite capturarla,
+    /// Formulario del paso Cotización dentro del seguimiento. Mientras la
+    /// orden esta en estado Cotización (el paso activo), permite capturarla,
     /// elegir los repuestos que se usaran (sin descontar el inventario todavia)
     /// y decidir si el cliente la acepto, lo que avanza la orden directo a
     /// Reparacion o a Terminado segun la decision. Al aceptar se descuenta el
@@ -31,6 +31,8 @@ namespace GestorTaller
             _repuestoRepository = repuestoRepository;
             _registrarCotizacionOrdenService = new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService());
 
+            Tema.EstilizarTablaSimple(dgvRepuestos);
+            lblDisponible.ForeColor = Tema.TextoSecundario;
             dgvRepuestos.Columns.Add("Repuesto", "Repuesto");
             dgvRepuestos.Columns.Add("Cantidad", "Cant.");
             dgvRepuestos.Columns.Add("Precio", "Precio");
@@ -50,7 +52,7 @@ namespace GestorTaller
         public void Mostrar(Orden orden)
         {
             _orden = orden;
-            lblMensaje.Text = "";
+            avisoMensaje.Limpiar();
 
             var esPendiente = orden.Estado == EstadoOrden.Cotizacion;
 
@@ -61,6 +63,7 @@ namespace GestorTaller
             rbRechazada.Enabled = esPendiente;
             btnGuardarCotizacion.Visible = esPendiente;
 
+            filaRepuesto.Visible = esPendiente;
             cmbRepuesto.Enabled = esPendiente;
             numCantidad.Enabled = esPendiente;
             btnAgregarRepuesto.Visible = esPendiente;
@@ -142,7 +145,7 @@ namespace GestorTaller
             var desglose = _calcularTotalOrdenService.Calcular(_orden.CostoDiagnostico, numMontoCotizado.Value, _orden.Repuestos);
 
             lblDesglose.Text =
-                $"Diagnostico: Q {desglose.CostoDiagnostico:N2}\n" +
+                $"Diagnóstico: Q {desglose.CostoDiagnostico:N2}\n" +
                 $"Mano de obra: Q {desglose.ManoDeObra:N2}\n" +
                 $"Repuestos: Q {desglose.Repuestos:N2}";
             lblTotalCotizacion.Text = $"Total a cobrar: Q {desglose.Total:N2}";
@@ -150,11 +153,11 @@ namespace GestorTaller
 
         private void btnAgregarRepuesto_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             if (cmbRepuesto.ElementoSeleccionado is not Repuesto repuesto)
             {
-                lblMensaje.Text = "Selecciona un repuesto de la lista.";
+                avisoMensaje.Mostrar(TipoAviso.Error, "Selecciona un repuesto de la lista.");
                 return;
             }
 
@@ -163,26 +166,25 @@ namespace GestorTaller
                 _asignarRepuestoOrdenService.Ejecutar(_orden, repuesto, (int)numCantidad.Value);
                 _ordenRepository.Actualizar(_orden);
 
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = "Repuesto agregado a la cotizacion.";
+                avisoMensaje.Mostrar(TipoAviso.Exito, "Repuesto agregado a la cotización.");
                 numCantidad.Value = 1;
 
                 MostrarAsignados();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
 
         private void btnQuitarRepuesto_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             if (dgvRepuestos.SelectedRows.Count == 0
                 || dgvRepuestos.SelectedRows[0].Tag is not Guid repuestoId)
             {
-                lblMensaje.Text = "Selecciona en la tabla el repuesto que quieres quitar.";
+                avisoMensaje.Mostrar(TipoAviso.Error, "Selecciona en la tabla el repuesto que quieres quitar.");
                 return;
             }
 
@@ -190,7 +192,7 @@ namespace GestorTaller
 
             if (asignado?.Repuesto is null)
             {
-                lblMensaje.Text = "No se encontro el repuesto seleccionado.";
+                avisoMensaje.Mostrar(TipoAviso.Error, "No se encontró el repuesto seleccionado.");
                 return;
             }
 
@@ -201,20 +203,19 @@ namespace GestorTaller
                 _quitarRepuestoOrdenService.Ejecutar(_orden, asignado.Repuesto, asignado.Cantidad);
                 _ordenRepository.Actualizar(_orden);
 
-                lblMensaje.ForeColor = Color.DarkGreen;
-                lblMensaje.Text = $"Se quito {nombre} de la cotizacion.";
+                avisoMensaje.Mostrar(TipoAviso.Exito, $"Se quitó {nombre} de la cotización.");
 
                 MostrarAsignados();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
 
         private void btnGuardarCotizacion_Click(object? sender, EventArgs e)
         {
-            lblMensaje.ForeColor = Color.DarkRed;
+            avisoMensaje.Limpiar();
 
             try
             {
@@ -223,7 +224,7 @@ namespace GestorTaller
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
             {
-                lblMensaje.Text = ex.Message;
+                avisoMensaje.Mostrar(TipoAviso.Error, ex.Message);
             }
         }
     }
