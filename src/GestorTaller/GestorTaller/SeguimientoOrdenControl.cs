@@ -97,6 +97,7 @@ namespace GestorTaller
             btnEditarOrden.Text = paso switch
             {
                 EstadoOrden.Diagnostico => "Editar diagnóstico",
+                EstadoOrden.Cotizacion => "Editar cotización",
                 EstadoOrden.EnReparacion => "Editar reparación",
                 _ => "Editar recepción"
             };
@@ -118,6 +119,11 @@ namespace GestorTaller
             if (_pasoVisto == EstadoOrden.Recepcion)
             {
                 using var dialogo = new FormEditarOrden(_ordenRepository, _permisos, orden);
+                huboCambios = dialogo.ShowDialog(this) == DialogResult.OK ? dialogo.HuboCambios : null;
+            }
+            else if (_pasoVisto == EstadoOrden.Cotizacion)
+            {
+                using var dialogo = new FormEditarCotizacion(_ordenRepository, _empleadoRepository, _repuestoRepository, _permisos, orden);
                 huboCambios = dialogo.ShowDialog(this) == DialogResult.OK ? dialogo.HuboCambios : null;
             }
             else

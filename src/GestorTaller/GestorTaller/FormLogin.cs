@@ -27,6 +27,9 @@ namespace GestorTaller
             _iniciarSesionService = new IniciarSesionService(empleadoRepository);
         }
 
+        // Usuario inexistente: solo sirve para comprobar que la base de datos responde.
+        private const string UsuarioDePrueba = "__conexion__";
+
         private void btnEntrar_Click(object? sender, EventArgs e)
         {
             avisoMensaje.Limpiar();
@@ -42,6 +45,11 @@ namespace GestorTaller
             try
             {
                 UseWaitCursor = true;
+
+                // Se comprueba la conexión antes de autenticar: el administrador oculto no consulta la
+                // base de datos, pero igual la necesita para trabajar.
+                _empleadoRepository.ObtenerPorNombreUsuario(UsuarioDePrueba);
+
                 usuario = _iniciarSesionService.Autenticar(txtUsuario.Text, txtContrasena.Text);
             }
             catch (Exception ex)
