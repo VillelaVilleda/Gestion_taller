@@ -190,6 +190,10 @@ namespace GestorTaller.Datos.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_recepcion");
 
+                    b.Property<DateTime?>("FechaUltimaEdicion")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("fecha_ultima_edicion");
+
                     b.Property<decimal>("MontoCotizado")
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("monto_cotizado");

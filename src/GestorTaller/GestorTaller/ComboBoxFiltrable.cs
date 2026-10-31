@@ -107,6 +107,41 @@ namespace GestorTaller
                 TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
+        // Al elegir un elemento por código, WinForms deja el texto seleccionado (azul). Sin foco, se quita.
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            base.OnSelectedIndexChanged(e);
+            QuitarSeleccionDeTexto();
+        }
+
+        protected override void OnEnabledChanged(EventArgs e)
+        {
+            base.OnEnabledChanged(e);
+            QuitarSeleccionDeTexto();
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            QuitarSeleccionDeTexto();
+        }
+
+        private void QuitarSeleccionDeTexto()
+        {
+            if (Focused || !IsHandleCreated)
+            {
+                return;
+            }
+
+            BeginInvoke(() =>
+            {
+                if (!IsDisposed && !Focused)
+                {
+                    SelectionLength = 0;
+                }
+            });
+        }
+
         protected override void OnFormat(ListControlConvertEventArgs e)
         {
             base.OnFormat(e);

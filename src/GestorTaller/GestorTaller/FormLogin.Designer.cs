@@ -47,7 +47,7 @@ namespace GestorTaller
             panelTarjeta.BackColor = Color.White;
             panelTarjeta.Location = new Point(70, 70);
             panelTarjeta.Name = "panelTarjeta";
-            panelTarjeta.Size = new Size(420, 470);
+            panelTarjeta.Size = new Size(420, 530);
             panelTarjeta.TabIndex = 1;
             // 
             // lnkAyuda
