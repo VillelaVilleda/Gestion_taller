@@ -80,6 +80,7 @@ public class GestorTallerDbContext : DbContext
             entidad.HasOne(o => o.EmpleadoEntrega).WithMany().HasForeignKey("EmpleadoEntregaId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.MontoPagado).HasColumnName("monto_pagado").HasColumnType("numeric(10,2)");
             entidad.Property(o => o.FechaEntrega).HasColumnName("fecha_entrega").HasConversion(fechaNulaAUtc);
+            entidad.Property(o => o.FechaUltimaEdicion).HasColumnName("fecha_ultima_edicion").HasConversion(fechaNulaAUtc);
 
             entidad.Ignore(o => o.HistorialEstados);
         });

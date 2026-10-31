@@ -9,6 +9,8 @@ namespace GestorTaller.Negocio;
 ///     costo de diagnostico no negativo (0 es valido)
 ///   - el cliente y el estado no cambian
 ///   - el total a cobrar se calcula con el costo de diagnostico, asi que se actualiza solo
+///   - si no cambia nada, no se guarda y no se toca la fecha de ultima edicion (devuelve false);
+///     si cambia algo, se guarda y se registra la fecha de ultima edicion (devuelve true)
 /// </summary>
 public class ModificarOrdenService
 {
@@ -19,7 +21,7 @@ public class ModificarOrdenService
         _ordenRepository = ordenRepository;
     }
 
-    public void Ejecutar(PermisosUsuario permisos, Orden orden, string descripcionObjeto, string descripcionProblema, decimal costoDiagnostico)
+    public bool Ejecutar(PermisosUsuario permisos, Orden orden, string descripcionObjeto, string descripcionProblema, decimal costoDiagnostico)
     {
         if (permisos is null)
         {
@@ -33,7 +35,7 @@ public class ModificarOrdenService
 
         if (!permisos.PuedeEditar)
         {
-            throw new InvalidOperationException("Solo un administrador puede editar ordenes.");
+            throw new InvalidOperationException("Solo un administrador puede editar órdenes.");
         }
 
         if (orden.Estado == EstadoOrden.Entregado)
@@ -43,22 +45,33 @@ public class ModificarOrdenService
 
         if (string.IsNullOrWhiteSpace(descripcionObjeto))
         {
-            throw new ArgumentException("La orden requiere una descripcion del objeto.", nameof(descripcionObjeto));
+            throw new ArgumentException("La orden requiere una descripción del objeto.", nameof(descripcionObjeto));
         }
 
         if (string.IsNullOrWhiteSpace(descripcionProblema))
         {
-            throw new ArgumentException("La orden requiere una descripcion del problema.", nameof(descripcionProblema));
+            throw new ArgumentException("La orden requiere una descripción del problema.", nameof(descripcionProblema));
         }
 
         if (costoDiagnostico < 0)
         {
-            throw new ArgumentException("El costo de diagnostico no puede ser negativo.", nameof(costoDiagnostico));
+            throw new ArgumentException("El costo de diagnóstico no puede ser negativo.", nameof(costoDiagnostico));
         }
 
-        orden.DescripcionObjeto = descripcionObjeto.Trim();
-        orden.DescripcionProblema = descripcionProblema.Trim();
+        var objeto = descripcionObjeto.Trim();
+        var problema = descripcionProblema.Trim();
+
+        if (objeto == orden.DescripcionObjeto && problema == orden.DescripcionProblema && costoDiagnostico == orden.CostoDiagnostico)
+        {
+            return false;
+        }
+
+        orden.DescripcionObjeto = objeto;
+        orden.DescripcionProblema = problema;
         orden.CostoDiagnostico = costoDiagnostico;
+        orden.FechaUltimaEdicion = DateTime.Now;
         _ordenRepository.Actualizar(orden);
+
+        return true;
     }
 }
