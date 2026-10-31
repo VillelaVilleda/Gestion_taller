@@ -15,6 +15,7 @@ namespace GestorTaller
         private readonly EliminarOrdenService _eliminarOrdenService;
         private readonly Action _volverAlListado;
         private readonly Guid _ordenId;
+        private EstadoOrden _pasoVisto;
 
         public SeguimientoOrdenControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, Empleado usuarioActual, Guid ordenId, Action volverAlListado)
         {
@@ -27,6 +28,7 @@ namespace GestorTaller
             _repuestoRepository = repuestoRepository;
             _ordenId = ordenId;
             breadcrumb.PasoSeleccionado += MostrarPaso;
+            lblUltimaEdicion.ForeColor = Tema.TextoSecundario;
             Load += SeguimientoOrdenControl_Load;
         }
 
@@ -63,6 +65,7 @@ namespace GestorTaller
             {
                 btnEditarOrden.Visible = false;
                 btnEliminarOrden.Visible = false;
+                lblUltimaEdicion.Visible = false;
                 MostrarFormulario(new Label
                 {
                     Dock = DockStyle.Fill,
@@ -72,11 +75,31 @@ namespace GestorTaller
                 return;
             }
 
-            btnEditarOrden.Visible = _permisos.PuedeEditar && orden.Estado != EstadoOrden.Entregado;
             btnEliminarOrden.Visible = _permisos.PuedeEliminar && orden.Estado != EstadoOrden.Entregado;
-            lblEncabezado.Text = $"Cliente: {orden.Cliente.Nombre}  |  {orden.DescripcionObjeto}";
             breadcrumb.Mostrar(orden.HistorialEstados);
             MostrarPaso(orden.Estado);
+        }
+
+        // Datos de la orden que se muestran arriba: resumen y, si un administrador la corrigió, cuándo.
+        private void ActualizarEncabezado(Orden orden)
+        {
+            lblEncabezado.Text = $"Cliente: {orden.Cliente.Nombre}  |  {orden.DescripcionObjeto}";
+            lblUltimaEdicion.Visible = orden.FechaUltimaEdicion.HasValue;
+            lblUltimaEdicion.Text = orden.FechaUltimaEdicion.HasValue
+                ? $"Última edición: {orden.FechaUltimaEdicion.Value:dd/MM/yyyy HH:mm}"
+                : string.Empty;
+        }
+
+        // El botón de editar cambia según el paso que se ve y solo aparece si ese paso tiene algo que editar.
+        private void ActualizarBotonEditar(Orden orden, EstadoOrden paso)
+        {
+            btnEditarOrden.Visible = _permisos.PuedeEditar && EdicionDeEtapa.PuedeEditar(orden, paso);
+            btnEditarOrden.Text = paso switch
+            {
+                EstadoOrden.Diagnostico => "Editar diagnóstico",
+                EstadoOrden.EnReparacion => "Editar reparación",
+                _ => "Editar recepción"
+            };
         }
 
         private void btnVolver_Click(object? sender, EventArgs e) => _volverAlListado();
@@ -90,12 +113,30 @@ namespace GestorTaller
                 return;
             }
 
-            using var dialogo = new FormEditarOrden(_ordenRepository, _permisos, orden);
+            bool? huboCambios;
 
-            if (dialogo.ShowDialog(this) == DialogResult.OK)
+            if (_pasoVisto == EstadoOrden.Recepcion)
             {
-                ActualizarBreadcrumbYMostrarPasoActual();
+                using var dialogo = new FormEditarOrden(_ordenRepository, _permisos, orden);
+                huboCambios = dialogo.ShowDialog(this) == DialogResult.OK ? dialogo.HuboCambios : null;
             }
+            else
+            {
+                using var dialogo = new FormEditarEtapa(_ordenRepository, _empleadoRepository, _permisos, orden, _pasoVisto);
+                huboCambios = dialogo.ShowDialog(this) == DialogResult.OK ? dialogo.HuboCambios : null;
+            }
+
+            if (huboCambios is null)
+            {
+                return;
+            }
+
+            if (huboCambios == false)
+            {
+                DialogoConfirmacion.Informar(this, "Sin cambios", "No se modificó ningún dato.");
+            }
+
+            MostrarPaso(_pasoVisto); // vuelve a mostrar el mismo paso, ya con los datos corregidos
         }
 
         private void btnEliminarOrden_Click(object? sender, EventArgs e)
@@ -140,6 +181,10 @@ namespace GestorTaller
             {
                 return;
             }
+
+            _pasoVisto = paso;
+            ActualizarEncabezado(orden);
+            ActualizarBotonEditar(orden, paso);
 
             Control formulario = paso switch
             {

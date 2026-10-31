@@ -10,6 +10,7 @@
         private System.Windows.Forms.Label lblEncabezado;
         private BotonTema btnEditarOrden;
         private BotonTema btnEliminarOrden;
+        private System.Windows.Forms.Label lblUltimaEdicion;
         private GestorTaller.SeguimientoBreadcrumbControl breadcrumb;
         private System.Windows.Forms.Panel panelFormulario;
 
@@ -30,6 +31,7 @@
             lblEncabezado = new Label();
             btnEditarOrden = new BotonTema();
             btnEliminarOrden = new BotonTema();
+            lblUltimaEdicion = new Label();
             breadcrumb = new SeguimientoBreadcrumbControl();
             panelFormulario = new Panel();
             layout.SuspendLayout();
@@ -41,13 +43,15 @@
             layout.ColumnCount = 1;
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layout.Controls.Add(encabezado, 0, 0);
-            layout.Controls.Add(breadcrumb, 0, 1);
-            layout.Controls.Add(panelFormulario, 0, 2);
+            layout.Controls.Add(lblUltimaEdicion, 0, 1);
+            layout.Controls.Add(breadcrumb, 0, 2);
+            layout.Controls.Add(panelFormulario, 0, 3);
             layout.Dock = DockStyle.Fill;
             layout.Location = new Point(0, 0);
             layout.Name = "layout";
             layout.Padding = new Padding(24);
-            layout.RowCount = 3;
+            layout.RowCount = 4;
+            layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 110F));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -118,13 +122,22 @@
             btnEliminarOrden.Visible = false;
             btnEliminarOrden.Click += btnEliminarOrden_Click;
             //
+            // lblUltimaEdicion
+            // 
+            lblUltimaEdicion.AutoSize = true;
+            lblUltimaEdicion.Margin = new Padding(0, 8, 0, 0);
+            lblUltimaEdicion.Name = "lblUltimaEdicion";
+            lblUltimaEdicion.Size = new Size(200, 20);
+            lblUltimaEdicion.TabIndex = 1;
+            lblUltimaEdicion.Visible = false;
+            // 
             // breadcrumb
             //
             breadcrumb.Dock = DockStyle.Fill;
             breadcrumb.Margin = new Padding(0, 12, 0, 0);
             breadcrumb.Name = "breadcrumb";
             breadcrumb.Size = new Size(632, 98);
-            breadcrumb.TabIndex = 1;
+            breadcrumb.TabIndex = 2;
             //
             // panelFormulario
             //
@@ -132,7 +145,7 @@
             panelFormulario.Margin = new Padding(0, 12, 0, 0);
             panelFormulario.Name = "panelFormulario";
             panelFormulario.Size = new Size(632, 350);
-            panelFormulario.TabIndex = 2;
+            panelFormulario.TabIndex = 3;
             //
             // SeguimientoOrdenControl
             //
