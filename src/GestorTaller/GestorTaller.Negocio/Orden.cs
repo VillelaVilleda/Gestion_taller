@@ -24,5 +24,8 @@ public class Orden
     public Empleado? EmpleadoEntrega { get; set; }
     public decimal MontoPagado { get; set; }
     public DateTime? FechaEntrega { get; set; }
+
+    /// <summary>Cuándo un administrador corrigió por última vez datos de la orden; null si nunca se editó.</summary>
+    public DateTime? FechaUltimaEdicion { get; set; }
     public List<OrdenRepuesto> Repuestos { get; set; } = new();
 }

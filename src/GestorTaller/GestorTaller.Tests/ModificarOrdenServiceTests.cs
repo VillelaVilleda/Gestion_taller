@@ -157,4 +157,33 @@ public class ModificarOrdenServiceTests
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, orden, "Moto azul", "No frena", 30m));
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, null!, "Moto azul", "No frena", 30m));
     }
+
+    [Fact]
+    public void Ejecutar_ConCambios_RegistraLaFechaDeUltimaEdicionYGuarda()
+    {
+        var repositorio = new OrdenRepositoryFalso();
+        var servicio = new ModificarOrdenService(repositorio);
+        var orden = CrearOrden();
+
+        var cambio = servicio.Ejecutar(Administrador, orden, "Moto azul", "No frena", 30m);
+
+        Assert.True(cambio);
+        Assert.NotNull(orden.FechaUltimaEdicion);
+        Assert.True((DateTime.Now - orden.FechaUltimaEdicion!.Value).TotalSeconds < 5);
+        Assert.Equal(1, repositorio.Actualizaciones);
+    }
+
+    [Fact]
+    public void Ejecutar_SinCambios_NoGuardaNiTocaLaFecha()
+    {
+        var repositorio = new OrdenRepositoryFalso();
+        var servicio = new ModificarOrdenService(repositorio);
+        var orden = CrearOrden();
+
+        var cambio = servicio.Ejecutar(Administrador, orden, " Vehiculo sedan color rojo ", "El vehiculo no enciende", 15m);
+
+        Assert.False(cambio);
+        Assert.Null(orden.FechaUltimaEdicion);
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
 }
