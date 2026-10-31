@@ -25,10 +25,13 @@ public class EdicionDeEtapaTests
     [InlineData(EstadoOrden.EnReparacion, EstadoOrden.EnReparacion, false)]
     [InlineData(EstadoOrden.Terminado, EstadoOrden.EnReparacion, true)]
     [InlineData(EstadoOrden.Cotizacion, EstadoOrden.Recepcion, true)]
-    [InlineData(EstadoOrden.Terminado, EstadoOrden.Cotizacion, false)]     // otras etapas
-    [InlineData(EstadoOrden.Terminado, EstadoOrden.Terminado, false)]
+    [InlineData(EstadoOrden.Cotizacion, EstadoOrden.Cotizacion, false)]
+    [InlineData(EstadoOrden.EnReparacion, EstadoOrden.Cotizacion, true)]
+    [InlineData(EstadoOrden.Terminado, EstadoOrden.Cotizacion, true)]
+    [InlineData(EstadoOrden.Terminado, EstadoOrden.Terminado, false)]      // etapa sin datos que editar
     [InlineData(EstadoOrden.Entregado, EstadoOrden.Recepcion, false)]      // orden entregada
     [InlineData(EstadoOrden.Entregado, EstadoOrden.Diagnostico, false)]
+    [InlineData(EstadoOrden.Entregado, EstadoOrden.Cotizacion, false)]
     [InlineData(EstadoOrden.Entregado, EstadoOrden.EnReparacion, false)]
     public void PuedeEditar_SegunLaEtapaYElEstadoDeLaOrden(EstadoOrden estadoActual, EstadoOrden etapa, bool esperado)
     {
