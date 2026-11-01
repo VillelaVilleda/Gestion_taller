@@ -41,10 +41,16 @@ namespace GestorTaller
         public static readonly Color SecundarioPresionado = Convertir(PaletaTema.SecundarioPresionado);
         public static readonly Color TextoHover = Convertir(PaletaTema.TextoHover);
         public static readonly Color TextoPresionado = Convertir(PaletaTema.TextoPresionado);
+        // Menú lateral oscuro: fondo de la opción activa y al pasar el mouse (texto blanco, contraste mínimo 4.5:1).
+        public static readonly Color MenuActivo = Convertir("#4A6480");
+        public static readonly Color MenuHover = Convertir("#3E556C");
         public static readonly Color Exito = Convertir(PaletaTema.Exito);
         public static readonly Color Error = Convertir(PaletaTema.Error);
         public static readonly Color Advertencia = Convertir(PaletaTema.Advertencia);
         public static readonly Color Informacion = Convertir(PaletaTema.Informacion);
+
+        /// <summary>Escala un valor en píxeles (pensado para 96 dpi) a la escala de pantalla indicada.</summary>
+        public static int Escalar(int valor, int dpi) => (int)Math.Round(valor * dpi / 96.0);
 
         public static Font Fuente(float puntos = 10F, FontStyle estilo = FontStyle.Regular) =>
             new("Segoe UI", puntos, estilo);
