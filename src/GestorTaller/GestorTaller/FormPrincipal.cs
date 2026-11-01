@@ -3,10 +3,9 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Ventana principal de la aplicacion: menu lateral a la izquierda y un
-    /// panel de contenido a la derecha, donde se muestran las distintas
-    /// secciones (Nueva orden, Ordenes registradas, etc.). Conserva el empleado
-    /// autenticado y sus permisos mientras dura la sesion.
+    /// Ventana principal de la aplicación: menú lateral oscuro a la izquierda (marca, secciones y, abajo,
+    /// el usuario con cambiar contraseña y cerrar sesión) y un panel de contenido a la derecha, donde se
+    /// muestran las secciones. Conserva el empleado autenticado y sus permisos mientras dura la sesión.
     /// </summary>
     public partial class FormPrincipal : Form
     {
@@ -18,6 +17,7 @@ namespace GestorTaller
         private bool _cerrandoSesion;
         private Empleado? _usuarioActual;
         private PermisosUsuario? _permisos;
+        private BotonMenu? _opcionActiva;
 
         internal Empleado? UsuarioActual => _usuarioActual;
 
@@ -27,6 +27,7 @@ namespace GestorTaller
         {
             InitializeComponent();
             Tema.Aplicar(this);
+            AplicarEstiloMenu();
             WindowState = FormWindowState.Maximized;
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
@@ -37,9 +38,26 @@ namespace GestorTaller
             _permisos = new PermisosUsuario(usuarioActual);
 
             Text = $"GestorTaller - {usuarioActual.Nombre} ({(usuarioActual.EsAdministrador ? "Administrador" : "Usuario")})";
+            lblNombreUsuario.Text = usuarioActual.Nombre;
+            lblRolUsuario.Text = usuarioActual.EsAdministrador ? "Rol: administrador" : "Rol: usuario";
             btnEmpleados.Visible = _permisos.PuedeAdministrarEmpleados;
             btnCambiarContrasena.Visible = !AdministradorOculto.EsEste(usuarioActual); // su contraseña no está en la base de datos
             _cerrarSesion = cerrarSesion;
+        }
+
+        // Los colores del tema se ponen aquí y no en el Designer: el diseñador no entiende las llamadas a Tema.
+        private void AplicarEstiloMenu()
+        {
+            panelMenu.BackColor = Tema.Pizarra;
+            lblMarca.ForeColor = Tema.Blanco;
+            lblSubmarca.ForeColor = Tema.Aluminio;
+            lblNombreUsuario.ForeColor = Tema.Blanco;
+            lblRolUsuario.ForeColor = Tema.Aluminio;
+            separadorUsuario.BackColor = Tema.MenuActivo;
+            insigniaMarca.ColorFondo = Tema.Cobre;
+            insigniaMarca.ColorIcono = Tema.Titanio;
+            insigniaUsuario.ColorFondo = Tema.MenuActivo;
+            insigniaUsuario.ColorIcono = Tema.Blanco;
         }
 
         private void FormPrincipal_Load(object? sender, EventArgs e)
@@ -89,20 +107,28 @@ namespace GestorTaller
 
         private void btnEmpleados_Click(object? sender, EventArgs e) => MostrarSeccionEmpleados();
 
-        private void MostrarSeccionCrearOrden() => MostrarControl(new CrearOrdenControl(_ordenRepository, _clienteRepository, _usuarioActual!, MostrarSeccionOrdenesRegistradas));
+        private void MostrarSeccionCrearOrden() => MostrarControl(btnCrearOrden, new CrearOrdenControl(_ordenRepository, _clienteRepository, _usuarioActual!, MostrarSeccionOrdenesRegistradas));
 
-        private void MostrarSeccionOrdenesRegistradas() => MostrarControl(new ListadoOrdenesControl(_ordenRepository, AbrirSeguimientoOrden));
+        private void MostrarSeccionOrdenesRegistradas() => MostrarControl(btnOrdenesRegistradas, new ListadoOrdenesControl(_ordenRepository, AbrirSeguimientoOrden));
 
-        private void AbrirSeguimientoOrden(Guid ordenId) => MostrarControl(new SeguimientoOrdenControl(_ordenRepository, _empleadoRepository, _repuestoRepository, _usuarioActual!, ordenId, MostrarSeccionOrdenesRegistradas));
+        private void AbrirSeguimientoOrden(Guid ordenId) => MostrarControl(btnOrdenesRegistradas, new SeguimientoOrdenControl(_ordenRepository, _empleadoRepository, _repuestoRepository, _usuarioActual!, ordenId, MostrarSeccionOrdenesRegistradas));
 
-        private void MostrarSeccionClientes() => MostrarControl(new ClientesControl(_clienteRepository, _ordenRepository, _usuarioActual!));
+        private void MostrarSeccionClientes() => MostrarControl(btnClientes, new ClientesControl(_clienteRepository, _ordenRepository, _usuarioActual!));
 
-        private void MostrarSeccionEmpleados() => MostrarControl(new EmpleadosControl(_empleadoRepository, _ordenRepository, _usuarioActual!));
+        private void MostrarSeccionEmpleados() => MostrarControl(btnEmpleados, new EmpleadosControl(_empleadoRepository, _ordenRepository, _usuarioActual!));
 
-        private void MostrarSeccionRepuestos() => MostrarControl(new RepuestosControl(_repuestoRepository, _ordenRepository, _usuarioActual!));
+        private void MostrarSeccionRepuestos() => MostrarControl(btnRepuestos, new RepuestosControl(_repuestoRepository, _ordenRepository, _usuarioActual!));
 
-        private void MostrarControl(Control control)
+        private void MostrarControl(BotonMenu opcion, Control control)
         {
+            if (_opcionActiva is not null)
+            {
+                _opcionActiva.Activo = false;
+            }
+
+            _opcionActiva = opcion;
+            opcion.Activo = true;
+
             var anteriores = panelContenido.Controls.Cast<Control>().ToList();
 
             panelContenido.Controls.Clear();

@@ -3,8 +3,8 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Pantalla de inicio de sesion. Valida contra IniciarSesionService,
-    /// que consulta los empleados reales a traves de IEmpleadoRepository.
+    /// Pantalla de inicio de sesión: panel de marca a la izquierda y tarjeta de acceso a la derecha.
+    /// Valida contra IniciarSesionService, que consulta los empleados reales a través de IEmpleadoRepository.
     /// </summary>
     public partial class FormLogin : Form
     {
@@ -18,7 +18,7 @@ namespace GestorTaller
         {
             InitializeComponent();
             Tema.Aplicar(this);
-            BackColor = Tema.Blanco; // el inicio de sesion va sobre fondo blanco
+            AplicarEstilo();
             avisoMensaje.Limpiar();
             _ordenRepository = ordenRepository;
             _clienteRepository = clienteRepository;
@@ -30,13 +30,34 @@ namespace GestorTaller
         // Usuario inexistente: solo sirve para comprobar que la base de datos responde.
         private const string UsuarioDePrueba = "__conexion__";
 
+        // Los colores del tema se ponen aquí y no en el Designer: el diseñador no entiende las llamadas a Tema.
+        private void AplicarEstilo()
+        {
+            panelMarca.BackColor = Tema.Pizarra;
+            lblTituloMarca.ForeColor = Tema.Blanco;
+            insigniaLogo.ColorFondo = Tema.Cobre;
+            insigniaLogo.ColorIcono = Tema.Titanio;
+            lblTitulo.ForeColor = Tema.Titanio;
+
+            foreach (var etiqueta in new[] { lblUsuario, lblContrasena })
+            {
+                etiqueta.ForeColor = Tema.TextoSecundario;
+            }
+
+            foreach (var enlace in new[] { lnkAyuda, lnkSalir })
+            {
+                enlace.LinkColor = Tema.Pizarra;
+                enlace.ActiveLinkColor = Tema.CobreOscuro;
+            }
+        }
+
         private void btnEntrar_Click(object? sender, EventArgs e)
         {
             avisoMensaje.Limpiar();
 
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text) || string.IsNullOrWhiteSpace(txtContrasena.Text))
+            if (string.IsNullOrWhiteSpace(campoUsuario.Texto) || string.IsNullOrWhiteSpace(campoContrasena.Texto))
             {
-                avisoMensaje.Mostrar(TipoAviso.Error, "Ingresa usuario y contrasena.");
+                avisoMensaje.Mostrar(TipoAviso.Error, "Ingresa usuario y contraseña.");
                 return;
             }
 
@@ -50,7 +71,7 @@ namespace GestorTaller
                 // base de datos, pero igual la necesita para trabajar.
                 _empleadoRepository.ObtenerPorNombreUsuario(UsuarioDePrueba);
 
-                usuario = _iniciarSesionService.Autenticar(txtUsuario.Text, txtContrasena.Text);
+                usuario = _iniciarSesionService.Autenticar(campoUsuario.Texto, campoContrasena.Texto);
             }
             catch (Exception ex)
             {
@@ -65,7 +86,7 @@ namespace GestorTaller
 
             if (usuario is null)
             {
-                avisoMensaje.Mostrar(TipoAviso.Error, "Usuario o contrasena incorrectos.");
+                avisoMensaje.Mostrar(TipoAviso.Error, "Usuario o contraseña incorrectos.");
                 return;
             }
 
@@ -82,13 +103,14 @@ namespace GestorTaller
 
         private void MostrarLogin()
         {
-            txtUsuario.Clear();
-            txtContrasena.Clear();
+            campoUsuario.Texto = string.Empty;
+            campoContrasena.Texto = string.Empty;
             avisoMensaje.Limpiar();
             Show();
+            campoUsuario.Focus();
         }
 
-        private void btnSalir_Click(object? sender, EventArgs e)
+        private void lnkSalir_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             Application.Exit();
         }
@@ -102,9 +124,9 @@ namespace GestorTaller
                 MessageBoxIcon.Information);
         }
 
-        private void FormLogin_Load(object sender, EventArgs e)
+        private void FormLogin_Load(object? sender, EventArgs e)
         {
-
+            campoUsuario.Focus();
         }
     }
 }
