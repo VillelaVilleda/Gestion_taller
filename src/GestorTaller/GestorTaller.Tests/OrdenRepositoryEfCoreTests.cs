@@ -93,6 +93,26 @@ public class OrdenRepositoryEfCoreTests
     }
 
     [Fact]
+    public void Actualizar_ConElHistorialMasCorto_BorraLosEstadosQueSobran()
+    {
+        using var dbContext = CrearDbContextEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        dbContext.Clientes.Add(cliente);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion, EstadoOrden.Diagnostico, EstadoOrden.Cotizacion);
+        repositorio.Agregar(orden);
+
+        orden.HistorialEstados.RemoveAt(2);
+        orden.Estado = EstadoOrden.Diagnostico;
+        repositorio.Actualizar(orden);
+
+        Assert.Equal(new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico }, repositorio.ObtenerPorId(orden.Id)!.HistorialEstados);
+        Assert.Equal(2, dbContext.Set<HistorialEstadoOrden>().Count());
+    }
+
+    [Fact]
     public void Agregar_ConCotizacionRechazada_GuardaElHistorialSaltandoReparacion()
     {
         using var dbContext = CrearDbContextEnMemoria();
