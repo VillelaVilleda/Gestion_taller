@@ -92,6 +92,11 @@ namespace GestorTaller
             dialogo.ShowDialog(this);
         }
 
+        private void btnSalir_Click(object? sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void btnCrearOrden_Click(object? sender, EventArgs e) => MostrarSeccionCrearOrden();
 
         private void btnOrdenesRegistradas_Click(object? sender, EventArgs e) => MostrarSeccionOrdenesRegistradas();

@@ -24,6 +24,7 @@ namespace GestorTaller
         private System.Windows.Forms.Label lblRolUsuario;
         private BotonMenu btnCambiarContrasena;
         private BotonMenu btnCerrarSesion;
+        private BotonMenu btnSalir;
         private System.Windows.Forms.Panel panelContenido;
 
         protected override void Dispose(bool disposing)
@@ -59,6 +60,7 @@ namespace GestorTaller
             lblRolUsuario = new Label();
             btnCambiarContrasena = new BotonMenu();
             btnCerrarSesion = new BotonMenu();
+            btnSalir = new BotonMenu();
             panelContenido = new Panel();
             panelMenu.SuspendLayout();
             layoutMenu.SuspendLayout();
@@ -214,16 +216,18 @@ namespace GestorTaller
             layoutUsuario.Controls.Add(filaUsuario, 0, 1);
             layoutUsuario.Controls.Add(btnCambiarContrasena, 0, 2);
             layoutUsuario.Controls.Add(btnCerrarSesion, 0, 3);
+            layoutUsuario.Controls.Add(btnSalir, 0, 4);
             layoutUsuario.Dock = DockStyle.Fill;
             layoutUsuario.Margin = new Padding(0);
             layoutUsuario.Name = "layoutUsuario";
             layoutUsuario.Padding = new Padding(12, 0, 12, 12);
-            layoutUsuario.RowCount = 4;
+            layoutUsuario.RowCount = 5;
             layoutUsuario.RowStyles.Add(new RowStyle());
             layoutUsuario.RowStyles.Add(new RowStyle());
             layoutUsuario.RowStyles.Add(new RowStyle());
             layoutUsuario.RowStyles.Add(new RowStyle());
-            layoutUsuario.Size = new Size(236, 190);
+            layoutUsuario.RowStyles.Add(new RowStyle());
+            layoutUsuario.Size = new Size(236, 232);
             layoutUsuario.TabIndex = 2;
             //
             // separadorUsuario
@@ -298,13 +302,24 @@ namespace GestorTaller
             // btnCerrarSesion
             //
             btnCerrarSesion.Font = new Font("Segoe UI", 9F);
-            btnCerrarSesion.Margin = new Padding(0);
+            btnCerrarSesion.Margin = new Padding(0, 0, 0, 2);
             btnCerrarSesion.Name = "btnCerrarSesion";
             btnCerrarSesion.NombreIcono = "log-out";
             btnCerrarSesion.Size = new Size(212, 38);
             btnCerrarSesion.TabIndex = 3;
             btnCerrarSesion.Text = "Cerrar sesión";
             btnCerrarSesion.Click += btnCerrarSesion_Click;
+            //
+            // btnSalir
+            //
+            btnSalir.Font = new Font("Segoe UI", 9F);
+            btnSalir.Margin = new Padding(0);
+            btnSalir.Name = "btnSalir";
+            btnSalir.NombreIcono = "x";
+            btnSalir.Size = new Size(212, 38);
+            btnSalir.TabIndex = 4;
+            btnSalir.Text = "Cerrar la aplicación";
+            btnSalir.Click += btnSalir_Click;
             //
             // panelContenido
             //

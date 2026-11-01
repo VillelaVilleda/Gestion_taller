@@ -35,26 +35,13 @@ namespace GestorTaller
         {
             panelMarca.BackColor = Tema.Pizarra;
             lblTituloMarca.ForeColor = Tema.Blanco;
-            lblDescripcionMarca.ForeColor = Tema.Aluminio;
             insigniaLogo.ColorFondo = Tema.Cobre;
             insigniaLogo.ColorIcono = Tema.Titanio;
-
-            foreach (var insignia in new[] { insigniaBeneficio1, insigniaBeneficio2, insigniaBeneficio3 })
-            {
-                insignia.ColorFondo = Tema.Pizarra;
-                insignia.ColorIcono = Tema.Cobre;
-            }
-
-            foreach (var beneficio in new[] { lblBeneficio1, lblBeneficio2, lblBeneficio3 })
-            {
-                beneficio.ForeColor = Tema.Aluminio;
-            }
-
             lblTitulo.ForeColor = Tema.Titanio;
 
-            foreach (var secundario in new[] { lblSubtitulo, lblUsuario, lblContrasena, lblOlvido })
+            foreach (var etiqueta in new[] { lblUsuario, lblContrasena })
             {
-                secundario.ForeColor = Tema.TextoSecundario;
+                etiqueta.ForeColor = Tema.TextoSecundario;
             }
 
             foreach (var enlace in new[] { lnkAyuda, lnkSalir })
