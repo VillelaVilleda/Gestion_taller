@@ -145,7 +145,13 @@ public class OrdenRepositoryEfCore : IOrdenRepository
 
     private void SincronizarHistorial(Orden orden)
     {
-        var cantidadGuardada = _dbContext.Set<HistorialEstadoOrden>().Count(h => h.OrdenId == orden.Id);
+        // Si el historial se acortó (la orden retrocedió de etapa), se borran los estados que sobran.
+        var sobrantes = _dbContext.Set<HistorialEstadoOrden>()
+            .Where(h => h.OrdenId == orden.Id && h.OrdenPosicion >= orden.HistorialEstados.Count)
+            .ToList();
+        _dbContext.Set<HistorialEstadoOrden>().RemoveRange(sobrantes);
+
+        var cantidadGuardada = _dbContext.Set<HistorialEstadoOrden>().Count(h => h.OrdenId == orden.Id) - sobrantes.Count;
 
         for (var posicion = cantidadGuardada; posicion < orden.HistorialEstados.Count; posicion++)
         {

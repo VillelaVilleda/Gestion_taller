@@ -9,6 +9,7 @@
         private BotonTema btnVolver;
         private System.Windows.Forms.Label lblEncabezado;
         private BotonTema btnEditarOrden;
+        private BotonTema btnRetrocederEtapa;
         private BotonTema btnEliminarOrden;
         private System.Windows.Forms.Label lblUltimaEdicion;
         private GestorTaller.SeguimientoBreadcrumbControl breadcrumb;
@@ -30,6 +31,7 @@
             btnVolver = new BotonTema();
             lblEncabezado = new Label();
             btnEditarOrden = new BotonTema();
+            btnRetrocederEtapa = new BotonTema();
             btnEliminarOrden = new BotonTema();
             lblUltimaEdicion = new Label();
             breadcrumb = new SeguimientoBreadcrumbControl();
@@ -61,15 +63,17 @@
             // encabezado
             //
             encabezado.AutoSize = true;
-            encabezado.ColumnCount = 4;
+            encabezado.ColumnCount = 5;
             encabezado.ColumnStyles.Add(new ColumnStyle());
             encabezado.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            encabezado.ColumnStyles.Add(new ColumnStyle());
             encabezado.ColumnStyles.Add(new ColumnStyle());
             encabezado.ColumnStyles.Add(new ColumnStyle());
             encabezado.Controls.Add(btnVolver, 0, 0);
             encabezado.Controls.Add(lblEncabezado, 1, 0);
             encabezado.Controls.Add(btnEditarOrden, 2, 0);
-            encabezado.Controls.Add(btnEliminarOrden, 3, 0);
+            encabezado.Controls.Add(btnRetrocederEtapa, 3, 0);
+            encabezado.Controls.Add(btnEliminarOrden, 4, 0);
             encabezado.Dock = DockStyle.Fill;
             encabezado.Margin = new Padding(0);
             encabezado.Name = "encabezado";
@@ -110,13 +114,24 @@
             btnEditarOrden.Visible = false;
             btnEditarOrden.Click += btnEditarOrden_Click;
             //
+            // btnRetrocederEtapa
+            //
+            btnRetrocederEtapa.Margin = new Padding(0, 0, 8, 0);
+            btnRetrocederEtapa.Name = "btnRetrocederEtapa";
+            btnRetrocederEtapa.NombreIcono = "arrow-left";
+            btnRetrocederEtapa.Size = new Size(180, 36);
+            btnRetrocederEtapa.TabIndex = 3;
+            btnRetrocederEtapa.Text = "Retroceder etapa";
+            btnRetrocederEtapa.Visible = false;
+            btnRetrocederEtapa.Click += btnRetrocederEtapa_Click;
+            //
             // btnEliminarOrden
             //
             btnEliminarOrden.Margin = new Padding(0);
             btnEliminarOrden.Name = "btnEliminarOrden";
             btnEliminarOrden.NombreIcono = "trash-2";
             btnEliminarOrden.Size = new Size(160, 36);
-            btnEliminarOrden.TabIndex = 3;
+            btnEliminarOrden.TabIndex = 4;
             btnEliminarOrden.Text = "Eliminar orden";
             btnEliminarOrden.Variante = VarianteBoton.Peligro;
             btnEliminarOrden.Visible = false;
