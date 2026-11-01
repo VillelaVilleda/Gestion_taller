@@ -13,6 +13,7 @@ namespace GestorTaller
         private readonly IRepuestoRepository _repuestoRepository;
         private readonly PermisosUsuario _permisos;
         private readonly EliminarOrdenService _eliminarOrdenService;
+        private readonly RetrocederEtapaOrdenService _retrocederEtapaService;
         private readonly Action _volverAlListado;
         private readonly Guid _ordenId;
         private EstadoOrden _pasoVisto;
@@ -22,6 +23,7 @@ namespace GestorTaller
             InitializeComponent();
             _permisos = new PermisosUsuario(usuarioActual);
             _eliminarOrdenService = new EliminarOrdenService(ordenRepository);
+            _retrocederEtapaService = new RetrocederEtapaOrdenService(ordenRepository);
             _volverAlListado = volverAlListado;
             _ordenRepository = ordenRepository;
             _empleadoRepository = empleadoRepository;
@@ -64,6 +66,7 @@ namespace GestorTaller
             if (orden is null)
             {
                 btnEditarOrden.Visible = false;
+                btnRetrocederEtapa.Visible = false;
                 btnEliminarOrden.Visible = false;
                 lblUltimaEdicion.Visible = false;
                 MostrarFormulario(new Label
@@ -76,6 +79,7 @@ namespace GestorTaller
             }
 
             btnEliminarOrden.Visible = _permisos.PuedeEliminar && orden.Estado != EstadoOrden.Entregado;
+            btnRetrocederEtapa.Visible = _permisos.PuedeEditar && RetrocederEtapaOrdenService.PuedeRetroceder(orden);
             breadcrumb.Mostrar(orden.HistorialEstados);
             MostrarPaso(orden.Estado);
         }
@@ -143,6 +147,42 @@ namespace GestorTaller
             }
 
             MostrarPaso(_pasoVisto); // vuelve a mostrar el mismo paso, ya con los datos corregidos
+        }
+
+        private void btnRetrocederEtapa_Click(object? sender, EventArgs e)
+        {
+            var orden = _ordenRepository.ObtenerPorId(_ordenId);
+
+            if (orden is null || !RetrocederEtapaOrdenService.PuedeRetroceder(orden))
+            {
+                return;
+            }
+
+            var anterior = orden.HistorialEstados[^2];
+            var aviso = orden.Estado == EstadoOrden.EnReparacion
+                ? " Los repuestos descontados se devolverán al inventario y se descartará el detalle de la reparación."
+                : string.Empty;
+
+            var confirmar = DialogoConfirmacion.Confirmar(
+                this,
+                "Retroceder etapa",
+                $"La orden volverá de {ChipEtapa.Nombre(orden.Estado)} a {ChipEtapa.Nombre(anterior)}.{aviso} ¿Continuar?",
+                "Retroceder etapa");
+
+            if (!confirmar)
+            {
+                return;
+            }
+
+            try
+            {
+                _retrocederEtapaService.Ejecutar(_permisos, orden);
+                ActualizarBreadcrumbYMostrarPasoActual();
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+            {
+                DialogoConfirmacion.Informar(this, "No se pudo retroceder la orden", ex.Message);
+            }
         }
 
         private void btnEliminarOrden_Click(object? sender, EventArgs e)
