@@ -1,7 +1,7 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: que un empleado cambie su propia contrasena (DERCAS 6.4.1).
+/// Caso de uso: que un empleado cambie su propia contrasena (DERCAS 6.4.3).
 /// Reglas (ver CambiarContrasenaServiceTests):
 ///   - la contrasena actual debe ser correcta
 ///   - la nueva cumple ValidadorContrasena (de 6 a 50 caracteres) y es distinta de la actual

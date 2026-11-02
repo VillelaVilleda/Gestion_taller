@@ -126,6 +126,19 @@ public class ModificarRepuestoServiceTests
     }
 
     [Fact]
+    public void Ejecutar_ConExistenciaMayorAlLimite_LanzaYNoCambiaNada()
+    {
+        var bujia = CrearRepuesto("Bujia");
+        var (servicio, _) = Crear(bujia);
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, bujia, "Bujia", AjustarExistenciaService.LimiteExistencia + 1, 25m));
+        Assert.Equal(10, bujia.Existencia);
+
+        servicio.Ejecutar(Administrador, bujia, "Bujia", AjustarExistenciaService.LimiteExistencia, 25m);
+        Assert.Equal(AjustarExistenciaService.LimiteExistencia, bujia.Existencia);
+    }
+
+    [Fact]
     public void Ejecutar_ConPrecioNegativo_LanzaExcepcion()
     {
         var bujia = CrearRepuesto("Bujia");

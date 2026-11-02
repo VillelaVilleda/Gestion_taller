@@ -6,7 +6,8 @@
 /// RegistrarCotizacionOrdenServiceTests):
 ///   - la orden debe existir
 ///   - la orden debe estar en estado Cotizacion
-///   - el monto cotizado debe ser mayor a cero
+///   - el monto cotizado (mano de obra) no puede ser negativo y debe ser mayor a cero si el cliente acepta;
+///     si rechaza, puede ser 0 porque solo se cobra el diagnostico
 ///   - al confirmar, se guardan el monto y la decision del cliente,
 ///     y la orden avanza directo a EnReparacion (si fue aceptada) o a
 ///     Terminado (si fue rechazada, saltando EnReparacion)
@@ -37,9 +38,11 @@ public class RegistrarCotizacionOrdenService
             throw new InvalidOperationException("Solo se puede registrar la cotizacion de una orden en estado Cotizacion.");
         }
 
-        if (montoCotizado <= 0)
+        if (montoCotizado < 0 || (aceptada && montoCotizado == 0))
         {
-            throw new ArgumentException("El monto cotizado debe ser mayor a cero.", nameof(montoCotizado));
+            throw new ArgumentException(
+                montoCotizado < 0 ? "El monto cotizado no puede ser negativo." : "El monto cotizado debe ser mayor a cero.",
+                nameof(montoCotizado));
         }
 
         // Si el cliente acepta, se vuelve a comprobar la existencia de TODOS los repuestos

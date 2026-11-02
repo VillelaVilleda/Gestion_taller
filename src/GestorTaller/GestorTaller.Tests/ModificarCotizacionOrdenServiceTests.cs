@@ -167,6 +167,19 @@ public class ModificarCotizacionOrdenServiceTests
     }
 
     [Fact]
+    public void Ejecutar_EnCotizacionRechazada_PermiteManoDeObraCeroPeroNoNegativa()
+    {
+        var (servicio, _) = Crear();
+        var orden = CrearOrden(false, EstadoOrden.Terminado);
+
+        Assert.True(servicio.Ejecutar(Administrador, orden, 0m, Array.Empty<RepuestoCotizado>()));
+        Assert.Equal(0m, orden.MontoCotizado);
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, -1m, Array.Empty<RepuestoCotizado>()));
+        Assert.Equal(0m, orden.MontoCotizado);
+    }
+
+    [Fact]
     public void Ejecutar_ComoUsuarioComun_LanzaYNoCambiaNada()
     {
         var (servicio, repositorio) = Crear();

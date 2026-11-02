@@ -1,10 +1,10 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: editar los datos de recepcion de una orden (DERCAS 6.5.1).
+/// Caso de uso: editar los datos de recepcion de una orden (DERCAS 6.5.5).
 /// Reglas (ver ModificarOrdenServiceTests):
 ///   - solo un usuario con permiso para editar puede hacerlo
-///   - las ordenes en estado Entregado no se editan (DERCAS 6.2.5 y CA-06)
+///   - las ordenes en estado Entregado no se editan (DERCAS 6.2.6 y CA-06)
 ///   - mismas validaciones que al crear: descripcion del objeto y del problema obligatorias,
 ///     costo de diagnostico no negativo (0 es valido)
 ///   - el cliente y el estado no cambian

@@ -4,7 +4,7 @@ namespace GestorTaller.Negocio;
 public record EmpleadoCreado(Empleado Empleado, string PasswordTemporal);
 
 /// <summary>
-/// Caso de uso: crear un empleado con credenciales generadas por el sistema (DERCAS 6.4.1,
+/// Caso de uso: crear un empleado con credenciales generadas por el sistema (DERCAS 6.5.1,
 /// Proceso 6 del DFD: validar datos, generar credenciales, guardar registro).
 /// Reglas (ver CrearEmpleadoServiceTests):
 ///   - el nombre es obligatorio, de hasta 150 caracteres (se recortan los espacios)

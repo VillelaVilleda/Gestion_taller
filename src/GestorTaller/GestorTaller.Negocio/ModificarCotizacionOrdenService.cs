@@ -8,7 +8,7 @@ public record RepuestoCotizado(Repuesto Repuesto, int Cantidad);
 /// y ajustar el inventario según lo que cambie. Reglas (ver ModificarCotizacionOrdenServiceTests):
 ///   - solo un usuario con permiso para editar puede hacerlo
 ///   - la etapa debe poder editarse (ver EdicionDeEtapa): la cotización ya se registró y la orden no está entregada
-///   - el monto de mano de obra debe ser mayor a cero
+///   - el monto de mano de obra no puede ser negativo y debe ser mayor a cero si la cotización fue aceptada
 ///   - la decisión del cliente no cambia; si la cotización fue rechazada, no lleva repuestos
 ///   - la lista recibida es la que queda en la orden: cada cantidad debe ser mayor a cero y un repuesto no se repite
 ///   - el inventario se ajusta con la diferencia: si sube la cantidad se descuenta lo que sube, si baja o se
@@ -51,9 +51,11 @@ public class ModificarCotizacionOrdenService
                 : "La cotización de esta orden todavía no se puede editar.");
         }
 
-        if (montoCotizado <= 0)
+        if (montoCotizado < 0 || (orden.CotizacionAceptada && montoCotizado == 0))
         {
-            throw new ArgumentException("El monto cotizado debe ser mayor a cero.", nameof(montoCotizado));
+            throw new ArgumentException(
+                montoCotizado < 0 ? "El monto cotizado no puede ser negativo." : "El monto cotizado debe ser mayor a cero.",
+                nameof(montoCotizado));
         }
 
         if (repuestos is null)

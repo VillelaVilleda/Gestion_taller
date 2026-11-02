@@ -1,7 +1,7 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: eliminar un empleado (DERCAS 6.5.1). Reglas (ver EliminarEmpleadoServiceTests):
+/// Caso de uso: eliminar un empleado (DERCAS 6.5.3). Reglas (ver EliminarEmpleadoServiceTests):
 ///   - solo un usuario con permiso para administrar empleados puede hacerlo
 ///   - nadie puede eliminarse a si mismo
 ///   - siempre debe quedar al menos un administrador

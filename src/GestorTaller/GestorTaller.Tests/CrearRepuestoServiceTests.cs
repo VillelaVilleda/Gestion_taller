@@ -77,6 +77,16 @@ public class CrearRepuestoServiceTests
     }
 
     [Fact]
+    public void Ejecutar_ConExistenciaMayorAlLimite_LanzaExcepcion()
+    {
+        var (servicio, repositorio) = Crear();
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar("Bujia", AjustarExistenciaService.LimiteExistencia + 1, 25m));
+        Assert.Empty(repositorio.Guardados);
+        Assert.Equal(AjustarExistenciaService.LimiteExistencia, servicio.Ejecutar("Bujia", AjustarExistenciaService.LimiteExistencia, 25m).Existencia);
+    }
+
+    [Fact]
     public void Ejecutar_ConPrecioNegativo_LanzaExcepcion()
     {
         var (servicio, _) = Crear();

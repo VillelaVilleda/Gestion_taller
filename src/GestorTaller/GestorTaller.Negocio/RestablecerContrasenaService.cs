@@ -1,7 +1,7 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: restablecer la contrasena de un empleado (DERCAS 6.4.1).
+/// Caso de uso: restablecer la contrasena de un empleado (DERCAS 6.5.2).
 /// Reglas (ver RestablecerContrasenaServiceTests):
 ///   - solo un usuario con permiso para administrar empleados puede hacerlo
 ///   - se usa la contrasena elegida (de 6 a 50 caracteres) o, si no se elige, una temporal generada

@@ -85,6 +85,28 @@ public class RegistrarCotizacionOrdenServiceTests
     }
 
     [Fact]
+    public void Ejecutar_RechazadaConMontoCero_AvanzaATerminado()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var servicio = CrearServicio();
+
+        servicio.Ejecutar(orden, 0m, aceptada: false);
+
+        Assert.Equal(EstadoOrden.Terminado, orden.Estado);
+        Assert.Equal(0m, orden.MontoCotizado);
+    }
+
+    [Fact]
+    public void Ejecutar_RechazadaConMontoNegativo_LanzaExcepcion()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
+        var servicio = CrearServicio();
+
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, -5m, aceptada: false));
+        Assert.Equal(EstadoOrden.Cotizacion, orden.Estado);
+    }
+
+    [Fact]
     public void Ejecutar_ConMontoNegativo_LanzaExcepcion()
     {
         var orden = CrearOrdenEnEstado(EstadoOrden.Cotizacion);
