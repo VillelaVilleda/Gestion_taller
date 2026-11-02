@@ -25,7 +25,6 @@ public class OrdenRepositoryEfCore : IOrdenRepository
             .Include(o => o.Cliente)
             .Include(o => o.Repuestos).ThenInclude(r => r.Repuesto)
             .Include(o => o.EmpleadoDiagnostico)
-            .Include(o => o.EmpleadoCotizacion)
             .Include(o => o.EmpleadoReparacion)
             .Include(o => o.EmpleadoEntrega)
             .FirstOrDefault(o => o.Id == id);
@@ -53,7 +52,6 @@ public class OrdenRepositoryEfCore : IOrdenRepository
             .Include(o => o.Cliente)
             .Include(o => o.Repuestos).ThenInclude(r => r.Repuesto)
             .Include(o => o.EmpleadoDiagnostico)
-            .Include(o => o.EmpleadoCotizacion)
             .Include(o => o.EmpleadoReparacion)
             .Include(o => o.EmpleadoEntrega)
             .ToList();

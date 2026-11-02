@@ -96,7 +96,6 @@ public class EliminarEmpleadoServiceTests
 
     [Theory]
     [InlineData("diagnostico")]
-    [InlineData("cotizacion")]
     [InlineData("reparacion")]
     [InlineData("entrega")]
     public void Ejecutar_ConEmpleadoResponsableDeUnaOrden_LanzaExcepcionYNoElimina(string etapa)
@@ -108,7 +107,6 @@ public class EliminarEmpleadoServiceTests
         switch (etapa)
         {
             case "diagnostico": orden.EmpleadoDiagnostico = ana; break;
-            case "cotizacion": orden.EmpleadoCotizacion = ana; break;
             case "reparacion": orden.EmpleadoReparacion = ana; break;
             default: orden.EmpleadoEntrega = ana; break;
         }

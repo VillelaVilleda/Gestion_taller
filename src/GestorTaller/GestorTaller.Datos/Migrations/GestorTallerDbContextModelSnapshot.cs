@@ -160,10 +160,6 @@ namespace GestorTaller.Datos.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("detalle_reparacion");
 
-                    b.Property<Guid?>("EmpleadoCotizacionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("empleado_cotizacion_id");
-
                     b.Property<Guid?>("EmpleadoDiagnosticoId")
                         .HasColumnType("uuid")
                         .HasColumnName("empleado_diagnostico_id");
@@ -205,8 +201,6 @@ namespace GestorTaller.Datos.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
-
-                    b.HasIndex("EmpleadoCotizacionId");
 
                     b.HasIndex("EmpleadoDiagnosticoId");
 
@@ -296,11 +290,6 @@ namespace GestorTaller.Datos.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GestorTaller.Negocio.Empleado", "EmpleadoCotizacion")
-                        .WithMany()
-                        .HasForeignKey("EmpleadoCotizacionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("GestorTaller.Negocio.Empleado", "EmpleadoDiagnostico")
                         .WithMany()
                         .HasForeignKey("EmpleadoDiagnosticoId")
@@ -317,8 +306,6 @@ namespace GestorTaller.Datos.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cliente");
-
-                    b.Navigation("EmpleadoCotizacion");
 
                     b.Navigation("EmpleadoDiagnostico");
 

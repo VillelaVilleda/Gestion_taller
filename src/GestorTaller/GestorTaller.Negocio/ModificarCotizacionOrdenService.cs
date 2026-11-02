@@ -4,11 +4,11 @@ namespace GestorTaller.Negocio;
 public record RepuestoCotizado(Repuesto Repuesto, int Cantidad);
 
 /// <summary>
-/// Caso de uso: corregir la cotización ya registrada de una orden (empleado, mano de obra y repuestos)
+/// Caso de uso: corregir la cotización ya registrada de una orden (mano de obra y repuestos)
 /// y ajustar el inventario según lo que cambie. Reglas (ver ModificarCotizacionOrdenServiceTests):
 ///   - solo un usuario con permiso para editar puede hacerlo
 ///   - la etapa debe poder editarse (ver EdicionDeEtapa): la cotización ya se registró y la orden no está entregada
-///   - el empleado es obligatorio y el monto de mano de obra debe ser mayor a cero
+///   - el monto de mano de obra debe ser mayor a cero
 ///   - la decisión del cliente no cambia; si la cotización fue rechazada, no lleva repuestos
 ///   - la lista recibida es la que queda en la orden: cada cantidad debe ser mayor a cero y un repuesto no se repite
 ///   - el inventario se ajusta con la diferencia: si sube la cantidad se descuenta lo que sube, si baja o se
@@ -27,7 +27,7 @@ public class ModificarCotizacionOrdenService
         _ordenRepository = ordenRepository;
     }
 
-    public bool Ejecutar(PermisosUsuario permisos, Orden orden, Empleado empleado, decimal montoCotizado, IReadOnlyList<RepuestoCotizado> repuestos)
+    public bool Ejecutar(PermisosUsuario permisos, Orden orden, decimal montoCotizado, IReadOnlyList<RepuestoCotizado> repuestos)
     {
         if (permisos is null)
         {
@@ -49,11 +49,6 @@ public class ModificarCotizacionOrdenService
             throw new InvalidOperationException(orden.Estado == EstadoOrden.Entregado
                 ? "Una orden entregada no se puede editar."
                 : "La cotización de esta orden todavía no se puede editar.");
-        }
-
-        if (empleado is null)
-        {
-            throw new ArgumentException("Se requiere el empleado encargado de la cotización.", nameof(empleado));
         }
 
         if (montoCotizado <= 0)
@@ -101,8 +96,7 @@ public class ModificarCotizacionOrdenService
             throw new InvalidOperationException("No hay existencia suficiente: " + string.Join("; ", faltantes) + ".");
         }
 
-        var hayCambios = empleado.Id != orden.EmpleadoCotizacion?.Id
-            || montoCotizado != orden.MontoCotizado
+        var hayCambios = montoCotizado != orden.MontoCotizado
             || diferencias.Values.Any(d => d != 0);
 
         if (!hayCambios)
@@ -140,7 +134,6 @@ public class ModificarCotizacionOrdenService
             }
         }
 
-        orden.EmpleadoCotizacion = empleado;
         orden.MontoCotizado = montoCotizado;
         orden.FechaUltimaEdicion = DateTime.Now;
         _ordenRepository.Actualizar(orden);

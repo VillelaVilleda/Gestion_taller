@@ -55,7 +55,6 @@ public class EliminarEmpleadoService
 
     private static bool EsResponsable(Orden orden, Empleado empleado) =>
         orden.EmpleadoDiagnostico?.Id == empleado.Id
-        || orden.EmpleadoCotizacion?.Id == empleado.Id
         || orden.EmpleadoReparacion?.Id == empleado.Id
         || orden.EmpleadoEntrega?.Id == empleado.Id;
 }

@@ -7,13 +7,11 @@ public class ModificarCotizacionOrdenServiceTests
 {
     private static readonly PermisosUsuario Administrador = new(new Empleado { Id = Guid.NewGuid(), Nombre = "Admin", EsAdministrador = true });
     private static readonly PermisosUsuario UsuarioComun = new(new Empleado { Id = Guid.NewGuid(), Nombre = "Luis", EsAdministrador = false });
-    private static readonly Empleado Ana = new() { Id = Guid.NewGuid(), Nombre = "Ana", NombreUsuario = "ana" };
-    private static readonly Empleado Pedro = new() { Id = Guid.NewGuid(), Nombre = "Pedro", NombreUsuario = "pedro" };
 
     private static Repuesto CrearRepuesto(string nombre, int existencia, decimal precio = 25m) =>
         new() { Id = Guid.NewGuid(), Nombre = nombre, Existencia = existencia, Precio = precio };
 
-    // Orden con cotización ya registrada por Ana (mano de obra Q100) y, si fue aceptada, con los repuestos indicados
+    // Orden con cotización ya registrada (mano de obra Q100) y, si fue aceptada, con los repuestos indicados
     // (el inventario de esos repuestos ya refleja lo descontado).
     private static Orden CrearOrden(bool aceptada, EstadoOrden estado = EstadoOrden.EnReparacion, params (Repuesto Repuesto, int Cantidad)[] asignados)
     {
@@ -26,7 +24,6 @@ public class ModificarCotizacionOrdenServiceTests
             Estado = estado,
             FechaRecepcion = DateTime.Now,
             HistorialEstados = Enum.GetValues<EstadoOrden>().Where(e => e <= estado).ToList(),
-            EmpleadoCotizacion = Ana,
             MontoCotizado = 100m,
             CotizacionAceptada = aceptada
         };
@@ -52,7 +49,7 @@ public class ModificarCotizacionOrdenServiceTests
         var bujia = CrearRepuesto("Bujia", existencia: 10);
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 2));
 
-        var cambio = servicio.Ejecutar(Administrador, orden, Ana, 100m, new[] { new RepuestoCotizado(bujia, 5) });
+        var cambio = servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(bujia, 5) });
 
         Assert.True(cambio);
         Assert.Equal(7, bujia.Existencia);
@@ -68,7 +65,7 @@ public class ModificarCotizacionOrdenServiceTests
         var bujia = CrearRepuesto("Bujia", existencia: 10);
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 4));
 
-        servicio.Ejecutar(Administrador, orden, Ana, 100m, new[] { new RepuestoCotizado(bujia, 1) });
+        servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(bujia, 1) });
 
         Assert.Equal(13, bujia.Existencia);
         Assert.Equal(1, Assert.Single(orden.Repuestos).Cantidad);
@@ -82,7 +79,7 @@ public class ModificarCotizacionOrdenServiceTests
         var filtro = CrearRepuesto("Filtro", existencia: 5);
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 3), (filtro, 1));
 
-        servicio.Ejecutar(Administrador, orden, Ana, 100m, new[] { new RepuestoCotizado(filtro, 1) });
+        servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(filtro, 1) });
 
         Assert.Equal(13, bujia.Existencia);
         Assert.Equal(5, filtro.Existencia);
@@ -98,7 +95,7 @@ public class ModificarCotizacionOrdenServiceTests
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 2));
         bujia.Precio = 40m; // el precio cambió después de cotizar
 
-        servicio.Ejecutar(Administrador, orden, Ana, 100m, new[] { new RepuestoCotizado(bujia, 2), new RepuestoCotizado(filtro, 2) });
+        servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(bujia, 2), new RepuestoCotizado(filtro, 2) });
 
         Assert.Equal(3, filtro.Existencia);
         Assert.Equal(10, bujia.Existencia);
@@ -115,29 +112,27 @@ public class ModificarCotizacionOrdenServiceTests
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 2), (filtro, 1));
 
         var error = Assert.Throws<InvalidOperationException>(() =>
-            servicio.Ejecutar(Administrador, orden, Pedro, 200m, new[] { new RepuestoCotizado(bujia, 1), new RepuestoCotizado(filtro, 4) }));
+            servicio.Ejecutar(Administrador, orden, 200m, new[] { new RepuestoCotizado(bujia, 1), new RepuestoCotizado(filtro, 4) }));
 
         Assert.Contains("Filtro", error.Message);
         Assert.Equal(10, bujia.Existencia);
         Assert.Equal(1, filtro.Existencia);
         Assert.Equal(2, orden.Repuestos.Single(r => r.RepuestoId == bujia.Id).Cantidad);
-        Assert.Equal(Ana, orden.EmpleadoCotizacion);
         Assert.Equal(100m, orden.MontoCotizado);
         Assert.Equal(0, repositorio.Actualizaciones);
     }
 
     [Fact]
-    public void Ejecutar_SoloCambiaElEmpleadoOLaManoDeObra_NoTocaElInventario()
+    public void Ejecutar_SoloCambiaLaManoDeObra_NoTocaElInventario()
     {
         var (servicio, repositorio) = Crear();
         var bujia = CrearRepuesto("Bujia", existencia: 10);
         var orden = CrearOrden(true, EstadoOrden.Terminado, (bujia, 2));
 
-        var cambio = servicio.Ejecutar(Administrador, orden, Pedro, 150m, new[] { new RepuestoCotizado(bujia, 2) });
+        var cambio = servicio.Ejecutar(Administrador, orden, 150m, new[] { new RepuestoCotizado(bujia, 2) });
 
         Assert.True(cambio);
         Assert.Equal(10, bujia.Existencia);
-        Assert.Same(Pedro, orden.EmpleadoCotizacion);
         Assert.Equal(150m, orden.MontoCotizado);
         Assert.Equal(1, repositorio.Actualizaciones);
     }
@@ -149,7 +144,7 @@ public class ModificarCotizacionOrdenServiceTests
         var bujia = CrearRepuesto("Bujia", existencia: 10);
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 2));
 
-        var cambio = servicio.Ejecutar(Administrador, orden, Ana, 100m, new[] { new RepuestoCotizado(bujia, 2) });
+        var cambio = servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(bujia, 2) });
 
         Assert.False(cambio);
         Assert.Null(orden.FechaUltimaEdicion);
@@ -158,16 +153,16 @@ public class ModificarCotizacionOrdenServiceTests
     }
 
     [Fact]
-    public void Ejecutar_EnCotizacionRechazada_EditaEmpleadoYMontoPeroNoAceptaRepuestos()
+    public void Ejecutar_EnCotizacionRechazada_EditaElMontoPeroNoAceptaRepuestos()
     {
         var (servicio, _) = Crear();
         var bujia = CrearRepuesto("Bujia", existencia: 10);
         var orden = CrearOrden(false, EstadoOrden.Terminado);
 
-        Assert.True(servicio.Ejecutar(Administrador, orden, Pedro, 80m, Array.Empty<RepuestoCotizado>()));
+        Assert.True(servicio.Ejecutar(Administrador, orden, 80m, Array.Empty<RepuestoCotizado>()));
         Assert.Equal(80m, orden.MontoCotizado);
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, orden, Pedro, 80m, new[] { new RepuestoCotizado(bujia, 1) }));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, orden, 80m, new[] { new RepuestoCotizado(bujia, 1) }));
         Assert.Equal(10, bujia.Existencia);
     }
 
@@ -177,7 +172,7 @@ public class ModificarCotizacionOrdenServiceTests
         var (servicio, repositorio) = Crear();
         var orden = CrearOrden(true);
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(UsuarioComun, orden, Pedro, 150m, Array.Empty<RepuestoCotizado>()));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(UsuarioComun, orden, 150m, Array.Empty<RepuestoCotizado>()));
 
         Assert.Equal(100m, orden.MontoCotizado);
         Assert.Equal(0, repositorio.Actualizaciones);
@@ -191,7 +186,7 @@ public class ModificarCotizacionOrdenServiceTests
         var (servicio, repositorio) = Crear();
         var orden = CrearOrden(true, estado);
 
-        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, orden, Pedro, 150m, Array.Empty<RepuestoCotizado>()));
+        Assert.Throws<InvalidOperationException>(() => servicio.Ejecutar(Administrador, orden, 150m, Array.Empty<RepuestoCotizado>()));
 
         Assert.Equal(100m, orden.MontoCotizado);
         Assert.Equal(0, repositorio.Actualizaciones);
@@ -205,13 +200,12 @@ public class ModificarCotizacionOrdenServiceTests
         var orden = CrearOrden(true, EstadoOrden.EnReparacion, (bujia, 2));
         var sinRepuestos = Array.Empty<RepuestoCotizado>();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, Pedro, 0m, sinRepuestos));
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, null!, 100m, sinRepuestos));
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, Pedro, 100m, null!));
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, Pedro, 100m, new[] { new RepuestoCotizado(bujia, 0) }));
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, Pedro, 100m, new[] { new RepuestoCotizado(bujia, 1), new RepuestoCotizado(bujia, 2) }));
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, orden, Pedro, 100m, sinRepuestos));
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, null!, Pedro, 100m, sinRepuestos));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, 0m, sinRepuestos));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, 100m, null!));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(bujia, 0) }));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, 100m, new[] { new RepuestoCotizado(bujia, 1), new RepuestoCotizado(bujia, 2) }));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, orden, 100m, sinRepuestos));
+        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, null!, 100m, sinRepuestos));
 
         Assert.Equal(10, bujia.Existencia);
         Assert.Equal(0, repositorio.Actualizaciones);

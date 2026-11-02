@@ -27,7 +27,7 @@ namespace GestorTaller
             var esDiagnostico = etapa == EstadoOrden.Diagnostico;
 
             AgregarCampo("Empleado encargado", _cmbEmpleado);
-            AgregarCampo(esDiagnostico ? "Detalle del diagnóstico" : "Detalle de la reparación", _txtDetalle);
+            AgregarCampo(esDiagnostico ? "Detalle del diagnóstico" : "Detalle de la reparación (opcional)", _txtDetalle);
 
             _cmbEmpleado.CargarElementos(empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList(), e => e.Nombre);
 

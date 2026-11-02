@@ -5,7 +5,8 @@ namespace GestorTaller.Negocio;
 /// reparación de una orden. Reglas (ver ModificarEtapaOrdenServiceTests):
 ///   - solo un usuario con permiso para editar puede hacerlo
 ///   - la etapa debe poder editarse (ver EdicionDeEtapa): la orden ya la completó y no está entregada
-///   - el empleado y el detalle son obligatorios (el detalle se guarda sin espacios en los extremos)
+///   - el empleado es obligatorio; el detalle es obligatorio en el diagnóstico y opcional en la reparación
+///     (el detalle se guarda sin espacios en los extremos)
 ///   - si no cambia nada, no se guarda y no se toca la fecha de última edición; devuelve false
 ///   - si cambia algo, se guarda, se registra la fecha de última edición y devuelve true
 /// </summary>
@@ -54,12 +55,12 @@ public class ModificarEtapaOrdenService
             throw new ArgumentException($"Se requiere el empleado encargado del {nombre}.", nameof(empleado));
         }
 
-        if (string.IsNullOrWhiteSpace(detalle))
+        if (etapa == EstadoOrden.Diagnostico && string.IsNullOrWhiteSpace(detalle))
         {
             throw new ArgumentException($"Se requiere el detalle del {nombre}.", nameof(detalle));
         }
 
-        var detalleLimpio = detalle.Trim();
+        var detalleLimpio = detalle?.Trim() ?? string.Empty;
         var empleadoActual = etapa == EstadoOrden.Diagnostico ? orden.EmpleadoDiagnostico : orden.EmpleadoReparacion;
         var detalleActual = etapa == EstadoOrden.Diagnostico ? orden.DetalleDiagnostico : orden.DetalleReparacion;
 

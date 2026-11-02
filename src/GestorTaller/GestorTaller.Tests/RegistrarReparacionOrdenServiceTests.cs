@@ -88,12 +88,27 @@ public class RegistrarReparacionOrdenServiceTests
     [InlineData("")]
     [InlineData("   ")]
     [InlineData(null)]
-    public void Ejecutar_SinDetalle_LanzaExcepcion(string? detalle)
+    public void Ejecutar_SinDetalle_AvanzaATerminadoYGuardaDetalleVacio(string? detalle)
     {
         var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
         var servicio = CrearServicio();
 
-        Assert.Throws<ArgumentException>(() => servicio.Ejecutar(orden, empleado, detalle!));
+        servicio.Ejecutar(orden, empleado, detalle!);
+
+        Assert.Equal(EstadoOrden.Terminado, orden.Estado);
+        Assert.Same(empleado, orden.EmpleadoReparacion);
+        Assert.Equal(string.Empty, orden.DetalleReparacion);
+    }
+
+    [Fact]
+    public void Ejecutar_ConDetalleConEspacios_LoGuardaSinEspaciosEnLosExtremos()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var servicio = CrearServicio();
+
+        servicio.Ejecutar(orden, empleado, "  Se cambio el alternador ");
+
+        Assert.Equal("Se cambio el alternador", orden.DetalleReparacion);
     }
 
     [Fact]

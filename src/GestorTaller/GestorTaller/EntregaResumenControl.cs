@@ -34,7 +34,6 @@ namespace GestorTaller
             AgregarDato("Detalle", orden.DetalleDiagnostico);
 
             AgregarTitulo("Cotización");
-            AgregarDato("Empleado", orden.EmpleadoCotizacion?.Nombre ?? string.Empty);
             AgregarDato("Costo de mano de obra", $"Q {orden.MontoCotizado:N2}");
             AgregarDato("Decisión del cliente", orden.CotizacionAceptada ? "Aceptada" : "Rechazada");
 
@@ -43,7 +42,11 @@ namespace GestorTaller
             if (huboReparacion)
             {
                 AgregarDato("Empleado", orden.EmpleadoReparacion?.Nombre ?? string.Empty);
-                AgregarDato("Detalle", orden.DetalleReparacion);
+
+                if (!string.IsNullOrWhiteSpace(orden.DetalleReparacion))
+                {
+                    AgregarDato("Detalle", orden.DetalleReparacion);
+                }
 
                 AgregarTitulo("Repuestos utilizados");
                 if (orden.Repuestos.Count == 0)

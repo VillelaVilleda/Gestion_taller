@@ -4,7 +4,7 @@ namespace GestorTaller
 {
     /// <summary>
     /// Formulario de la reparación realizada. Mientras la orden esta en EnReparacion
-    /// permite registrar empleado y detalle; al guardar, la orden pasa a Terminado.
+    /// permite registrar el empleado y, opcionalmente, el detalle; al guardar, la orden pasa a Terminado.
     /// Los repuestos se eligieron en la Cotizacion y aqui solo se muestran (solo
     /// lectura), de modo que el total nunca difiere de lo que el cliente acepto.
     /// Una vez que la orden ya avanzo, todo se muestra en solo lectura.

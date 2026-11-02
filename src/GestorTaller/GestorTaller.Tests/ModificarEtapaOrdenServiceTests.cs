@@ -126,6 +126,37 @@ public class ModificarEtapaOrdenServiceTests
         Assert.Equal(0, repositorio.Actualizaciones);
     }
 
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData(null)]
+    public void Ejecutar_EnReparacionSinDetalle_LoDejaVacioYGuarda(string? detalle)
+    {
+        var (servicio, repositorio) = Crear();
+        var orden = CrearOrden(EstadoOrden.Terminado);
+
+        var cambio = servicio.Ejecutar(Administrador, orden, EstadoOrden.EnReparacion, Ana, detalle!);
+
+        Assert.True(cambio);
+        Assert.Equal(string.Empty, orden.DetalleReparacion);
+        Assert.NotNull(orden.FechaUltimaEdicion);
+        Assert.Equal(1, repositorio.Actualizaciones);
+    }
+
+    [Fact]
+    public void Ejecutar_EnReparacionSinDetalleYYaVacio_NoGuardaNada()
+    {
+        var (servicio, repositorio) = Crear();
+        var orden = CrearOrden(EstadoOrden.Terminado);
+        orden.DetalleReparacion = string.Empty;
+
+        var cambio = servicio.Ejecutar(Administrador, orden, EstadoOrden.EnReparacion, Ana, "   ");
+
+        Assert.False(cambio);
+        Assert.Null(orden.FechaUltimaEdicion);
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
+
     [Fact]
     public void Ejecutar_SinEmpleadoPermisosOrdenOConEtapaNoEditable_Lanza()
     {
