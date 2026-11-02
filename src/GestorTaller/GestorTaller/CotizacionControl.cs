@@ -17,17 +17,15 @@ namespace GestorTaller
         private readonly QuitarRepuestoOrdenService _quitarRepuestoOrdenService = new();
         private readonly CalcularTotalOrdenService _calcularTotalOrdenService = new();
         private readonly IOrdenRepository _ordenRepository;
-        private readonly IEmpleadoRepository _empleadoRepository;
         private readonly IRepuestoRepository _repuestoRepository;
         private Orden _orden = null!;
 
         public event Action? CotizacionRegistrada;
 
-        public CotizacionControl(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository)
+        public CotizacionControl(IOrdenRepository ordenRepository, IRepuestoRepository repuestoRepository)
         {
             InitializeComponent();
             _ordenRepository = ordenRepository;
-            _empleadoRepository = empleadoRepository;
             _repuestoRepository = repuestoRepository;
             _registrarCotizacionOrdenService = new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService());
 
@@ -42,9 +40,9 @@ namespace GestorTaller
 
             Load += (_, _) => BeginInvoke(() =>
             {
-                if (!IsDisposed && cmbEmpleado.Enabled)
+                if (!IsDisposed && numMontoCotizado.Enabled)
                 {
-                    cmbEmpleado.Focus();
+                    numMontoCotizado.Focus();
                 }
             });
         }
@@ -56,8 +54,6 @@ namespace GestorTaller
 
             var esPendiente = orden.Estado == EstadoOrden.Cotizacion;
 
-            CargarEmpleados();
-            cmbEmpleado.Enabled = esPendiente;
             numMontoCotizado.Enabled = esPendiente;
             rbAceptada.Enabled = esPendiente;
             rbRechazada.Enabled = esPendiente;
@@ -70,7 +66,6 @@ namespace GestorTaller
             btnQuitarRepuesto.Visible = esPendiente;
             lblDisponible.Visible = esPendiente;
 
-            cmbEmpleado.SeleccionarPorTexto(orden.EmpleadoCotizacion?.Nombre);
             numMontoCotizado.Value = orden.MontoCotizado;
 
             if (esPendiente || orden.CotizacionAceptada)
@@ -89,14 +84,6 @@ namespace GestorTaller
 
             MostrarAsignados();
         }
-
-        private void CargarEmpleados()
-        {
-            var empleados = _empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList();
-            cmbEmpleado.CargarElementos(empleados, e => e.Nombre);
-        }
-
-        private Empleado? EmpleadoSeleccionado() => cmbEmpleado.ElementoSeleccionado as Empleado;
 
         private void CargarRepuestos()
         {
@@ -219,7 +206,7 @@ namespace GestorTaller
 
             try
             {
-                _registrarCotizacionOrdenService.Ejecutar(_orden, EmpleadoSeleccionado()!, numMontoCotizado.Value, rbAceptada.Checked);
+                _registrarCotizacionOrdenService.Ejecutar(_orden, numMontoCotizado.Value, rbAceptada.Checked);
                 CotizacionRegistrada?.Invoke();
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)

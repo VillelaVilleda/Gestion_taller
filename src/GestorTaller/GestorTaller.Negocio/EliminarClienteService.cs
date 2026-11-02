@@ -1,7 +1,7 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: eliminar un cliente (DERCAS 6.5.1). Reglas (ver EliminarClienteServiceTests):
+/// Caso de uso: eliminar un cliente (DERCAS 6.5.3). Reglas (ver EliminarClienteServiceTests):
 ///   - solo un usuario con permiso para eliminar puede hacerlo
 ///   - no se puede eliminar un cliente que tiene ordenes
 /// </summary>

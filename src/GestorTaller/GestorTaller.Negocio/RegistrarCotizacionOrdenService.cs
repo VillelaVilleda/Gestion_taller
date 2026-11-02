@@ -6,9 +6,9 @@
 /// RegistrarCotizacionOrdenServiceTests):
 ///   - la orden debe existir
 ///   - la orden debe estar en estado Cotizacion
-///   - el empleado encargado es obligatorio
-///   - el monto cotizado debe ser mayor a cero
-///   - al confirmar, se guardan empleado, monto y la decision del cliente,
+///   - el monto cotizado (mano de obra) no puede ser negativo y debe ser mayor a cero si el cliente acepta;
+///     si rechaza, puede ser 0 porque solo se cobra el diagnostico
+///   - al confirmar, se guardan el monto y la decision del cliente,
 ///     y la orden avanza directo a EnReparacion (si fue aceptada) o a
 ///     Terminado (si fue rechazada, saltando EnReparacion)
 ///   - si fue aceptada: se vuelve a comprobar la existencia de todos los repuestos
@@ -26,7 +26,7 @@ public class RegistrarCotizacionOrdenService
         _avanzarEstadoOrdenService = avanzarEstadoOrdenService;
     }
 
-    public void Ejecutar(Orden orden, Empleado empleadoCotizacion, decimal montoCotizado, bool aceptada)
+    public void Ejecutar(Orden orden, decimal montoCotizado, bool aceptada)
     {
         if (orden is null)
         {
@@ -38,14 +38,11 @@ public class RegistrarCotizacionOrdenService
             throw new InvalidOperationException("Solo se puede registrar la cotizacion de una orden en estado Cotizacion.");
         }
 
-        if (empleadoCotizacion is null)
+        if (montoCotizado < 0 || (aceptada && montoCotizado == 0))
         {
-            throw new ArgumentException("Se requiere el empleado encargado de la cotizacion.", nameof(empleadoCotizacion));
-        }
-
-        if (montoCotizado <= 0)
-        {
-            throw new ArgumentException("El monto cotizado debe ser mayor a cero.", nameof(montoCotizado));
+            throw new ArgumentException(
+                montoCotizado < 0 ? "El monto cotizado no puede ser negativo." : "El monto cotizado debe ser mayor a cero.",
+                nameof(montoCotizado));
         }
 
         // Si el cliente acepta, se vuelve a comprobar la existencia de TODOS los repuestos
@@ -55,7 +52,6 @@ public class RegistrarCotizacionOrdenService
             ValidarExistencias(orden);
         }
 
-        orden.EmpleadoCotizacion = empleadoCotizacion;
         orden.MontoCotizado = montoCotizado;
         orden.CotizacionAceptada = aceptada;
 

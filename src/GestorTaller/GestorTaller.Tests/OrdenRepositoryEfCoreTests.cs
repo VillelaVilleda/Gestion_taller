@@ -455,11 +455,8 @@ public class OrdenRepositoryEfCoreTests
             var repositorio = new OrdenRepositoryEfCore(trabajo);
             var orden = repositorio.ObtenerPorId(ordenId)!;
 
-            var empleado = new Empleado { Id = Guid.NewGuid(), Nombre = "Maria Diaz", NombreUsuario = "mdiaz", PasswordUsuario = "hash" };
-            trabajo.Empleados.Add(empleado);
-
             new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService())
-                .Ejecutar(orden, empleado, 350m, aceptada: true);
+                .Ejecutar(orden, 350m, aceptada: true);
             repositorio.Actualizar(orden);
         }
 
@@ -481,11 +478,8 @@ public class OrdenRepositoryEfCoreTests
             var repositorio = new OrdenRepositoryEfCore(trabajo);
             var orden = repositorio.ObtenerPorId(ordenId)!;
 
-            var empleado = new Empleado { Id = Guid.NewGuid(), Nombre = "Maria Diaz", NombreUsuario = "mdiaz", PasswordUsuario = "hash" };
-            trabajo.Empleados.Add(empleado);
-
             new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService())
-                .Ejecutar(orden, empleado, 350m, aceptada: false);
+                .Ejecutar(orden, 350m, aceptada: false);
             repositorio.Actualizar(orden);
         }
 

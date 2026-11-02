@@ -2,7 +2,7 @@ namespace GestorTaller.Negocio;
 
 /// <summary>
 /// Caso de uso: editar el nombre y el usuario de un empleado, y otorgarle o quitarle el rol de
-/// administrador (DERCAS 6.4.1 y 6.4.2). Reglas (ver ModificarEmpleadoServiceTests):
+/// administrador (DERCAS 6.5.2 y 6.5.4). Reglas (ver ModificarEmpleadoServiceTests):
 ///   - solo un usuario con permiso para administrar empleados puede hacerlo
 ///   - el nombre es obligatorio, de hasta 150 caracteres (se recortan los espacios)
 ///   - el usuario es obligatorio, sin espacios, de hasta 50 caracteres y unico sin importar mayusculas

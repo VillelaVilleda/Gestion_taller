@@ -1,11 +1,12 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: crear un repuesto del catalogo (DERCAS 6.4.3).
+/// Caso de uso: crear un repuesto del catalogo (DERCAS 6.3.3 y 6.4.1).
 /// Reglas (ver CrearRepuestoServiceTests):
 ///   - el nombre es obligatorio, de hasta 150 caracteres (se recortan los espacios)
 ///   - no puede existir otro repuesto con el mismo nombre (sin importar mayusculas ni acentos)
 ///   - la existencia y el precio no pueden ser negativos (0 es valido)
+///   - la existencia no puede pasar de AjustarExistenciaService.LimiteExistencia
 ///   - el repuesto se guarda en el repositorio antes de devolverlo
 /// </summary>
 public class CrearRepuestoService
@@ -36,6 +37,11 @@ public class CrearRepuestoService
         if (existencia < 0)
         {
             throw new ArgumentException("La existencia no puede ser negativa.", nameof(existencia));
+        }
+
+        if (existencia > AjustarExistenciaService.LimiteExistencia)
+        {
+            throw new ArgumentException($"La existencia no puede pasar de {AjustarExistenciaService.LimiteExistencia:N0}.", nameof(existencia));
         }
 
         if (precio < 0)

@@ -6,8 +6,6 @@ namespace GestorTaller
 
         private System.Windows.Forms.TableLayoutPanel layout;
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.Label lblEmpleado;
-        private GestorTaller.ComboBoxFiltrable cmbEmpleado;
         private System.Windows.Forms.Label lblMonto;
         private System.Windows.Forms.NumericUpDown numMontoCotizado;
         private System.Windows.Forms.Label lblRepuestos;
@@ -40,8 +38,6 @@ namespace GestorTaller
         {
             layout = new TableLayoutPanel();
             lblTitulo = new Label();
-            lblEmpleado = new Label();
-            cmbEmpleado = new ComboBoxFiltrable();
             lblMonto = new Label();
             numMontoCotizado = new NumericUpDown();
             lblRepuestos = new Label();
@@ -73,27 +69,23 @@ namespace GestorTaller
             layout.ColumnCount = 1;
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layout.Controls.Add(lblTitulo, 0, 0);
-            layout.Controls.Add(lblEmpleado, 0, 1);
-            layout.Controls.Add(cmbEmpleado, 0, 2);
-            layout.Controls.Add(lblMonto, 0, 3);
-            layout.Controls.Add(numMontoCotizado, 0, 4);
-            layout.Controls.Add(lblRepuestos, 0, 5);
-            layout.Controls.Add(filaRepuesto, 0, 6);
-            layout.Controls.Add(lblDisponible, 0, 7);
-            layout.Controls.Add(dgvRepuestos, 0, 8);
-            layout.Controls.Add(btnQuitarRepuesto, 0, 9);
-            layout.Controls.Add(lblDesglose, 0, 10);
-            layout.Controls.Add(lblTotalCotizacion, 0, 11);
-            layout.Controls.Add(lblDecision, 0, 12);
-            layout.Controls.Add(filaDecision, 0, 13);
-            layout.Controls.Add(btnGuardarCotizacion, 0, 14);
-            layout.Controls.Add(avisoMensaje, 0, 15);
+            layout.Controls.Add(lblMonto, 0, 1);
+            layout.Controls.Add(numMontoCotizado, 0, 2);
+            layout.Controls.Add(lblRepuestos, 0, 3);
+            layout.Controls.Add(filaRepuesto, 0, 4);
+            layout.Controls.Add(lblDisponible, 0, 5);
+            layout.Controls.Add(dgvRepuestos, 0, 6);
+            layout.Controls.Add(btnQuitarRepuesto, 0, 7);
+            layout.Controls.Add(lblDesglose, 0, 8);
+            layout.Controls.Add(lblTotalCotizacion, 0, 9);
+            layout.Controls.Add(lblDecision, 0, 10);
+            layout.Controls.Add(filaDecision, 0, 11);
+            layout.Controls.Add(btnGuardarCotizacion, 0, 12);
+            layout.Controls.Add(avisoMensaje, 0, 13);
             layout.Dock = DockStyle.Fill;
             layout.Location = new Point(0, 0);
             layout.Name = "layout";
-            layout.RowCount = 16;
-            layout.RowStyles.Add(new RowStyle());
-            layout.RowStyles.Add(new RowStyle());
+            layout.RowCount = 14;
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
@@ -108,7 +100,7 @@ namespace GestorTaller
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
             layout.RowStyles.Add(new RowStyle());
-            layout.Size = new Size(480, 760);
+            layout.Size = new Size(480, 696);
             layout.TabIndex = 0;
             //
             // lblTitulo
@@ -121,30 +113,13 @@ namespace GestorTaller
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Cotización";
             //
-            // lblEmpleado
-            //
-            lblEmpleado.AutoSize = true;
-            lblEmpleado.Margin = new Padding(0, 12, 0, 4);
-            lblEmpleado.Name = "lblEmpleado";
-            lblEmpleado.Size = new Size(160, 20);
-            lblEmpleado.TabIndex = 1;
-            lblEmpleado.Text = "Empleado encargado";
-            //
-            // cmbEmpleado
-            //
-            cmbEmpleado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            cmbEmpleado.Margin = new Padding(0);
-            cmbEmpleado.Name = "cmbEmpleado";
-            cmbEmpleado.Size = new Size(480, 27);
-            cmbEmpleado.TabIndex = 2;
-            //
             // lblMonto
             //
             lblMonto.AutoSize = true;
             lblMonto.Margin = new Padding(0, 12, 0, 4);
             lblMonto.Name = "lblMonto";
             lblMonto.Size = new Size(110, 20);
-            lblMonto.TabIndex = 3;
+            lblMonto.TabIndex = 1;
             lblMonto.Text = "Costo de mano de obra (Q)";
             //
             // numMontoCotizado
@@ -154,7 +129,7 @@ namespace GestorTaller
             numMontoCotizado.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numMontoCotizado.Name = "numMontoCotizado";
             numMontoCotizado.Size = new Size(160, 27);
-            numMontoCotizado.TabIndex = 4;
+            numMontoCotizado.TabIndex = 2;
             numMontoCotizado.ThousandsSeparator = true;
             //
             // lblRepuestos
@@ -164,7 +139,7 @@ namespace GestorTaller
             lblRepuestos.Margin = new Padding(0, 20, 0, 6);
             lblRepuestos.Name = "lblRepuestos";
             lblRepuestos.Size = new Size(150, 23);
-            lblRepuestos.TabIndex = 5;
+            lblRepuestos.TabIndex = 3;
             lblRepuestos.Text = "Repuestos cotizados";
             //
             // filaRepuesto
@@ -183,7 +158,7 @@ namespace GestorTaller
             filaRepuesto.RowCount = 1;
             filaRepuesto.RowStyles.Add(new RowStyle());
             filaRepuesto.Size = new Size(480, 36);
-            filaRepuesto.TabIndex = 6;
+            filaRepuesto.TabIndex = 4;
             //
             // cmbRepuesto
             //
@@ -221,7 +196,7 @@ namespace GestorTaller
             lblDisponible.Margin = new Padding(0, 6, 0, 6);
             lblDisponible.Name = "lblDisponible";
             lblDisponible.Size = new Size(100, 20);
-            lblDisponible.TabIndex = 7;
+            lblDisponible.TabIndex = 5;
             lblDisponible.Text = "Disponible: -";
             //
             // dgvRepuestos
@@ -237,7 +212,7 @@ namespace GestorTaller
             dgvRepuestos.ReadOnly = true;
             dgvRepuestos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvRepuestos.Size = new Size(480, 120);
-            dgvRepuestos.TabIndex = 8;
+            dgvRepuestos.TabIndex = 6;
             //
             // btnQuitarRepuesto
             //
@@ -246,7 +221,7 @@ namespace GestorTaller
             btnQuitarRepuesto.Name = "btnQuitarRepuesto";
             btnQuitarRepuesto.NombreIcono = "minus";
             btnQuitarRepuesto.Size = new Size(260, 36);
-            btnQuitarRepuesto.TabIndex = 9;
+            btnQuitarRepuesto.TabIndex = 7;
             btnQuitarRepuesto.Text = "Quitar repuesto seleccionado";
             btnQuitarRepuesto.Click += btnQuitarRepuesto_Click;
             //
@@ -256,7 +231,7 @@ namespace GestorTaller
             lblDesglose.Margin = new Padding(0, 16, 0, 0);
             lblDesglose.Name = "lblDesglose";
             lblDesglose.Size = new Size(300, 60);
-            lblDesglose.TabIndex = 10;
+            lblDesglose.TabIndex = 8;
             lblDesglose.Text = "Diagnóstico: Q 0.00";
             //
             // lblTotalCotizacion
@@ -266,7 +241,7 @@ namespace GestorTaller
             lblTotalCotizacion.Margin = new Padding(0, 8, 0, 0);
             lblTotalCotizacion.Name = "lblTotalCotizacion";
             lblTotalCotizacion.Size = new Size(300, 23);
-            lblTotalCotizacion.TabIndex = 11;
+            lblTotalCotizacion.TabIndex = 9;
             lblTotalCotizacion.Text = "Total a cobrar: Q 0.00";
             //
             // lblDecision
@@ -275,7 +250,7 @@ namespace GestorTaller
             lblDecision.Margin = new Padding(0, 16, 0, 4);
             lblDecision.Name = "lblDecision";
             lblDecision.Size = new Size(160, 20);
-            lblDecision.TabIndex = 12;
+            lblDecision.TabIndex = 10;
             lblDecision.Text = "Decisión del cliente";
             //
             // filaDecision
@@ -286,7 +261,7 @@ namespace GestorTaller
             filaDecision.Margin = new Padding(0);
             filaDecision.Name = "filaDecision";
             filaDecision.Size = new Size(260, 30);
-            filaDecision.TabIndex = 13;
+            filaDecision.TabIndex = 11;
             //
             // rbAceptada
             //
@@ -315,7 +290,7 @@ namespace GestorTaller
             btnGuardarCotizacion.Name = "btnGuardarCotizacion";
             btnGuardarCotizacion.NombreIcono = "save";
             btnGuardarCotizacion.Size = new Size(200, 36);
-            btnGuardarCotizacion.TabIndex = 14;
+            btnGuardarCotizacion.TabIndex = 12;
             btnGuardarCotizacion.Text = "Guardar cotización";
             btnGuardarCotizacion.Variante = VarianteBoton.Primario;
             btnGuardarCotizacion.Click += btnGuardarCotizacion_Click;
@@ -326,7 +301,7 @@ namespace GestorTaller
             avisoMensaje.Margin = new Padding(0, 12, 0, 0);
             avisoMensaje.Name = "avisoMensaje";
             avisoMensaje.Size = new Size(480, 40);
-            avisoMensaje.TabIndex = 15;
+            avisoMensaje.TabIndex = 13;
             //
             // CotizacionControl
             //
@@ -334,7 +309,7 @@ namespace GestorTaller
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(layout);
             Name = "CotizacionControl";
-            Size = new Size(480, 780);
+            Size = new Size(480, 716);
             ((System.ComponentModel.ISupportInitialize)numMontoCotizado).EndInit();
             ((System.ComponentModel.ISupportInitialize)numCantidad).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvRepuestos).EndInit();

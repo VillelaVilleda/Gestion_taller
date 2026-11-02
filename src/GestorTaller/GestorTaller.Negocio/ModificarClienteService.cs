@@ -1,7 +1,7 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: editar el nombre y los datos de contacto de un cliente (DERCAS 6.5.1).
+/// Caso de uso: editar el nombre y los datos de contacto de un cliente (DERCAS 6.4.1).
 /// Reglas (ver ModificarClienteServiceTests):
 ///   - solo un usuario con permiso para modificar clientes puede hacerlo (hoy, todos los roles)
 ///   - los datos cumplen las reglas de ValidadorDatosCliente, igual que al crear

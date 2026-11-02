@@ -1,7 +1,7 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: eliminar un repuesto del catalogo (DERCAS 6.5.1). Reglas (ver EliminarRepuestoServiceTests):
+/// Caso de uso: eliminar un repuesto del catalogo (DERCAS 6.5.3). Reglas (ver EliminarRepuestoServiceTests):
 ///   - solo un usuario con permiso para eliminar puede hacerlo
 ///   - no se puede eliminar un repuesto que esta en alguna orden
 /// </summary>

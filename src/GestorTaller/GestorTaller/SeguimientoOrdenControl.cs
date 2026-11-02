@@ -127,7 +127,7 @@ namespace GestorTaller
             }
             else if (_pasoVisto == EstadoOrden.Cotizacion)
             {
-                using var dialogo = new FormEditarCotizacion(_ordenRepository, _empleadoRepository, _repuestoRepository, _permisos, orden);
+                using var dialogo = new FormEditarCotizacion(_ordenRepository, _repuestoRepository, _permisos, orden);
                 huboCambios = dialogo.ShowDialog(this) == DialogResult.OK ? dialogo.HuboCambios : null;
             }
             else
@@ -261,7 +261,7 @@ namespace GestorTaller
 
         private Control CrearFormularioCotizacion(Orden orden)
         {
-            var control = new CotizacionControl(_ordenRepository, _empleadoRepository, _repuestoRepository);
+            var control = new CotizacionControl(_ordenRepository, _repuestoRepository);
             control.Mostrar(orden);
             control.CotizacionRegistrada += GuardarYActualizar;
             return control;

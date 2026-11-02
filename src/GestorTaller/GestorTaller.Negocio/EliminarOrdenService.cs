@@ -1,9 +1,9 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: eliminar una orden (DERCAS 6.5.1). Reglas (ver EliminarOrdenServiceTests):
+/// Caso de uso: eliminar una orden (DERCAS 6.5.3). Reglas (ver EliminarOrdenServiceTests):
 ///   - solo un usuario con permiso para eliminar puede hacerlo
-///   - las ordenes en estado Entregado no se eliminan (DERCAS 6.2.5.2 y CA-06)
+///   - las ordenes en estado Entregado no se eliminan (DERCAS 6.2.6.2 y CA-06)
 ///   - si el cliente ya acepto la cotizacion, el inventario ya se desconto de los repuestos:
 ///     se devuelve a cada repuesto la cantidad descontada antes de borrar
 ///   - si la cotizacion se rechazo o aun no se acepta, el inventario no cambia

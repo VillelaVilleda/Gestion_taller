@@ -67,8 +67,6 @@ public class GestorTallerDbContext : DbContext
             entidad.HasOne(o => o.EmpleadoDiagnostico).WithMany().HasForeignKey("EmpleadoDiagnosticoId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.DetalleDiagnostico).HasColumnName("detalle_diagnostico").HasMaxLength(500);
 
-            entidad.Property<Guid?>("EmpleadoCotizacionId").HasColumnName("empleado_cotizacion_id");
-            entidad.HasOne(o => o.EmpleadoCotizacion).WithMany().HasForeignKey("EmpleadoCotizacionId").OnDelete(DeleteBehavior.Restrict);
             entidad.Property(o => o.MontoCotizado).HasColumnName("monto_cotizado").HasColumnType("numeric(10,2)");
             entidad.Property(o => o.CotizacionAceptada).HasColumnName("cotizacion_aceptada");
 

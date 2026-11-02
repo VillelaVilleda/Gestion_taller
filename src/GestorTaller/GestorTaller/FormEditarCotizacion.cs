@@ -3,7 +3,7 @@ using GestorTaller.Negocio;
 namespace GestorTaller
 {
     /// <summary>
-    /// Ventana para que el administrador corrija la cotización de una orden: empleado, mano de obra y
+    /// Ventana para que el administrador corrija la cotización de una orden: mano de obra y
     /// repuestos. El inventario se ajusta solo con lo que cambie. Si la cotización fue rechazada no se
     /// muestran los repuestos. <see cref="HuboCambios"/> indica si hubo algo que guardar.
     /// </summary>
@@ -14,7 +14,6 @@ namespace GestorTaller
         private readonly PermisosUsuario _permisos;
         private readonly Orden _orden;
         private readonly List<OrdenRepuesto> _lineas;
-        private readonly ComboBoxFiltrable _cmbEmpleado = new();
         private readonly NumericUpDown _numManoDeObra = new() { DecimalPlaces = 2, Maximum = 1000000, ThousandsSeparator = true };
         private readonly ComboBoxFiltrable _cmbRepuesto = new();
         private readonly NumericUpDown _numCantidad = new() { Minimum = 1, Maximum = 1000000, Value = 1 };
@@ -22,7 +21,7 @@ namespace GestorTaller
         private readonly DataGridView _tabla = new() { Height = 150 };
         private readonly Label _lblTotal = new() { AutoSize = true, Font = Tema.Fuente(11F, FontStyle.Bold) };
 
-        public FormEditarCotizacion(IOrdenRepository ordenRepository, IEmpleadoRepository empleadoRepository, IRepuestoRepository repuestoRepository, PermisosUsuario permisos, Orden orden)
+        public FormEditarCotizacion(IOrdenRepository ordenRepository, IRepuestoRepository repuestoRepository, PermisosUsuario permisos, Orden orden)
             : base("Editar cotización")
         {
             _servicio = new ModificarCotizacionOrdenService(ordenRepository);
@@ -32,15 +31,7 @@ namespace GestorTaller
                 .Select(r => new OrdenRepuesto { OrdenId = r.OrdenId, RepuestoId = r.RepuestoId, Repuesto = r.Repuesto, Cantidad = r.Cantidad, PrecioUnitario = r.PrecioUnitario })
                 .ToList();
 
-            AgregarCampo("Empleado encargado", _cmbEmpleado);
             AgregarCampo("Mano de obra (Q)", _numManoDeObra);
-
-            _cmbEmpleado.CargarElementos(empleadoRepository.ObtenerTodos().OrderBy(e => e.Nombre).ToList(), e => e.Nombre);
-
-            if (orden.EmpleadoCotizacion is not null)
-            {
-                _cmbEmpleado.Seleccionar<Empleado>(e => e.Id == orden.EmpleadoCotizacion.Id);
-            }
 
             _numManoDeObra.Value = Math.Min(orden.MontoCotizado, _numManoDeObra.Maximum);
 
@@ -165,13 +156,8 @@ namespace GestorTaller
 
         protected override bool AlGuardar()
         {
-            if (_cmbEmpleado.ElementoSeleccionado is not Empleado empleado)
-            {
-                throw new ArgumentException("Selecciona un empleado de la lista.");
-            }
-
             var repuestos = _lineas.Select(l => new RepuestoCotizado(l.Repuesto!, l.Cantidad)).ToList();
-            HuboCambios = _servicio.Ejecutar(_permisos, _orden, empleado, _numManoDeObra.Value, repuestos);
+            HuboCambios = _servicio.Ejecutar(_permisos, _orden, _numManoDeObra.Value, repuestos);
 
             return true;
         }

@@ -1,9 +1,9 @@
 namespace GestorTaller.Negocio;
 
 /// <summary>
-/// Caso de uso: editar un repuesto del catalogo (DERCAS 6.5.1). Reglas (ver ModificarRepuestoServiceTests):
+/// Caso de uso: editar un repuesto del catalogo (DERCAS 6.3.3). Reglas (ver ModificarRepuestoServiceTests):
 ///   - solo un usuario con permiso para editar puede hacerlo
-///   - mismas validaciones que al crear; el nombre es unico sin contar al propio repuesto
+///   - mismas validaciones que al crear (incluido el limite de existencia); el nombre es unico sin contar al propio repuesto
 ///   - cambiar el precio no altera las ordenes ya cotizadas: guardan su propio precio unitario
 /// </summary>
 public class ModificarRepuestoService
@@ -47,6 +47,11 @@ public class ModificarRepuestoService
         if (existencia < 0)
         {
             throw new ArgumentException("La existencia no puede ser negativa.", nameof(existencia));
+        }
+
+        if (existencia > AjustarExistenciaService.LimiteExistencia)
+        {
+            throw new ArgumentException($"La existencia no puede pasar de {AjustarExistenciaService.LimiteExistencia:N0}.", nameof(existencia));
         }
 
         if (precio < 0)
