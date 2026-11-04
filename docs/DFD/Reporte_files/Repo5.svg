@@ -1,109 +1,146 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="123mm" xmlns="http://www.w3.org/2000/svg" height="75mm" version="1.1" viewBox="0 0 466 284" xmlns:xlink="http://www.w3.org/1999/xlink">
-   <rect x="129" y="180" rx="11" ry="11" fill="#ffffff" width="256" height="89" stroke="#0000ff" stroke-width="1"/>
-   <text x="259" y="188" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Business Process Model</text>
-   <text x="133" y="203" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Model: Diagrama 0 Logico</text>
-   <text x="133" y="217" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Package: Registrar orden</text>
-   <text x="133" y="232" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Diagram: Diagrama 1</text>
-   <text x="133" y="247" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Author: José Alfonso Villela Villeda</text>
-   <text x="133" y="262" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Version: 1.1</text>
-   <line x1="129" x2="385" y1="254" y2="254" stroke="#0000ff" stroke-width="1"/>
-   <line x1="129" x2="385" y1="239" y2="239" stroke="#0000ff" stroke-width="1"/>
-   <line x1="129" x2="385" y1="224" y2="224" stroke="#0000ff" stroke-width="1"/>
-   <line x1="129" x2="385" y1="209" y2="209" stroke="#0000ff" stroke-width="1"/>
-   <line x1="129" x2="385" y1="195" y2="195" stroke="#0000ff" stroke-width="1"/>
-   <polyline fill="none" points="401,77 401,50" stroke="#0000ff" stroke-width="1"/>
-   <polygon fill="#0000ff" points="401,77 398,64 404,64" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
-   <a target="_parent" xlink:href="Repo17.htm#10">
-      <polyline fill="none" points="336,93 257,93 257,137" stroke="#0080c0" stroke-width="1"/>
-      <polygon fill="#0080c0" points="257,137 254,124 260,124" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
-      <text x="297" y="104" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Cliente válido]</text>
+<svg width="144mm" xmlns="http://www.w3.org/2000/svg" height="69mm" version="1.1" viewBox="0 0 545 261" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <rect x="274" y="157" rx="11" ry="11" fill="#ffffff" width="256" height="89" stroke="#0000ff" stroke-width="1"/>
+   <text x="404" y="165" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Business Process Model</text>
+   <text x="278" y="180" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Model: Diagrama 0 Logico</text>
+   <text x="278" y="194" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Package: Registrar cotización</text>
+   <text x="278" y="209" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Diagram: Diagrama 3</text>
+   <text x="278" y="224" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Author: José Alfonso Villela Villeda</text>
+   <text x="278" y="239" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="start">Version: 2</text>
+   <line x1="274" x2="530" y1="231" y2="231" stroke="#0000ff" stroke-width="1"/>
+   <line x1="274" x2="530" y1="216" y2="216" stroke="#0000ff" stroke-width="1"/>
+   <line x1="274" x2="530" y1="201" y2="201" stroke="#0000ff" stroke-width="1"/>
+   <line x1="274" x2="530" y1="186" y2="186" stroke="#0000ff" stroke-width="1"/>
+   <line x1="274" x2="530" y1="172" y2="172" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="312,111 342,88" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="320,100 312,111 325,106" stroke="#0000ff" stroke-width="1"/>
+   <a target="_parent" xlink:href="Repo31.htm#370">
+      <polyline fill="none" points="252,133 164,133" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="164,133 178,130 178,136" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="208" y="122" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[sub total de repuestos]</text>
    </a>
-   <polyline fill="none" points="297,148 344,146" stroke="#0000ff" stroke-width="1"/>
-   <polygon fill="#0000ff" points="344,146 331,150 331,144" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
-   <polyline fill="none" points="105,162 217,162" stroke="#0080c0" stroke-width="1"/>
-   <polygon fill="#0080c0" points="217,162 204,165 204,159" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
-   <text x="161" y="140" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Información del objeto, </text>
-   <text x="161" y="150" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Descripción del problema]</text>
-   <a target="_parent" xlink:href="Repo19.htm#3">
-      <polyline fill="none" points="241,137 241,60" stroke="#0080c0" stroke-width="1"/>
-      <polygon fill="#0080c0" points="241,60 244,73 238,73" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
-      <text x="202" y="87" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Crear cliente]</text>
+   <a target="_parent" xlink:href="Repo31.htm#192">
+      <polyline fill="none" points="133,28 238,28 238,28 309,28" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="309,28 295,31 295,25" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="200" y="25" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Aceptar o rechazar]</text>
    </a>
-   <polyline fill="none" points="45,136 45,35 224,35" stroke="#0080c0" stroke-width="1"/>
-   <polygon fill="#0080c0" points="224,35 210,38 210,32" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
-   <text x="94" y="47" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Datos del cliente]</text>
-   <polyline fill="none" points="317,47 370,47" stroke="#0000ff" stroke-width="1"/>
-   <polyline fill="none" points="357,51 370,47 357,43" stroke="#0000ff" stroke-width="1"/>
-   <defs>
-      <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
-         <stop offset="5%" stop-color="#ffffff"/>
-         <stop offset="95%" stop-color="#f8d66d"/>
-      </linearGradient>
-   </defs>
-   <rect x="370" y="33" fill="url(#Gradient1)" width="80" height="17" stroke="#808000" stroke-width="1"/>
-   <line x1="384" x2="384" y1="33" y2="50" stroke="#808000" stroke-width="1"/>
-   <text x="377" y="44" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">1</text>
-   <text x="421" y="44" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Clientes</text>
-   <defs>
-      <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
-         <stop offset="5%" stop-color="#ffffff"/>
-         <stop offset="95%" stop-color="#f8d66d"/>
-      </linearGradient>
-   </defs>
-   <rect x="344" y="139" fill="url(#Gradient2)" width="80" height="16" stroke="#808000" stroke-width="1"/>
-   <line x1="358" x2="358" y1="139" y2="155" stroke="#808000" stroke-width="1"/>
-   <text x="351" y="150" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">2</text>
-   <text x="395" y="150" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Órdenes</text>
-   <a target="_parent" xlink:href="Repo20.htm#1">
+   <polyline fill="none" points="309,47 253,51" stroke="#0000ff" stroke-width="1"/>
+   <polygon fill="#0000ff" points="253,51 267,47 267,53" stroke="#0000ff" stroke-width="1" stroke-linejoin="miter"/>
+   <a target="_parent" xlink:href="Repo23.htm#5">
+      <polyline fill="none" points="101,111 101,66" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="101,66 104,79 98,79" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="58" y="91" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Mostrar cotización </text>
+      <text x="58" y="101" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">final]</text>
+   </a>
+   <a target="_parent" xlink:href="Repo20.htm#11">
       <defs>
-         <linearGradient id="Gradient3" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
-            <stop offset="5%" stop-color="#ffffff"/>
-            <stop offset="95%" stop-color="#c0ffff"/>
+         <linearGradient id="Gradient1" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#c8d8f8"/>
+            <stop offset="95%" stop-color="#f2f2ff"/>
          </linearGradient>
       </defs>
-      <rect x="336" y="77" rx="4" ry="4" fill="url(#Gradient3)" width="80" height="31" stroke="#8080ff" stroke-width="1"/>
-      <line x1="408" x2="416" y1="108" y2="101" stroke="#8080ff" stroke-width="1"/>
-      <text x="376" y="88" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">1.1</text>
-      <line x1="336" x2="416" y1="94" y2="94" stroke="#8080ff" stroke-width="1"/>
-      <text x="376" y="104" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Validar cliente</text>
+      <rect x="43" y="16" fill="url(#Gradient1)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+      <text x="88" y="27" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Cliente</text>
    </a>
-   <a target="_parent" xlink:href="Repo19.htm#1">
+   <a target="_parent" xlink:href="Repo31.htm#115">
+      <defs>
+         <linearGradient id="Gradient2" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#f8d66d"/>
+         </linearGradient>
+      </defs>
+      <rect x="174" y="41" fill="url(#Gradient2)" width="79" height="17" stroke="#808000" stroke-width="1"/>
+      <line x1="188" x2="188" y1="41" y2="58" stroke="#808000" stroke-width="1"/>
+      <text x="181" y="52" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">2</text>
+      <text x="224" y="52" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Órdenes</text>
+   </a>
+   <a target="_parent" xlink:href="Repo31.htm#111">
+      <defs>
+         <linearGradient id="Gradient3" x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#f8d66d"/>
+         </linearGradient>
+      </defs>
+      <rect x="323" y="71" fill="url(#Gradient3)" width="80" height="17" stroke="#808000" stroke-width="1"/>
+      <line x1="337" x2="337" y1="71" y2="88" stroke="#808000" stroke-width="1"/>
+      <text x="330" y="82" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">5</text>
+      <text x="374" y="82" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Repuestos</text>
+   </a>
+   <a target="_parent" xlink:href="Repo23.htm#1">
       <defs>
          <linearGradient id="Gradient4" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
             <stop offset="5%" stop-color="#ffffff"/>
             <stop offset="95%" stop-color="#c0ffff"/>
          </linearGradient>
       </defs>
-      <rect x="224" y="15" rx="5" ry="5" fill="url(#Gradient4)" width="93" height="45" stroke="#8080ff" stroke-width="1"/>
-      <line x1="306" x2="317" y1="60" y2="49" stroke="#8080ff" stroke-width="1"/>
-      <text x="270" y="26" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">1.2</text>
-      <line x1="224" x2="317" y1="32" y2="32" stroke="#8080ff" stroke-width="1"/>
-      <text x="270" y="44" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Crear registro de </text>
-      <text x="270" y="54" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">cliente</text>
+      <rect x="47" y="111" rx="5" ry="5" fill="url(#Gradient4)" width="117" height="44" stroke="#8080ff" stroke-width="1"/>
+      <line x1="153" x2="164" y1="155" y2="144" stroke="#8080ff" stroke-width="1"/>
+      <text x="106" y="122" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">3.1</text>
+      <line x1="47" x2="164" y1="128" y2="128" stroke="#8080ff" stroke-width="1"/>
+      <text x="106" y="139" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Suma cotización más </text>
+      <text x="106" y="149" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">repuestos</text>
    </a>
-   <a target="_parent" xlink:href="Repo18.htm#1">
+   <a target="_parent" xlink:href="Repo22.htm#1">
       <defs>
          <linearGradient id="Gradient5" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
             <stop offset="5%" stop-color="#ffffff"/>
             <stop offset="95%" stop-color="#c0ffff"/>
          </linearGradient>
       </defs>
-      <rect x="217" y="137" rx="4" ry="4" fill="url(#Gradient5)" width="80" height="32" stroke="#8080ff" stroke-width="1"/>
-      <line x1="289" x2="297" y1="169" y2="161" stroke="#8080ff" stroke-width="1"/>
-      <text x="257" y="148" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">1.3</text>
-      <line x1="217" x2="297" y1="154" y2="154" stroke="#8080ff" stroke-width="1"/>
-      <text x="257" y="164" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Crear orden</text>
+      <rect x="252" y="111" rx="4" ry="4" fill="url(#Gradient5)" width="99" height="32" stroke="#8080ff" stroke-width="1"/>
+      <line x1="343" x2="351" y1="143" y2="135" stroke="#8080ff" stroke-width="1"/>
+      <text x="301" y="122" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">3.2</text>
+      <line x1="252" x2="351" y1="128" y2="128" stroke="#8080ff" stroke-width="1"/>
+      <text x="301" y="138" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Subtotal repuestos</text>
    </a>
-   <a target="_parent" xlink:href="Repo12.htm#9">
+   <a target="_parent" xlink:href="Repo24.htm#1">
       <defs>
          <linearGradient id="Gradient6" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
-            <stop offset="5%" stop-color="#c8d8f8"/>
-            <stop offset="95%" stop-color="#f2f2ff"/>
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
          </linearGradient>
       </defs>
-      <rect x="15" y="136" fill="url(#Gradient6)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
-      <text x="60" y="147" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Cliente</text>
+      <rect x="309" y="20" rx="5" ry="5" fill="url(#Gradient6)" width="103" height="44" stroke="#8080ff" stroke-width="1"/>
+      <line x1="401" x2="412" y1="64" y2="53" stroke="#8080ff" stroke-width="1"/>
+      <text x="360" y="31" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">3.3</text>
+      <line x1="309" x2="412" y1="37" y2="37" stroke="#8080ff" stroke-width="1"/>
+      <text x="360" y="48" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Validar decisión del </text>
+      <text x="360" y="58" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">cliente</text>
    </a>
+   <defs>
+      <linearGradient id="Gradient7" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+         <stop offset="5%" stop-color="#c8d8f8"/>
+         <stop offset="95%" stop-color="#f2f2ff"/>
+      </linearGradient>
+   </defs>
+   <rect x="43" y="192" fill="url(#Gradient7)" width="90" height="50" stroke="#0080c0" stroke-width="1"/>
+   <text x="88" y="203" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Empleado</text>
+   <a target="_parent" xlink:href="Repo21.htm#1">
+      <defs>
+         <linearGradient id="Gradient8" x1="0%" x2="100%" y1="0%" y2="100%" gradientUnits="objectBoundingBox">
+            <stop offset="5%" stop-color="#ffffff"/>
+            <stop offset="95%" stop-color="#c0ffff"/>
+         </linearGradient>
+      </defs>
+      <rect x="419" y="107" rx="4" ry="4" fill="url(#Gradient8)" width="106" height="31" stroke="#8080ff" stroke-width="1"/>
+      <line x1="517" x2="525" y1="138" y2="130" stroke="#8080ff" stroke-width="1"/>
+      <text x="472" y="118" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">3.4</text>
+      <line x1="419" x2="525" y1="124" y2="124" stroke="#8080ff" stroke-width="1"/>
+      <text x="472" y="134" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Descontar inventario</text>
+   </a>
+   <a target="_parent" xlink:href="Repo23.htm#4">
+      <polyline fill="none" points="56,192 56,155" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="56,155 59,169 53,169" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="115" y="171" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Mano de obra, repuestos y </text>
+      <text x="115" y="181" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">cantidades]</text>
+   </a>
+   <a target="_parent" xlink:href="Repo31.htm#161">
+      <polyline fill="none" points="412,42 472,42 472,107" stroke="#0080c0" stroke-width="1"/>
+      <polygon fill="#0080c0" points="472,107 469,93 475,93" stroke="#0080c0" stroke-width="1" stroke-linejoin="miter"/>
+      <text x="460" y="32" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">[Cotización aceptada]</text>
+   </a>
+   <polyline fill="none" points="442,107 403,84" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="428,103 442,107 432,96" stroke="#0000ff" stroke-width="1"/>
+   <polyline fill="none" points="416,87 403,84 412,94" stroke="#0000ff" stroke-width="1"/>
 </svg>
