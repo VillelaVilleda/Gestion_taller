@@ -161,6 +161,7 @@ namespace GestorTaller
             //
             txtObjeto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtObjeto.Margin = new Padding(0);
+            txtObjeto.MaxLength = 300;
             txtObjeto.Name = "txtObjeto";
             txtObjeto.Size = new Size(632, 27);
             txtObjeto.TabIndex = 5;
@@ -178,6 +179,7 @@ namespace GestorTaller
             //
             txtDescripcion.Dock = DockStyle.Fill;
             txtDescripcion.Margin = new Padding(0);
+            txtDescripcion.MaxLength = 300;
             txtDescripcion.MinimumSize = new Size(0, 90);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";

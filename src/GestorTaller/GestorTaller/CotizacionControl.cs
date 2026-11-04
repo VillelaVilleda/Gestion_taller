@@ -25,6 +25,7 @@ namespace GestorTaller
         public CotizacionControl(IOrdenRepository ordenRepository, IRepuestoRepository repuestoRepository)
         {
             InitializeComponent();
+            EntradaDecimal.AceptarPuntoYComa(numMontoCotizado);
             _ordenRepository = ordenRepository;
             _repuestoRepository = repuestoRepository;
             _registrarCotizacionOrdenService = new RegistrarCotizacionOrdenService(new AvanzarEstadoOrdenService());

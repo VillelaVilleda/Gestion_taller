@@ -16,7 +16,7 @@ public class OrdenRepositoryEfCore : IOrdenRepository
     {
         _dbContext.Ordenes.Add(orden);
         GuardarHistorial(orden);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public Orden? ObtenerPorId(Guid id)
@@ -101,7 +101,7 @@ public class OrdenRepositoryEfCore : IOrdenRepository
         _dbContext.Ordenes.Update(orden);
         SincronizarHistorial(orden);
         SincronizarRepuestos(orden);
-        _dbContext.SaveChanges();
+        Guardar(orden);
     }
 
     // Borra la orden con su historial y sus repuestos asignados. Si antes se modifico la
@@ -113,7 +113,46 @@ public class OrdenRepositoryEfCore : IOrdenRepository
         _dbContext.Set<OrdenRepuesto>().RemoveRange(
             _dbContext.Set<OrdenRepuesto>().Where(r => r.OrdenId == orden.Id).ToList());
         _dbContext.Ordenes.Remove(orden);
-        _dbContext.SaveChanges();
+        Guardar(orden);
+    }
+
+    // Si el guardado falla, el contexto descarta lo pendiente, pero EF no rastrea el historial de
+    // la orden (se guarda aparte) ni quita de su lista los repuestos que no se guardaron. Se
+    // regresan a lo guardado para no mostrar datos que no estan en la base de datos (issue #175).
+    private void Guardar(Orden orden)
+    {
+        try
+        {
+            _dbContext.GuardarCambios();
+        }
+        catch
+        {
+            RestaurarOrden(orden);
+            throw;
+        }
+    }
+
+    private void RestaurarOrden(Orden orden)
+    {
+        // Sin detectar cambios: si no, EF volveria a agregar los repuestos que siguen en la lista.
+        var detectarCambios = _dbContext.ChangeTracker.AutoDetectChangesEnabled;
+        _dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
+
+        try
+        {
+            var repuestosGuardados = _dbContext.ChangeTracker.Entries<OrdenRepuesto>()
+                .Where(r => r.Entity.OrdenId == orden.Id)
+                .Select(r => r.Entity)
+                .ToList();
+
+            orden.Repuestos.Clear();
+            orden.Repuestos.AddRange(repuestosGuardados);
+            orden.HistorialEstados = CargarHistorial(orden.Id);
+        }
+        finally
+        {
+            _dbContext.ChangeTracker.AutoDetectChangesEnabled = detectarCambios;
+        }
     }
 
     // Update() marca como "modificados" los hijos que ya traen llave, incluso los nuevos

@@ -14,19 +14,19 @@ public class ClienteRepositoryEfCore : IClienteRepository
     public void Agregar(Cliente cliente)
     {
         _dbContext.Clientes.Add(cliente);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public void Actualizar(Cliente cliente)
     {
         _dbContext.Clientes.Update(cliente);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public void Eliminar(Cliente cliente)
     {
         _dbContext.Clientes.Remove(cliente);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public Cliente? ObtenerPorId(Guid id)

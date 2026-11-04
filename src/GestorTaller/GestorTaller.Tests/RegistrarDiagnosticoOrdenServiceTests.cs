@@ -103,4 +103,32 @@ public class RegistrarDiagnosticoOrdenServiceTests
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, empleado, "Falla en el alternador"));
     }
+
+    // Issue #175: la base de datos solo acepta 500 caracteres en el detalle.
+    [Fact]
+    public void Ejecutar_ConDetalleDeMasDe500Caracteres_LanzaExcepcionYNoAvanza()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var servicio = CrearServicio();
+
+        Assert.Throws<ArgumentException>(() =>
+            servicio.Ejecutar(orden, empleado, new string('a', RegistrarDiagnosticoOrdenService.LongitudMaximaDetalle + 1)));
+
+        Assert.Equal(EstadoOrden.Diagnostico, orden.Estado);
+        Assert.Null(orden.EmpleadoDiagnostico);
+        Assert.Equal(string.Empty, orden.DetalleDiagnostico);
+    }
+
+    [Fact]
+    public void Ejecutar_ConDetalleDe500CaracteresYEspacios_GuardaElTextoRecortado()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.Diagnostico);
+        var servicio = CrearServicio();
+        var detalle = new string('a', RegistrarDiagnosticoOrdenService.LongitudMaximaDetalle);
+
+        servicio.Ejecutar(orden, empleado, "  " + detalle + "  ");
+
+        Assert.Equal(detalle, orden.DetalleDiagnostico);
+        Assert.Equal(EstadoOrden.Cotizacion, orden.Estado);
+    }
 }

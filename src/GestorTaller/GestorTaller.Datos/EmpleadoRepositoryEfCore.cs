@@ -14,19 +14,19 @@ public class EmpleadoRepositoryEfCore : IEmpleadoRepository
     public void Agregar(Empleado empleado)
     {
         _dbContext.Empleados.Add(empleado);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public void Actualizar(Empleado empleado)
     {
         _dbContext.Empleados.Update(empleado);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public void Eliminar(Empleado empleado)
     {
         _dbContext.Empleados.Remove(empleado);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public Empleado? ObtenerPorId(Guid id)

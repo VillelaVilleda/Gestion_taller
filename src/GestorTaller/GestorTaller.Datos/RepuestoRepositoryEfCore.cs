@@ -14,19 +14,19 @@ public class RepuestoRepositoryEfCore : IRepuestoRepository
     public void Agregar(Repuesto repuesto)
     {
         _dbContext.Repuestos.Add(repuesto);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public void Actualizar(Repuesto repuesto)
     {
         _dbContext.Repuestos.Update(repuesto);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public void Eliminar(Repuesto repuesto)
     {
         _dbContext.Repuestos.Remove(repuesto);
-        _dbContext.SaveChanges();
+        _dbContext.GuardarCambios();
     }
 
     public Repuesto? ObtenerPorId(Guid id)

@@ -167,13 +167,21 @@ namespace GestorTaller
                 Rellenar(filtrados);
 
                 Text = texto;
-                SelectionStart = posicion;
-                SelectionLength = 0;
 
                 if (filtrados.Count > 0)
                 {
                     DroppedDown = true;
                 }
+
+                // Al abrir la lista, Windows selecciona todo el texto escrito y la siguiente tecla lo
+                // reemplazaba (se borraba la primera letra), asi que el cursor se acomoda despues.
+                if (Text != texto)
+                {
+                    Text = texto;
+                }
+
+                SelectionStart = posicion;
+                SelectionLength = 0;
 
                 Cursor.Current = Cursors.Default;
             }

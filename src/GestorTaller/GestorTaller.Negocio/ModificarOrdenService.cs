@@ -6,7 +6,7 @@ namespace GestorTaller.Negocio;
 ///   - solo un usuario con permiso para editar puede hacerlo
 ///   - las ordenes en estado Entregado no se editan (DERCAS 6.2.6 y CA-06)
 ///   - mismas validaciones que al crear: descripcion del objeto y del problema obligatorias,
-///     costo de diagnostico no negativo (0 es valido)
+///     costo de diagnostico no negativo (0 es valido) y descripciones de hasta 300 caracteres
 ///   - el cliente y el estado no cambian
 ///   - el total a cobrar se calcula con el costo de diagnostico, asi que se actualiza solo
 ///   - si no cambia nada, no se guarda y no se toca la fecha de ultima edicion (devuelve false);
@@ -53,13 +53,14 @@ public class ModificarOrdenService
             throw new ArgumentException("La orden requiere una descripción del problema.", nameof(descripcionProblema));
         }
 
+        var objeto = descripcionObjeto.Trim();
+        var problema = descripcionProblema.Trim();
+        CrearOrdenService.ValidarLongitud(objeto, problema);
+
         if (costoDiagnostico < 0)
         {
             throw new ArgumentException("El costo de diagnóstico no puede ser negativo.", nameof(costoDiagnostico));
         }
-
-        var objeto = descripcionObjeto.Trim();
-        var problema = descripcionProblema.Trim();
 
         if (objeto == orden.DescripcionObjeto && problema == orden.DescripcionProblema && costoDiagnostico == orden.CostoDiagnostico)
         {

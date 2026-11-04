@@ -7,11 +7,13 @@
 ///   - la orden debe existir
 ///   - la orden debe estar en estado Diagnostico
 ///   - el empleado encargado es obligatorio
-///   - el detalle del diagnostico es obligatorio
+///   - el detalle del diagnostico es obligatorio, de hasta 500 caracteres (se recortan los espacios)
 ///   - al confirmar, se guardan el empleado y el detalle, y la orden avanza a Cotizacion
 /// </summary>
 public class RegistrarDiagnosticoOrdenService
 {
+    public const int LongitudMaximaDetalle = 500;
+
     private readonly AvanzarEstadoOrdenService _avanzarEstadoOrdenService;
 
     public RegistrarDiagnosticoOrdenService(AvanzarEstadoOrdenService avanzarEstadoOrdenService)
@@ -41,9 +43,21 @@ public class RegistrarDiagnosticoOrdenService
             throw new ArgumentException("Se requiere el detalle del diagnostico.", nameof(detalleDiagnostico));
         }
 
+        var detalle = detalleDiagnostico.Trim();
+        ValidarLongitudDetalle(detalle, nameof(detalleDiagnostico));
+
         orden.EmpleadoDiagnostico = empleadoDiagnostico;
-        orden.DetalleDiagnostico = detalleDiagnostico;
+        orden.DetalleDiagnostico = detalle;
 
         _avanzarEstadoOrdenService.Ejecutar(orden);
+    }
+
+    // Lo mismo que acepta la base de datos (detalle_diagnostico y detalle_reparacion).
+    public static void ValidarLongitudDetalle(string detalle, string parametro)
+    {
+        if (detalle.Length > LongitudMaximaDetalle)
+        {
+            throw new ArgumentException($"El detalle no puede tener más de {LongitudMaximaDetalle} caracteres.", parametro);
+        }
     }
 }

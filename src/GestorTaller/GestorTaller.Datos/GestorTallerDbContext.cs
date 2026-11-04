@@ -17,6 +17,42 @@ public class GestorTallerDbContext : DbContext
     {
     }
 
+    // La aplicacion usa un solo contexto mientras esta abierta. Si un guardado falla y los cambios
+    // se quedan pendientes, cada guardado siguiente vuelve a intentarlos y tambien falla, asi que
+    // se descartan antes de avisar del error (issue #175).
+    public void GuardarCambios()
+    {
+        try
+        {
+            SaveChanges();
+        }
+        catch
+        {
+            DescartarCambios();
+            throw;
+        }
+    }
+
+    // Deja lo rastreado como esta en la base de datos: lo nuevo se olvida y lo modificado o
+    // borrado vuelve a sus valores originales.
+    public void DescartarCambios()
+    {
+        foreach (var entrada in ChangeTracker.Entries().ToList())
+        {
+            switch (entrada.State)
+            {
+                case EntityState.Added:
+                    entrada.State = EntityState.Detached;
+                    break;
+                case EntityState.Modified:
+                case EntityState.Deleted:
+                    entrada.CurrentValues.SetValues(entrada.OriginalValues);
+                    entrada.State = EntityState.Unchanged;
+                    break;
+            }
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // PostgreSQL (timestamp with time zone) solo acepta fechas en UTC, pero el resto de la

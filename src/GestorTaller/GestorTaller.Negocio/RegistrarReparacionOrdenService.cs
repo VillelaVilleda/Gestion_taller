@@ -7,7 +7,7 @@
 ///   - la orden debe estar en estado EnReparacion (solo aplica si la
 ///     cotizacion fue aceptada)
 ///   - el empleado encargado es obligatorio
-///   - el detalle de la reparacion es opcional (puede quedar vacio)
+///   - el detalle de la reparacion es opcional (puede quedar vacio), de hasta 500 caracteres
 ///   - al confirmar, se guardan empleado y detalle, y la orden avanza a Terminado
 /// </summary>
 public class RegistrarReparacionOrdenService
@@ -36,8 +36,11 @@ public class RegistrarReparacionOrdenService
             throw new ArgumentException("Se requiere el empleado encargado de la reparacion.", nameof(empleadoReparacion));
         }
 
+        var detalle = detalleReparacion?.Trim() ?? string.Empty;
+        RegistrarDiagnosticoOrdenService.ValidarLongitudDetalle(detalle, nameof(detalleReparacion));
+
         orden.EmpleadoReparacion = empleadoReparacion;
-        orden.DetalleReparacion = detalleReparacion?.Trim() ?? string.Empty;
+        orden.DetalleReparacion = detalle;
 
         _avanzarEstadoOrdenService.Ejecutar(orden);
     }
