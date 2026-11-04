@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="233mm" xmlns="http://www.w3.org/2000/svg" height="98mm" version="1.1" viewBox="0 0 881 371" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <rect x="234" y="15" fill="#ffffe8" width="187" height="27" stroke="#000080" stroke-width="1"/>
+   <text x="325" y="30" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Opción no disponible</text>
+   <rect x="458" y="74" fill="#ffffe8" width="187" height="27" stroke="#000080" stroke-width="1"/>
+   <text x="551" y="91" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">No hay etapa anterior a la que volver</text>
+   <rect x="458" y="117" fill="#ffffe8" width="187" height="27" stroke="#000080" stroke-width="1"/>
+   <text x="551" y="133" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Volver a Diagnóstico</text>
+   <rect x="458" y="160" fill="#ffffe8" width="187" height="60" stroke="#000080" stroke-width="1"/>
+   <text x="551" y="182" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Devolver los repuestos a la existencia; cotización </text>
+   <text x="551" y="192" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">no aceptada; borrar empleado y detalle de </text>
+   <text x="551" y="202" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">reparación; volver a Cotización</text>
+   <rect x="679" y="236" fill="#ffffe8" width="187" height="26" stroke="#000080" stroke-width="1"/>
+   <text x="772" y="252" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Volver a En reparación</text>
+   <rect x="679" y="278" fill="#ffffe8" width="187" height="27" stroke="#000080" stroke-width="1"/>
+   <text x="772" y="295" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Volver a Cotización</text>
+   <rect x="458" y="253" fill="#c0ffff" width="101" height="35" stroke="#000080" stroke-width="1"/>
+   <text x="508" y="268" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">¿La cotización fue </text>
+   <text x="508" y="278" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">aceptada?</text>
+   <polyline fill="none" points="559,270 573,270 573,249 679,249" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="679,249 666,252 666,246" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="626" y="242" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">Sí</text>
+   <polyline fill="none" points="559,270 573,270 573,292 679,292" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="679,292 666,295 666,289" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="626" y="285" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">No</text>
+   <rect x="458" y="321" fill="#ffffe8" width="187" height="35" stroke="#000080" stroke-width="1"/>
+   <text x="551" y="336" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">Rechazar: una orden entregada no se puede </text>
+   <text x="551" y="346" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">retroceder</text>
+   <rect x="237" y="196" fill="#c0ffff" width="101" height="34" stroke="#000080" stroke-width="1"/>
+   <text x="287" y="211" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">¿Etapa actual de la </text>
+   <text x="287" y="221" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">orden?</text>
+   <polyline fill="none" points="338,213 351,213 351,88 458,88" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="458,88 445,91 445,85" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="404" y="73" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">Recepción o Diagn</text>
+   <polyline fill="none" points="338,213 351,213 351,130 458,130" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="458,130 445,133 445,127" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="404" y="124" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">Cotización</text>
+   <polyline fill="none" points="338,213 351,213 351,190 458,190" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="458,190 445,193 445,187" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="404" y="183" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">En reparación</text>
+   <polyline fill="none" points="338,213 351,213 351,270 458,270" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="458,270 445,273 445,267" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="404" y="264" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">Terminado</text>
+   <polyline fill="none" points="338,213 351,213 351,338 458,338" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="458,338 445,341 445,335" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="404" y="332" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">Entregado</text>
+   <rect x="15" y="112" fill="#c0ffff" width="102" height="34" stroke="#000080" stroke-width="1"/>
+   <text x="66" y="127" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">¿El usuario es </text>
+   <text x="66" y="137" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" text-anchor="middle">administrador?</text>
+   <polyline fill="none" points="117,129 131,129 130,24 237,24" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="237,24 223,27 223,21" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="183" y="38" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">No</text>
+   <polyline fill="none" points="117,129 130,129 130,213 237,213" stroke="#000080" stroke-width="1"/>
+   <polygon fill="#000080" points="237,213 223,216 223,210" stroke="#000080" stroke-width="1" stroke-linejoin="miter"/>
+   <text x="183" y="206" fill="#000000" font-size="10" font-family="'Arial Unicode MS','Arial'" font-weight="bold" text-anchor="middle">Sí</text>
+</svg>
