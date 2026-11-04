@@ -30,6 +30,7 @@ namespace GestorTaller
 
             AgregarCampo(repuesto is null ? "Existencia inicial" : "Existencia", _numExistencia);
             AgregarCampo("Precio (Q)", _numPrecio);
+            EntradaDecimal.AceptarPuntoYComa(_numPrecio);
 
             if (repuesto is not null)
             {

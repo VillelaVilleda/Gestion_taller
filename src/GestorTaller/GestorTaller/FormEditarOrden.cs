@@ -26,6 +26,7 @@ namespace GestorTaller
             AgregarCampo("Descripción del objeto", _txtObjeto);
             AgregarCampo("Descripción del problema", _txtProblema);
             AgregarCampo("Costo de diagnóstico (Q)", _numCosto);
+            EntradaDecimal.AceptarPuntoYComa(_numCosto);
 
             _txtObjeto.Text = orden.DescripcionObjeto;
             _txtProblema.Text = orden.DescripcionProblema;

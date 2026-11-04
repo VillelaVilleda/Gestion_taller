@@ -168,4 +168,21 @@ public class ModificarEtapaOrdenServiceTests
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, null!, EstadoOrden.Diagnostico, Pedro, "Detalle"));
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(Administrador, orden, EstadoOrden.Cotizacion, Pedro, "Detalle"));
     }
+
+    // Issue #175: la base de datos solo acepta 500 caracteres en el detalle.
+    [Theory]
+    [InlineData(EstadoOrden.Diagnostico, "Bateria descargada")]
+    [InlineData(EstadoOrden.EnReparacion, "Cambio de bateria")]
+    public void Ejecutar_ConDetalleDeMasDe500Caracteres_LanzaExcepcionYNoCambiaNada(EstadoOrden etapa, string detalleOriginal)
+    {
+        var (servicio, repositorio) = Crear();
+        var orden = CrearOrden(EstadoOrden.Terminado);
+
+        Assert.Throws<ArgumentException>(() =>
+            servicio.Ejecutar(Administrador, orden, etapa, Pedro, new string('a', RegistrarDiagnosticoOrdenService.LongitudMaximaDetalle + 1)));
+
+        Assert.Same(Ana, Encargado(orden, etapa));
+        Assert.Equal(detalleOriginal, Detalle(orden, etapa));
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
 }

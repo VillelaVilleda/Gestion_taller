@@ -591,4 +591,118 @@ public class OrdenRepositoryEfCoreTests
             new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico },
             todas.Single().HistorialEstados);
     }
+
+    // Simula que la base de datos rechaza el siguiente guardado (issue #175).
+    private sealed class DbContextQueFallaAlGuardar : GestorTallerDbContext
+    {
+        public bool FallarSiguienteGuardado { get; set; }
+
+        public DbContextQueFallaAlGuardar(DbContextOptions<GestorTallerDbContext> opciones)
+            : base(opciones)
+        {
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            if (FallarSiguienteGuardado)
+            {
+                FallarSiguienteGuardado = false;
+                ChangeTracker.DetectChanges();
+                throw new DbUpdateException("La base de datos rechazó el guardado.");
+            }
+
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+    }
+
+    [Fact]
+    public void Agregar_SiFallaElGuardado_DescartaLaOrdenYLaSiguienteSeGuarda()
+    {
+        var opciones = CrearOpcionesEnMemoria();
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var valida = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+
+        using (var dbContext = new DbContextQueFallaAlGuardar(opciones))
+        {
+            dbContext.Clientes.Add(cliente);
+            dbContext.SaveChanges();
+            var repositorio = new OrdenRepositoryEfCore(dbContext);
+
+            dbContext.FallarSiguienteGuardado = true;
+            Assert.Throws<DbUpdateException>(() => repositorio.Agregar(CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion)));
+
+            repositorio.Agregar(valida);
+        }
+
+        using var lectura = new GestorTallerDbContext(opciones);
+        var guardada = Assert.Single(new OrdenRepositoryEfCore(lectura).ObtenerTodas());
+        Assert.Equal(valida.Id, guardada.Id);
+        Assert.Single(lectura.Set<HistorialEstadoOrden>());
+    }
+
+    [Fact]
+    public void Actualizar_SiFallaElGuardado_RegresaLaOrdenALoGuardadoYSePuedeVolverAGuardar()
+    {
+        using var dbContext = new DbContextQueFallaAlGuardar(CrearOpcionesEnMemoria());
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var empleado = new Empleado { Id = Guid.NewGuid(), Nombre = "Ana Lopez", NombreUsuario = "alopez", PasswordUsuario = "clave" };
+        dbContext.Clientes.Add(cliente);
+        dbContext.Empleados.Add(empleado);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion, EstadoOrden.Diagnostico);
+        repositorio.Agregar(orden);
+
+        // Lo que hace el registro del diagnóstico antes de guardar.
+        orden.EmpleadoDiagnostico = empleado;
+        orden.DetalleDiagnostico = "Batería descargada";
+        orden.Estado = EstadoOrden.Cotizacion;
+        orden.HistorialEstados.Add(EstadoOrden.Cotizacion);
+
+        dbContext.FallarSiguienteGuardado = true;
+        Assert.Throws<DbUpdateException>(() => repositorio.Actualizar(orden));
+
+        var consultada = repositorio.ObtenerPorId(orden.Id)!;
+        Assert.Equal(EstadoOrden.Diagnostico, consultada.Estado);
+        Assert.Equal(new[] { EstadoOrden.Recepcion, EstadoOrden.Diagnostico }, consultada.HistorialEstados);
+        Assert.Null(consultada.EmpleadoDiagnostico);
+        Assert.Equal(string.Empty, consultada.DetalleDiagnostico);
+
+        consultada.CostoDiagnostico = 20m;
+        repositorio.Actualizar(consultada);
+
+        dbContext.ChangeTracker.Clear();
+        Assert.Equal(20m, dbContext.Ordenes.Single().CostoDiagnostico);
+    }
+
+    [Fact]
+    public void Actualizar_SiFallaElGuardado_QuitaLosRepuestosNoGuardadosYRegresaElInventario()
+    {
+        using var dbContext = new DbContextQueFallaAlGuardar(CrearOpcionesEnMemoria());
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var repuesto = new Repuesto { Id = Guid.NewGuid(), Nombre = "Bujia", Existencia = 7, Precio = 25m };
+        dbContext.Clientes.Add(cliente);
+        dbContext.Repuestos.Add(repuesto);
+        dbContext.SaveChanges();
+
+        var repositorio = new OrdenRepositoryEfCore(dbContext);
+        var orden = CrearOrdenDePrueba(cliente, EstadoOrden.Recepcion);
+        repositorio.Agregar(orden);
+
+        orden.Repuestos.Add(new OrdenRepuesto { OrdenId = orden.Id, RepuestoId = repuesto.Id, Repuesto = repuesto, Cantidad = 3, PrecioUnitario = 25m });
+        repuesto.Existencia -= 3;
+
+        dbContext.FallarSiguienteGuardado = true;
+        Assert.Throws<DbUpdateException>(() => repositorio.Actualizar(orden));
+
+        Assert.Empty(orden.Repuestos);
+        Assert.Equal(7, repuesto.Existencia);
+
+        repositorio.Actualizar(orden);
+
+        dbContext.ChangeTracker.Clear();
+        Assert.Empty(dbContext.Set<OrdenRepuesto>());
+        Assert.Equal(7, dbContext.Repuestos.Single().Existencia);
+    }
 }

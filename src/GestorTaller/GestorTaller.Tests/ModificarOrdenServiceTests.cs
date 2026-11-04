@@ -186,4 +186,22 @@ public class ModificarOrdenServiceTests
         Assert.Null(orden.FechaUltimaEdicion);
         Assert.Equal(0, repositorio.Actualizaciones);
     }
+
+    // Issue #175: la base de datos solo acepta 300 caracteres en cada descripción.
+    [Theory]
+    [InlineData(301, 10)]
+    [InlineData(10, 301)]
+    public void Ejecutar_ConDescripcionDeMasDe300Caracteres_LanzaExcepcionYNoCambiaNada(int largoObjeto, int largoProblema)
+    {
+        var repositorio = new OrdenRepositoryFalso();
+        var servicio = new ModificarOrdenService(repositorio);
+        var orden = CrearOrden();
+
+        Assert.Throws<ArgumentException>(() =>
+            servicio.Ejecutar(Administrador, orden, new string('a', largoObjeto), new string('b', largoProblema), 30m));
+
+        Assert.Equal("Vehiculo sedan color rojo", orden.DescripcionObjeto);
+        Assert.Equal("El vehiculo no enciende", orden.DescripcionProblema);
+        Assert.Equal(0, repositorio.Actualizaciones);
+    }
 }

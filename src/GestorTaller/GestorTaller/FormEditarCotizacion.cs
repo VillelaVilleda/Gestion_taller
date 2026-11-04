@@ -32,6 +32,7 @@ namespace GestorTaller
                 .ToList();
 
             AgregarCampo("Mano de obra (Q)", _numManoDeObra);
+            EntradaDecimal.AceptarPuntoYComa(_numManoDeObra);
 
             _numManoDeObra.Value = Math.Min(orden.MontoCotizado, _numManoDeObra.Maximum);
 

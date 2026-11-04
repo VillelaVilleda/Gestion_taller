@@ -100,6 +100,7 @@
             //
             txtDetalle.Dock = DockStyle.Fill;
             txtDetalle.Margin = new Padding(0);
+            txtDetalle.MaxLength = 500;
             txtDetalle.MinimumSize = new Size(0, 90);
             txtDetalle.Multiline = true;
             txtDetalle.Name = "txtDetalle";

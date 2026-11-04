@@ -18,6 +18,7 @@ namespace GestorTaller
         public CrearOrdenControl(IOrdenRepository ordenRepository, IClienteRepository clienteRepository, Empleado usuarioActual, Action ordenRegistrada)
         {
             InitializeComponent();
+            EntradaDecimal.AceptarPuntoYComa(numCostoDiagnostico);
             _clienteRepository = clienteRepository;
             _permisos = new PermisosUsuario(usuarioActual);
             _crearOrdenService = new CrearOrdenService(ordenRepository);

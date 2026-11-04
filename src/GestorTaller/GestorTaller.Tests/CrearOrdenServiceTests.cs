@@ -97,4 +97,32 @@ public class CrearOrdenServiceTests
         Assert.Throws<ArgumentException>(() =>
             servicio.Ejecutar(cliente, "Vehiculo sedan color rojo", "El vehiculo no enciende", -1m));
     }
+
+    // Issue #175: la base de datos solo acepta 300 caracteres en cada descripción.
+    [Theory]
+    [InlineData(301, 10)]
+    [InlineData(10, 301)]
+    public void Ejecutar_ConDescripcionDeMasDe300Caracteres_LanzaExcepcionYNoGuarda(int largoObjeto, int largoProblema)
+    {
+        var servicio = CrearServicio(out var repositorio);
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+
+        Assert.Throws<ArgumentException>(() =>
+            servicio.Ejecutar(cliente, new string('a', largoObjeto), new string('b', largoProblema), 15m));
+
+        Assert.Empty(repositorio.ObtenerTodas());
+    }
+
+    [Fact]
+    public void Ejecutar_ConDescripcionDe300CaracteresYEspacios_GuardaElTextoRecortado()
+    {
+        var servicio = CrearServicio(out _);
+        var cliente = new Cliente { Id = Guid.NewGuid(), Nombre = "Juan Perez" };
+        var objeto = new string('a', CrearOrdenService.LongitudMaximaDescripcion);
+
+        var orden = servicio.Ejecutar(cliente, "  " + objeto + "  ", " No enciende ", 15m);
+
+        Assert.Equal(objeto, orden.DescripcionObjeto);
+        Assert.Equal("No enciende", orden.DescripcionProblema);
+    }
 }

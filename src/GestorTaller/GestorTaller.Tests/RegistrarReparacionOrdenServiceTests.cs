@@ -118,4 +118,19 @@ public class RegistrarReparacionOrdenServiceTests
 
         Assert.Throws<ArgumentException>(() => servicio.Ejecutar(null!, empleado, "Se cambio el alternador"));
     }
+
+    // Issue #175: la base de datos solo acepta 500 caracteres en el detalle.
+    [Fact]
+    public void Ejecutar_ConDetalleDeMasDe500Caracteres_LanzaExcepcionYNoAvanza()
+    {
+        var orden = CrearOrdenEnEstado(EstadoOrden.EnReparacion);
+        var servicio = CrearServicio();
+
+        Assert.Throws<ArgumentException>(() =>
+            servicio.Ejecutar(orden, empleado, new string('a', RegistrarDiagnosticoOrdenService.LongitudMaximaDetalle + 1)));
+
+        Assert.Equal(EstadoOrden.EnReparacion, orden.Estado);
+        Assert.Null(orden.EmpleadoReparacion);
+        Assert.Equal(string.Empty, orden.DetalleReparacion);
+    }
 }
